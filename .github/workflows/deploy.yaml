@@ -17,7 +17,8 @@ jobs:
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          java-version: adopt@1
+          java-version: 11
+          distribution: adopt
 
       - name: Cache Maven packages
         uses: actions/cache@v2
@@ -33,12 +34,12 @@ jobs:
         run: mvn clean package -DskipTests
         shell: bash
 
-      - name: Get current time
+      - name: Get current time    # 빌드 될 때마다 해당 타임스탬프로 태그가 붙은 파일 배포
         uses: 1466587594/get-current-time@v2
         id: current-time
         with:
           format: YYYY-MM-DDTHH-mm-ss
-          utcOffset: ${{ steps.current-time.outputs.utcOffset }}
+          utcOffset: "+09:00"
 
       - name: Generate deployment package
         run: |
