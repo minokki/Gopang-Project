@@ -1,0 +1,62 @@
+name: gopang-web-to-beanstalk
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: adopt
+
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.m2/wrapper
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
+        shell: bash
+
+      - name: Get current time    # 빌드 될 때마다 해당 타임스탬프로 태그가 붙은 파일 배포
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYY-MM-DDTHH-mm-ss
+          utcOffset: "+09:00"
+
+      - name: Generate deployment package
+        run: |
+          mkdir -p deploy
+          cp target/*.jar deploy/gopang-web-prod-ebextensions-1.jar
+          cp Procfile deploy/Procfile
+          cp -r .ebextensions deploy/.ebextensions
+          cp -r .platform deploy/.platform
+          cd deploy && zip -r gopang-web-prod-label-${{ steps.current-time.outputs.formattedTime }}
+
+      - name: Deploy Consumer to EB
+        uses: einaregilsson/beanstalk-deploy@v20
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: gopang-web
+          environment_name: Gopang-web-env
+          version_label: gopang-web-prod-label-${{ steps.current-time.outputs.formattedTime }}
+          region: ap-northeast-2
+          deployment_package: deploy/gopang-web-prod-label-${{ steps.current-time.outputs.formattedTime }}.zip
