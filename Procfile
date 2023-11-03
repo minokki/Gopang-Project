@@ -1,0 +1,1 @@
+web: java -jar gopang-web-prod-ebextensions-1.jar
