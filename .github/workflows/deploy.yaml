@@ -23,7 +23,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 14 # 원하는 노드.js 버전으로 설정
+          node-version: 18.16.1 # 원하는 노드.js 버전으로 설정
 
       - name: Cache Maven packages
         uses: actions/cache@v2
