@@ -144,6 +144,36 @@
                     </nonFilteredFileExtensions>
                 </configuration>
             </plugin>
+            <!--	빌드시 npm에서 인스톨 진행하게 만듦		-->
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.12.0</version>
+                <configuration>
+                    <nodeVersion>v18.16.1</nodeVersion>
+                    <npmVersion>9.5.1</npmVersion>
+                    <workingDirectory>src/main/resources/static</workingDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                    </execution>
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <!--      QueryDSL      -->
             <plugin>
                 <groupId>com.mysema.maven</groupId>
