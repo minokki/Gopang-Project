@@ -20,6 +20,11 @@ jobs:
           java-version: 11
           distribution: adopt
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14 # 원하는 노드.js 버전으로 설정
+
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
@@ -34,7 +39,7 @@ jobs:
         run: mvn clean package -DskipTests
         shell: bash
 
-      - name: Get current time    # 빌드 될 때마다 해당 타임스탬프로 태그가 붙은 파일 배포
+      - name: Get current time
         uses: 1466587594/get-current-time@v2
         id: current-time
         with:
