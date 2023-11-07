@@ -36,30 +36,30 @@
             <scope>test</scope>
         </dependency>
         <!--	mail	-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-mail</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-configuration-processor</artifactId>-->
+<!--            <optional>true</optional>-->
+<!--        </dependency>-->
         <!--	security	-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.thymeleaf.extras</groupId>-->
+<!--            <artifactId>thymeleaf-extras-springsecurity5</artifactId>-->
+<!--        </dependency>-->
         <!--	validation	-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-            <version>2.5.2</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-validation</artifactId>-->
+<!--            <version>2.5.2</version>-->
+<!--        </dependency>-->
         <!--	devtools	-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -74,18 +74,18 @@
             <scope>runtime</scope>
         </dependency>
         <!--	jetbrains	-->
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>20.0.0</version>
-            <scope>compile</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.jetbrains</groupId>-->
+<!--            <artifactId>annotations</artifactId>-->
+<!--            <version>20.0.0</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
         <!--	modelmapper	-->
-        <dependency>
-            <groupId>org.modelmapper</groupId>
-            <artifactId>modelmapper</artifactId>
-            <version>3.1.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.modelmapper</groupId>-->
+<!--            <artifactId>modelmapper</artifactId>-->
+<!--            <version>3.1.0</version>-->
+<!--        </dependency>-->
         <!--	lombok	-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -105,11 +105,11 @@
 <!--            <version>5.0.0</version>-->
 <!--        </dependency>-->
         <!-- Thymeleaf Layout Dialect -->
-        <dependency>
-            <groupId>nz.net.ultraq.thymeleaf</groupId>
-            <artifactId>thymeleaf-layout-dialect</artifactId>
-            <version>3.2.1</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>nz.net.ultraq.thymeleaf</groupId>-->
+<!--            <artifactId>thymeleaf-layout-dialect</artifactId>-->
+<!--            <version>3.2.1</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>
@@ -138,35 +138,35 @@
 <!--                </configuration>-->
 <!--            </plugin>-->
             <!--	빌드시 npm에서 인스톨 진행하게 만듦		-->
-<!--            <plugin>-->
-<!--                <groupId>com.github.eirslett</groupId>-->
-<!--                <artifactId>frontend-maven-plugin</artifactId>-->
-<!--                <version>1.12.0</version>-->
-<!--                <configuration>-->
-<!--                    <nodeVersion>v18.16.1</nodeVersion>-->
-<!--                    <npmVersion>9.5.1</npmVersion>-->
-<!--                    <workingDirectory>src/main/resources/static</workingDirectory>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>install node and npm</id>-->
-<!--                        <goals>-->
-<!--                            <goal>install-node-and-npm</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>generate-resources</phase>-->
-<!--                    </execution>-->
-<!--                    <execution>-->
-<!--                        <id>npm install</id>-->
-<!--                        <goals>-->
-<!--                            <goal>npm</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>generate-resources</phase>-->
-<!--                        <configuration>-->
-<!--                            <arguments>install</arguments>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.12.0</version>
+                <configuration>
+                    <nodeVersion>v18.16.1</nodeVersion>
+                    <npmVersion>9.5.1</npmVersion>
+                    <workingDirectory>src/main/resources/static</workingDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                    </execution>
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <!--      QueryDSL      -->
 <!--            <plugin>-->
 <!--                <groupId>com.mysema.maven</groupId>-->
