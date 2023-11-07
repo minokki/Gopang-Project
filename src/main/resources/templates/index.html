@@ -1,12 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_index}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-Hello World
 
-제발 되게 해주세요
-</body>
+
+</head>
+<div layout:fragment="content">
+
+    <!-- main-0 -->
+    <div class="main main-0">
+        <div class="main-container">
+            <div class="inner-container con">
+                <section class="visual main-1">
+                    <div class="item item-1">
+                        <div class="img-box slider-bg web-bg">
+                            <img src="/img/main1-img.png" alt="">
+                        </div>
+                        <div class="img-box slider-bg mobile-bg">
+                            <img src="/img/main1-img-mobile.png" alt="">
+                        </div>
+                        <div class="text-box">
+                            <strong class="text text1">A Better Life,<br>A Better World</strong>
+                            <p class="text text2">더 나은 생활을 발견하다.<br>파나소닉신동아의 고민은 늘 “고객의 라이프 스타일”을 향하고,<br>“A Better Life”의 창조를 실현합니다.</p>
+                        </div>
+                    </div>
+                    <div class="item item-2">
+                        <div class="img-box slider-bg web-bg">
+                            <img src="/img/main2-img.png" alt="">
+                        </div>
+                        <div class="img-box slider-bg mobile-bg">
+                            <img src="/img/main2-img-mobile.png" alt="">
+                        </div>
+                        <div class="text-box">
+                            <strong class="text text1">Simple is the Best<br>Flatima</strong>
+                            <p class="text text2">최소한의 디자인으로 찾아낸 최고의 분위기<br>어떠한 공간도 고급스럽게 만들어주는 플래티마를 만나보세요.</p>
+                        </div>
+                    </div>
+                    <div class="item item-3">
+                        <div class="img-box slider-bg web-bg">
+                            <img src="/img/main3-img.png" alt="">
+                        </div>
+                        <div class="img-box slider-bg mobile-bg">
+                            <img src="/img/main3-img-mobile.png" alt="">
+                        </div>
+                        <div class="text-box">
+                            <p class="text text0">우리집에 소소하지만 특별한 변화를!</p>
+                            <strong class="text text1">PIONE</strong>
+                            <p class="text text2">부드러운 실루엣과 세련된 모습으로 사랑받고 있는 피오네가<br>모두에게 따뜻한 감성을 전합니다.<br>파나소닉 모듈이 적용된 PUSH on/off 스위치로 극한의 부드러움을 스위칭을 경험하세요.</p>
+                        </div>
+                    </div>
+                </section>
+                <div class="scroll-down-wrap">
+                    <div class="scroll-down"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- box-1 -->
+    <div class="box-1 con">
+        <div class="row active-on-visible" data-active-on-visible-delay="200">
+            <div class="cell">
+                <div class="img-box">
+                    <img class="pic" src="/img/box-1.jpg" alt="">
+                    <img class="only-767-pic" src="/img/box-1-mobile.jpg" alt="">
+                </div>
+            </div>
+            <div class="cell">
+                <div class="content-text-box" data-aos="zoom-in" data-aos-duration="1000">
+                    <h2>우리는 언제나<br><strong>고객과 비지니스 파트너</strong>를 향합니다.</h2>
+                    <p>벌초박사는 늘 고객의 입장에서 제품을 바라보고<br>더 높은 안전성과 더 편리한 사용성, 더 나은 디자인으로 개발하기 위해 노력합니다.</p>
+                    <div class="content-btn-wrap">
+<!--                        <a href="#" th:href="@{/company/company_info}" class="info">회사 안내</a>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- main-2 -->
+    <div class="main main-2 active-on-visible" data-active-on-visible-delay="200">
+        <div class="main-container">
+            <div class="inner-container con main-2-wrap">
+                <nav class="menu-box main-2-box">
+                    <ul class="row">
+                        <li class="cell">
+                            <div class="box">
+                                <div class="img-box">
+                                    <img src="https://kimjinyong0908.github.io/web_pf_img/Panasonic/main-2-1.jpg" alt="">
+
+                                </div>
+                                <h2 class="main-2-text">PRODUCT</h2>
+                            </div>
+
+                        </li>
+                        <li class="cell" data-aos="fade-up" data-aos-duration="400" data-aos-delay="100">
+<!--                            <a th:href="@{/boardMain/boardMains}" class="box">-->
+                                <div class="img-box"><img src="/img/con1.jpg" alt=""></div>
+                                <p class="main-2-text">WIRING DEVICE<br><strong>예초</strong></p>
+                            </a>
+                        </li>
+                        <li class="cell" data-aos="fade-up" data-aos-duration="400" data-aos-delay="150">
+                            <!--  navbar js 에 해당페이지 준비중 소스 잇음    -->
+                            <a class="box" id="shopAlert" href="#">
+                                <div class="img-box"><img src="/img/con2.jpg" alt=""></div>
+                                <p class="main-2-text">SMART WIRING DEVICE<br><strong>SHOP</strong></p>
+                            </a>
+
+                        </li>
+                        <li class="cell" data-aos="fade-up" data-aos-duration="400" data-aos-delay="200">
+<!--                            <a th:href="@{/community/ntcs}" class="box">-->
+                                <div class="img-box"><img src="/img/con3.jpg" alt=""></div>
+                                <p class="main-2-text">RELAY&DISTRIBUTION BOARD<br><strong>고객센터</strong></p>
+                            </a>
+
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- middle-img -->
+    <div class="middle-img"></div>
+
+    <!-- main-3 -->
+    <div class="main main-3 active-on-visible" data-active-on-visible-delay="200">
+        <div class="main-container">
+            <div class="inner-container con">
+                <div class="main-3-wrap">
+                    <div class="main-3-bg img-box">
+                        <div class="img-box web-bg">
+                            <img src="/img/bottom-img.jpg" alt="">
+                        </div>
+                        <div class="img-box mobile-bg">
+                            <img src="/img/bottom-img-mobile.jpg" alt="">
+                        </div>
+                        <div class="title-box">
+
+                            <h2>고객상담 및 견적</h2>
+                            <p>최상의 만족도로 보답하겠습니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- top-link -->
+    <a href="#" class="top-link"><i class="fa fa-angle-up"></i></a>
+</div>
+
 </html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!-- profile-menu -->
+<div th:fragment="settings-menu (currentMenu)" class="list-group">
+  <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'profile'}? active" href="#"
+     th:href="@{/settings/profile}">프로필</a>
+  <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'password'}? active" href="#"
+     th:href="@{/settings/password}">패스워드</a>
+  <a class="list-group-item list-group-item-danger" th:classappend="${currentMenu == 'nickname'}? active" href="#"
+     th:href="@{/settings/nickname}">계정</a>
+</div>
+
+<!-- account-menu -->
+<div th:fragment="account-menu (accountMenu)" class="list-group">
+  <a class="list-group-item list-group-item-action" th:classappend="${accountMenu == 'profile'}? active" href="#"
+     th:href="@{'/profile/' + ${#authentication.name}}">소개</a>
+  <a class="list-group-item list-group-item-action" th:classappend="${accountMenu == 'order'}? active" href="#"
+     th:href="@{/orders}">장바구니</a>
+</div>
+
+<!-- admin-menu -->
+<div th:fragment="admin-menu (adminMenu)" class="list-group">
+  <a class="list-group-item list-group-item-action" th:classappend="${adminMenu == 'members'}? active" href="#"
+     th:if="${#request.isUserInRole('ADMIN')}"
+     th:href="@{/admin/members}">회원정보</a>
+  <a class="list-group-item list-group-item-action" th:classappend="${adminMenu == 'orderAdmin'}? active" href="#"
+     th:if="${#request.isUserInRole('ADMIN')}"
+     th:href="@{/admin/orders}">주문목록</a>
+  <a class="list-group-item list-group-item-action" th:classappend="${adminMenu == 'board'}? active" href="#"
+     th:if="${#request.isUserInRole('ADMIN')}"
+     th:href="@{/admin/boardMains}">시공사례</a>
+  <a class="list-group-item list-group-item-action" th:classappend="${adminMenu == 'item'}? active" href="#"
+     th:if="${#request.isUserInRole('ADMIN')}"
+     th:href="@{/admin/items}">물품보기</a>
+</div>
+
+</html>

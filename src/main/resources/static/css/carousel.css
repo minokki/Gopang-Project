@@ -1,0 +1,59 @@
+/* 이미지와 텍스트를 감싸는 컨테이너 */
+.carousel-inner .carousel-item .image-container {
+    position: relative;
+}
+.carousel-item{
+    height: 250px;
+}
+
+/* 캐러셀 텍스트 */
+.carousel-caption {
+    position: absolute;
+    color: #fff;
+    text-align: center;
+    animation: slide-in 4s;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+/* 캐러셀 텍스트 애니메이션 */
+@keyframes slide-in {
+    0% {
+        transform: translatex(20%); /* 텍스트가 아래에서 시작 */
+        opacity: 0;
+    }
+    100% {
+        transform: translatex(0); /* 텍스트가 원래 위치로 올라옴 */
+        opacity: 1;
+    }
+}
+/*!* 텍스트 스타일 *!*/
+.carousel-inner .carousel-item .carousel-caption .carousel-text {
+    margin-top: 10px;
+    font-size: 40px;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+/* 동그란 버튼 스타일 */
+.carousel-indicators button {
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50% !important;
+    margin: 0 5px !important;
+    background-color: rgba(255, 255, 255, 0.5) !important;
+    border: none !important;
+    transition: background-color 0.5s ease-in-out;
+}
+
+.carousel-indicators .active {
+    background-color: rgba(255, 255, 255, 1) !important;
+}
+

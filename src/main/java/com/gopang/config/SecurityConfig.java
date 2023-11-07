@@ -1,11 +1,13 @@
 package com.gopang.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -30,5 +32,13 @@ public class SecurityConfig {
                 .and()
                 .logout().logoutSuccessUrl("/")
                 .and().build();
+    }
+
+    @Bean  //정적 리소스 파일 시큐리티가 무시할수 있게.
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+                .mvcMatchers("/node_modules/**")
+                .mvcMatchers("/img/**")
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 }

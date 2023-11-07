@@ -1,0 +1,406 @@
+@charset "UTF-8";
+/*  폰트 적용 */
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+body,
+html {
+    font-family: "Noto Sans KR", sans-serif;
+    width: 100%;
+    margin: 0;
+}
+
+/*  네브바  */
+
+/*--------------------------------------------------------------
+# Header
+--------------------------------------------------------------*/
+.header {
+    transition: all 0.4s;
+    z-index: 997;
+}
+/* 이메일 얼럿*/
+.alert_custom{
+    margin-top: 100px;
+    text-align: center;
+}
+
+.alert-link:hover{
+    color: #1d7151;
+
+}
+
+
+.header.sticked {
+    background: #fff;
+    box-shadow: 0px 2px 20px rgba(14, 29, 52, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    animation: slideDown 1s ease-in-out;
+}
+
+.custom_navbar a {
+    text-decoration: none;
+}
+
+.separator {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    background-color: #bfbfbf;
+    width: 1px;
+    height: 40px;
+}
+::marker {
+    content: none;
+}
+/*--------------------------------------------------------------
+# Desktop Navigation
+--------------------------------------------------------------*/
+@media (max-width: 1365px){
+    .alert_custom{
+        margin-top: 90px;
+    }
+}
+@media (min-width: 1280px) {
+    .toggle-nav{
+        display: none;
+    }
+    .custom_navbar {
+        max-width: 1800px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 24px;
+        margin: 0 auto;
+    }
+
+    .custom_navbar .logo a{
+        padding-left: 0;
+    }
+
+    .logo img {
+        width: 100%;
+        height: 80px;
+        margin-top: -10px;
+        margin-bottom: -10px;
+    }
+
+    .custom_navbar ul {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        list-style: none;
+        align-items: center;
+    }
+    .custom_navbar ul li a{
+        padding: 12px 24px;
+        font-size: 18px;
+    }
+
+    .custom_navbar li {
+        position: relative;
+    }
+
+    .navbar__log{
+        display: flex;
+    }
+    .navbar__pro{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .custom_navbar a{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0 10px 30px;
+        font-family: "Noto Sans KR";
+        font-size: 16px;
+        font-weight: 400;
+        color: #000;
+    }
+
+    .custom_navbar a:hover,
+    .custom_navbar .active,
+    .custom_navbar .active:focus,
+    .custom_navbar li:hover > a {
+        color: #d3d3d3;
+    }
+
+    .custom_navbar .dropdown ul {
+        display: block;
+        position: absolute;
+        left: 14px;
+        top: calc(100% + 30px);
+        margin: 0;
+        padding: 10px 0;
+        z-index: 99;
+        opacity: 0;
+        visibility: hidden;
+        background: #fff;
+        box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+        transition: 0.3s;
+        border-radius: 4px;
+    }
+
+    .custom_navbar .dropdown ul li {
+        min-width: 180px;
+    }
+
+    .custom_navbar .dropdown ul a i {
+        font-size: 12px;
+    }
+
+    .custom_navbar .dropdown:hover > ul {
+        opacity: 1;
+        top: 100%;
+        visibility: visible;
+    }
+
+    .custom_navbar .dropdown .dropdown ul {
+        top: 0;
+        left: calc(100% - 30px);
+        visibility: hidden;
+    }
+
+    .custom_navbar .dropdown .dropdown:hover > ul {
+        opacity: 1;
+        top: 0;
+        left: 100%;
+        visibility: visible;
+    }
+
+    .navbar__pro .logout button{
+        align-items: center;
+        border:none;
+        background-color: transparent;
+        padding: 12px 24px;
+        font-size: 18px;
+        font-family: "Noto Sans KR";
+        cursor: pointer; /* 마우스 오버 시 손가락 모양으로 변경 */
+    }
+    .navbar__pro .logout button:hover{
+        color: #d3d3d3;
+    }
+
+    .navbar__pro .dropdown li h3{
+        padding-left: 25px;
+    }
+
+    .navbar__pro .dropdown a{
+        cursor: pointer; /* 마우스 오버 시 손가락 모양으로 변경 */
+    }
+}
+
+/*--------------------------------------------------------------
+# Mobile Navigation
+--------------------------------------------------------------*/
+@media (max-width: 1279px) {
+    .toggle-nav{
+        height: 100px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 24px;
+    }
+
+    .toggle-nav .logo img {
+        width: 100%;
+        height: 80px;
+        margin-top: -10px;
+        margin-bottom: -10px;
+    }
+
+    .custom_navbar {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        max-width: 400px;
+        bottom: 0;
+        transition: 0.3s;
+        z-index: 9997;
+    }
+
+    .custom_navbar ul {
+        position: absolute;
+        inset: 0;
+        padding: 90px 0 10px 0;
+        margin: 0;
+        background: #fff;
+        overflow-y: auto;
+        transition: 0.3s;
+        z-index: 9998;
+    }
+
+    .custom_navbar a{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 20px;
+        font-family: "Noto Sans KR";
+        font-size: 16px;
+        color: #000;
+        white-space: nowrap;
+        transition: 0.3s;
+    }
+
+
+    .custom_navbar a:hover,
+    .custom_navbar .active,
+    .custom_navbar .active:focus,
+    .custom_navbar li:hover > a {
+        color: #d3d3d3;
+    }
+
+    .custom_navbar .dropdown ul,
+    .custom_navbar .dropdown .dropdown ul {
+        position: static;
+        display: none;
+        padding: 10px 0;
+        margin: 10px 20px;
+        transition: all 0.5s ease-in-out;
+        border: 1px solid #fff;
+    }
+
+    .custom_navbar .dropdown > .dropdown-active,
+    .custom_navbar .dropdown .dropdown > .dropdown-active {
+        display: block;
+    }
+
+    .mobile-nav-show {
+        position: absolute;
+        color: #000;
+        font-size: 28px;
+        transition: 0.5s;
+        z-index: 9999;
+        margin-right: 10px;
+    }
+
+    .mobile-nav-hide {
+        position: absolute;
+        color: #000;
+        font-size: 32px;
+        transition: 0.5s;
+        z-index: 9999;
+    }
+
+    .mobile-nav-active {
+        overflow: hidden;
+    }
+
+    .mobile-nav-active .custom_navbar {
+        right: 0;
+    }
+
+    .mobile-nav-active .custom_navbar:before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: rgba(14, 29, 52, 0.8);
+        z-index: 9996;
+    }
+    /* 햄버거 버튼 */
+    .menu-trigger {
+        margin-right: 10px;
+        margin-bottom: 10px;
+        z-index: 99999;
+    }
+    .menu-trigger,
+    .menu-trigger span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all .4s;
+    }
+
+    .menu-trigger {
+        position: relative;
+        width: 50px;
+        height: 44px;
+    }
+
+    .menu-trigger span {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background-color: #000;
+        border-radius: 5px;
+    }
+
+    .menu-trigger span:nth-of-type(1) {
+        top: 5px;
+    }
+
+    .menu-trigger span:nth-of-type(2) {
+        top: 20px;
+    }
+
+    .menu-trigger span:nth-of-type(3) {
+        bottom: 5px;
+    }
+
+    /* type-01 */
+    /* 중앙 라인이 고정된 자리에서 투명하게 사라지며 상하라인 회전하며 엑스자 만들기 */
+    .menu-trigger.active-1 span:nth-of-type(1) {
+        transform: translateY(15px) rotate(-46deg);
+    }
+
+    .menu-trigger.active-1 span:nth-of-type(2) {
+        opacity: 0;
+    }
+
+    .menu-trigger.active-1 span:nth-of-type(3) {
+        transform: translateY(-15px) rotate(46deg);
+    }
+
+    .navbar__log{
+        display: flex;
+        justify-content: center;
+        margin-top:10%;
+    }
+
+    .navbar__pro{
+        display: flex;
+        justify-content: center;
+    }
+    .navbar__pro > * {
+        margin: 0 auto;
+    }
+
+    .navbar__pro .dropdown a{
+        cursor: pointer; /* 마우스 오버 시 손가락 모양으로 변경 */
+    }
+
+    .navbar__pro .dropdown ul{
+        margin: 0;
+    }
+
+    .navbar__pro .logout button{
+        border:none;
+        background-color: transparent;
+        padding: 20px 24px;
+        font-size: 18px;
+        font-family: "Noto Sans KR";
+        cursor: pointer; /* 마우스 오버 시 손가락 모양으로 변경 */
+    }
+    .navbar__pro .logout button:hover{
+        color: #d3d3d3;
+    }
+
+    .navbar__pro .dropdown .dropdown-active{
+        border: #bfbfbf 1px solid;
+        border-radius: 5px;
+    }
+    .navbar__pro .dropdown .dropdown-active li h3{
+        text-align: center;
+    }
+
+}

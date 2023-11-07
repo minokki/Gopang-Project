@@ -1,0 +1,69 @@
+/* 풋터 */
+.footer {
+    background-color:#2a2d32;
+    padding:40px 0 35px 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+.img-box > img {
+    width:100%;
+    display:block;
+}
+.footer .footer-wrap {
+    max-width:1184px;
+    margin:0 auto;
+}
+.footer .footer-wrap .footer-logo {
+    max-width:195px;
+}
+.footer .footer-wrap > div:first-child {
+    width:20%;
+    padding-right:50px;
+    box-sizing:border-box;
+}
+.footer .footer-wrap > div:last-child {
+    width:80%;
+    margin-top:-5px;
+}
+
+.footer .footer-text-box p {
+    color:#b3bac5;
+    margin-top:5px;
+    margin-bottom:10px;
+
+}
+.footer .footer-text-box strong {
+    color:#fff;
+    font-weight:400;
+}
+.footer .footer-text-box .footer-link {
+    border-top:2px solid #404247;
+    padding-top:5px;
+}
+.footer .footer-text-box .footer-bottom-text {
+    font-size: 15px;
+    color: #fff;
+    font-weight: 200;
+    opacity: 0.4;
+}
+@media (max-width:989px) {
+    .footer {
+        padding:50px 0 10px 0;
+    }
+    .footer .footer-text-box p {
+        font-size:13px;
+    }
+    .footer .footer-text-box .footer-bottom-text {
+        font-size:13px;
+    }
+}
+@media (max-width:767px) {
+    .footer .footer-wrap > div:first-child {
+        width:100%;
+    }
+    .footer .footer-wrap > div:last-child {
+        width:100%;
+        margin-top:20px;
+    }
+}

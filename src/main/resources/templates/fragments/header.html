@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!-- main-header -->
+<div th:fragment="header" id="header" class="header">
+  <div class="toggle-nav">
+    <div class="logo">
+      <a href="/"><img alt="Brand" src="/img/logo.png"></a>
+    </div>
+    <a class="menu-trigger mobile-nav-toggle" href="#">
+      <span></span>
+      <span></span>
+      <span></span>
+    </a>
+  </div>
+
+  <div>
+
+    <nav id="custom_navbar" class="custom_navbar">
+      <div class="logo">
+        <a href="/"><img alt="Brand" src="/img/logo.png"></a>
+      </div>
+      <ul>
+        <li class="dropdown"><a href="#"><span>회사소개</span></a>
+          <ul>
+            <li><a th:href="@{/company/company_info}">회사소개</a></li>
+          </ul>
+        </li>
+        <li class="dropdown"><a href="#"><span>예초·벌초</span></a>
+          <ul>
+            <li><a href="#" th:href="@{/boardMain/info}">견적</a></li>
+            <li><a href="#" th:href="@{/boardMain/boardMains}" >시공 사례</a></li>
+          </ul>
+        </li>
+        <li class="dropdown"><a href="#"><span>SHOP</span></a>
+          <ul>
+            <li><a id="showAlert" href="#" >물품판매</a></li>
+          </ul>
+        </li>
+        <li class="dropdown"><a href="#"><span>고객센터</span></a>
+          <ul>
+            <li><a href="#" th:href="@{/community/ntcs}">공지사항</a></li>
+            <li><a href="#" th:href="@{/community/qnas}">Q&A</a></li>
+            <li><a href="#" th:href="@{/community/companyMap}">오시는 길</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <span class="separator"></span>
+        </li>
+        <div class="navbar__log">
+          <li class="login" sec:authorize="!isAuthenticated()">
+            <a th:href="@{/login}">로그인</a>
+          </li>
+          <li  sec:authorize="!isAuthenticated()">
+            <a th:href="@{/terms}">회원가입</a>
+          </li>
+        </div>
+        <div class="navbar__pro" sec:authorize="isAuthenticated()">
+          <li class="dropdown">
+            <a>
+              <svg th:if="${#strings.isEmpty(account?.profileImage)}" th:data-jdenticon-value="${#authentication.name}"
+                   width="50" height="50" class="rounded border bg-light" style="border-radius: 4px;"></svg>
+              <img th:if="${!#strings.isEmpty(account?.profileImage)}" th:src="${account.profileImage}"
+                   width="50" height="50" class="rounded border" style="border-radius: 4px;"/>
+            </a>
+            <ul>
+              <li><h3 sec:authentication="name">Username</h3></li>
+              <li><a th:href="@{'/profile/' + ${#authentication.name}}">프로필</a></li>
+              <li><a href="#" th:href="@{'/settings/profile'}">설정</a></li>
+              <li th:if="${#request.isUserInRole('ADMIN')}"><a href="#" th:href="@{/admin/members}">관리자 페이지</a></li>
+            </ul>
+          </li>
+          <li class="logout">
+            <form action="#" th:action="@{/logout}" method="post">
+              <button type="submit">로그아웃</button>
+            </form>
+          </li>
+        </div>
+      </ul>
+    </nav>
+    <div class="alert alert-warning alert_custom" role="alert" th:if="${account != null && !account.emailVerified}" style="position: absolute; top: 0; left: 0; right: 0; z-index: 9;">
+      벌초박사 가입을 완료하려면 <a href="#" th:href="@{/check-email}" class="alert-link">계정 인증 이메일을 확인</a>하세요.
+    </div>
+  </div>
+</div>
+
+<!-- form-nav -->
+<div th:fragment="form-header" id="form-header" class="form-header">
+  <a href="/" th:href="@{/}"><img src="/img/logo.png" alt="로고" height="100"></a>
+</div>
+
+</html>
