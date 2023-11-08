@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopGrass</title>
+  <!-- 부트스트랩 -->
+  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+  <!-- 폰트 어썸 6 버전 아이콘 스타일시트 -->
+  <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+  <!-- 부트스트랩 js -->
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- 제이쿼리 -->
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <!--  css -->
+  <link rel="stylesheet" type="text/css" href="/css/main_nav.css">
+  <!--  css -->
+  <link rel="stylesheet" type="text/css" href="/css/main_footer.css">
+  <!--  css -->
+  <link rel="stylesheet" type="text/css" href="/css/carousel.css">
+  <!--  css -->
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+  <!-- navbar js -->
+  <script src="/js/main_nav.js"></script>
+  <!-- carousel js -->
+  <script src="/js/carousel.js"></script>
+  <!-- jdenticon(프로필사진) DOMContentLoaded 후에 배치해야 작동 -->
+  <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js" async
+          integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M" crossorigin="anonymous">
+  </script>
+
+</head>
+<body>
+<div th:replace="~{fragments/header::header}"></div>
+<div th:replace="~{fragments/carousel :: board_carousel}" class="carousel"></div>
+<div layout:fragment="content">
+  컨텐츠 영역
+
+</div>
+
+<div th:replace="~{fragments/footer::main-footer}"></div>
+
+</body>
+</html>

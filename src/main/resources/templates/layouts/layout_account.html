@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopGrass</title>
+  <!-- nav css -->
+  <link rel="stylesheet" type="text/css" href="/css/form_nav.css">
+  <!-- 제이쿼리 -->
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <!-- 부트스트랩 -->
+  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+
+  <!-- 부트스트랩 js -->
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header::form-header}"></div>
+
+<div layout:fragment="content">
+  컨텐츠 영역
+
+</div>
+
+<div th:replace="~{fragments/footer::form-footer}"></div>
+
+</body>
+</html>
