@@ -1,13 +1,10 @@
 package com.gopang.service;
 
 import com.gopang.account.UserAccount;
-import com.gopang.config.AppProperties;
 import com.gopang.constant.Role;
 import com.gopang.dto.MemberSearchDto;
 import com.gopang.dto.SignUpForm;
 import com.gopang.entity.Account;
-import com.gopang.mail.EmailMessage;
-import com.gopang.mail.EmailService;
 import com.gopang.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,10 +29,9 @@ import org.thymeleaf.context.Context;
 public class AccountService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
-    private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
     private final TemplateEngine templateEngine;
-    private final AppProperties appProperties;
+
 
     /* 회원가입 토큰생성 */
     public Account processNewAccount(SignUpForm signUpForm) {
@@ -57,25 +53,6 @@ public class AccountService implements UserDetailsService {
                 .build();
         Account newAccount = accountRepository.save(account);  //회원저장
         return newAccount;
-    }
-
-    /* 인증 이메일 보내기 */
-    public void sentConfirmEmail(Account newAccount) {
-        Context context = new Context();
-        context.setVariable("link","/check-email-token?token=" + newAccount.getEmailCheckToken() +
-                "&email=" + newAccount.getEmail());
-        context.setVariable("nickname",newAccount.getNickname());
-        context.setVariable("linkName", "이메일 인증하기");
-        context.setVariable("message","벌초박사 서비스를 사용하려면 링크를 클릭하세요.");
-        context.setVariable("host",appProperties.getHost());
-        String message = templateEngine.process("mail/email_link", context);
-
-        EmailMessage emailMessage = EmailMessage.builder()
-                .to(newAccount.getEmail())
-                .subject("벌초박사, 회원가입 인증")
-                .message(message)
-                .build();
-        emailService.sendEmail(emailMessage);
     }
 
     /* 로그인 */
@@ -130,26 +107,6 @@ public class AccountService implements UserDetailsService {
         account.setNickname(nickname);
         accountRepository.save(account);
         login(account);
-    }
-
-    /* 이메일-로그인링크 */
-    public void sendLoginLing(Account account) {
-        Context context = new Context();
-        context.setVariable("link","/login-by-email?token=" + account.getEmailCheckToken() + "&email=" + account.getEmail());
-        context.setVariable("nickname",account.getNickname());
-        context.setVariable("linkName", "이메일로 로그인하기");
-        context.setVariable("message","로그인 하려면 아래 링크를 클릭하세요.");
-        context.setVariable("host",appProperties.getHost());
-        String message = templateEngine.process("mail/email_link", context);
-
-        EmailMessage emailMessage = EmailMessage.builder()
-                .to(account.getEmail())
-                .subject("벌초박사, 로그인 링크")
-                .message(message)
-                .build();
-
-        emailService.sendEmail(emailMessage);
-
     }
 
     public Page<Account> getAdminMemberPage(MemberSearchDto memberSearchDto, Pageable pageable) {
