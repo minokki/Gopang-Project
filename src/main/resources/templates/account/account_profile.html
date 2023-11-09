@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_profile}">
+
+<div layout:fragment="content">
+  <div class="container border" style="margin-top: 3%;margin-bottom: 6%; border-radius: 30px; overflow: hidden;">
+    <div class="row mt-5 mb-5 justify-content-center">
+      <div class="col-2">
+        <div th:replace="fragments/profile-menu :: account-menu(accountMenu='profile')"></div>
+      </div>
+      <div class="col-8">
+        <div class="row">
+          <div class="row  justify-content-center">
+            <div class="col-sm-4 mb-3">
+              <svg th:if="${#strings.isEmpty(account?.profileImage)}" th:data-jdenticon-value="${#authentication.name}"
+                   style="width: 100%; max-width: 200px; height: auto;" class="rounded border bg-light"></svg>
+              <img th:if="${!#strings.isEmpty(account?.profileImage)}" th:src="${account.profileImage}"
+                   style="width: 100%; max-width: 200px; height: auto;" class="rounded border"/>
+            </div>
+            <div class=" col-sm-8">
+              <h1 class="display-4" th:text="${account.nickname}"  style="margin-left: -10%;">mino</h1>
+              <p class="lead" th:if="${!#strings.isEmpty(account.bio)}" th:text="${account.bio}"  style="margin-left: -9%;">bio</p>
+              <p class="lead" th:if="${#strings.isEmpty(account.bio) && isOwner}"  style="margin-left: -9%;">한 줄 소개를 추가하세요.</p>
+            </div>
+            <div class="form-group">
+              <p th:if="${!#strings.isEmpty(account.url)}">
+                            <span style="font-size: 20px;">
+                                <i class="fa fa-link col-1"></i>
+                            </span>
+                <span th:text="${account.url}" class="col-11"></span>
+              </p>
+              <p th:if="${!#strings.isEmpty(account.occupation)}">
+                    <span style="font-size: 20px;">
+                        <i class="fa-solid fa-user-secret col-1"></i>
+
+                    </span>
+                <span th:text="${account.occupation}" class="col-9"></span>
+              </p>
+              <p th:if="${!#strings.isEmpty(account.location)}">
+                    <span style="font-size: 20px;">
+                        <i class="fa fa-location-arrow col-1"></i>
+                    </span>
+                <span th:text="${account.location}" class="col-9"></span>
+              </p>
+              <p th:if="${isOwner}">
+                    <span style="font-size: 20px;">
+                        <i class="fa-solid fa-folder col-1"></i>
+                    </span>
+                <span th:text="${account.email}" class="col-9"></span>
+              </p>
+              <p th:if="${isOwner}">
+                    <span style="font-size: 20px;">
+                        <i class="fa-solid fa-qrcode col-1"></i>
+                    </span>
+                <span th:text="${account.userType}" class="col-9"></span>
+              </p>
+              <p th:if="${isOwner || account.emailVerified}">
+                    <span style="font-size: 20px;">
+                        <i class="fa fa-calendar-o col-1"></i>
+                    </span>
+                <span th:if="${isOwner && !account.emailVerified}" class="col-9">
+                        <a href="#" th:href="@{'/check-email?email=' + ${account.email}}">가입을 완료하려면 이메일을 확인하세요.</a>
+                    </span>
+                <span th:text="${#temporals.format(account.joinedAt, 'yyyy년 M월 가입')}" class="col-9"></span>
+              </p>
+              <div th:if="${isOwner}">
+                <a class="btn btn-outline-primary" href="#" th:href="@{/settings/profile}">프로필 수정</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</html>

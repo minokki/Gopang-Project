@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_account}">
+
+<head>
+  <style>
+    .custom-control-label {
+      text-align: center;
+    }
+
+    .custom-control-input {
+      margin-left: 10px; /* 라디오 버튼과 라벨 사이의 간격을 조정 */
+    }
+  </style>
+</head>
+<div layout:fragment="content">
+  <!-- 컨텐츠 영역-->
+  <div class="container-form">
+    <h1 style="margin-bottom: 30px;">회원가입</h1>
+    <div class="row justify-content-center">
+      <form class="needs-validation col-12" action="#"
+            th:action="@{/sign-up}" th:object="${signUpForm}" method="post" novalidate>
+        <div class="form-group">
+          <input id="nickname" type="text" th:field="*{nickname}" class="form-control"
+                 placeholder="닉네임" aria-describedby="nicknameHelp" required minlength="3" maxlength="20"
+                 th:classappend="${#fields.hasErrors('nickname')} ? 'is-invalid' : ''">
+          <small id="nicknameHelp" class="form-text text-muted">
+            공백없이 문자와 숫자로만 3자 이상 20자 이내로 입력하세요. 가입 후에 변경할 수 있습니다.
+          </small>
+          <small class="invalid-feedback">닉네임을 입력하세요.</small>
+          <small class="form-text text-danger" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">닉네임 오류</small>
+
+        </div>
+
+        <div class="form-group" style="margin-top: 15px;">
+          <input id="email" type="email" th:field="*{email}" class="form-control"
+                 placeholder="your@email.com" aria-describedby="emailHelp" required
+                 th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''">
+          <small id="emailHelp" class="form-text text-muted">
+            벌초박사는 사용자의 이메일을 공개하지 않습니다.
+          </small>
+          <small class="invalid-feedback">이메일 형식으로 입력하세요.</small>
+          <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</small>
+
+        </div>
+
+        <div class="form-group" style="margin-top: 15px;">
+          <input id="password" type="password" th:field="*{password}" class="form-control"
+                 aria-describedby="passwordHelp" required minlength="8" maxlength="50" placeholder="Password"
+                 th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''">
+          <small id="passwordHelp" class="form-text text-muted">
+            8자 이상 50자 이내로 입력하세요. 영문자, 숫자, 특수기호를 사용할 수 있으며 공백은 사용할 수 없습니다.
+          </small>
+          <small class="invalid-feedback">패스워드를 입력하세요.</small>
+          <small class="form-text text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</small>
+
+        </div>
+
+        <div class="form-group" style="margin-top: 15px;">
+          <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" id="buyer" name="userType" value="수요자" required th:checked="${signUpForm.userType == '수요자'}">
+            <label class="custom-control-label" for="buyer">수요자</label>
+            <input type="radio" class="custom-control-input" id="seller" name="userType" value="공급자" required th:checked="${signUpForm.userType == '공급자'}">
+            <label class="custom-control-label" for="seller">공급자</label>
+            <small class="form-text text-muted" style="display: block">
+              공급자와 수요자를 확인하고 있습니다. 버튼 하나를 선택해주세요.
+            </small>
+            <small class="invalid-feedback">선택해 주세요.</small>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 30px;">
+          <button class="btn btn-success btn-block col-sm-12" type="submit"
+                  aria-describedby="submitHelp">가입하기</button>
+        </div>
+      </form>
+    </div>
+
+    <!--  validation js  -->
+    <script src="/js/validation.js"></script>
+  </div>
+</div>
+
+</html>
