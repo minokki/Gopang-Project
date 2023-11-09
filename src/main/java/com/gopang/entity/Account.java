@@ -21,7 +21,7 @@ public class Account extends BaseEntity {
     private Long id;
 
     @Column(name = "email",unique = true)
-    private  String email;
+    private String email;
 
     @Column(unique = true)
     private String nickname;
