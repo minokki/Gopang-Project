@@ -1,5 +1,6 @@
 package com.gopang.controller;
 
+import com.gopang.account.CurrentUser;
 import com.gopang.dto.SignUpForm;
 import com.gopang.entity.Account;
 import com.gopang.repository.AccountRepository;
@@ -19,7 +20,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
-public class AccontController {
+public class AccountController {
 
     private final SignUpFormValidator signUpFormValidator;
     private final AccountService accountService;
@@ -58,6 +59,31 @@ public class AccontController {
         Account account = accountService.processNewAccount(signUpForm);
         accountService.login(account);
         return "redirect:/";
+    }
+    /* 이메일 토큰 */
+    @GetMapping("/check-email-token")
+    public String CheckEmailToken(String token, String email, Model model){
+        Account account = accountRepository.findByEmail(email);
+        String view = "account/account_checkedEmail";
+        if(account == null){
+            model.addAttribute("error","wrong.email");
+            return view;
+        }
+        if(!account.getEmailCheckToken().equals(token)){
+            model.addAttribute("error","wrong.token");
+            return view;
+        }
+        accountService.completeSingUP(account);
+        model.addAttribute("numberOfUser",accountRepository.count());
+        model.addAttribute("nickname",account.getNickname());
+        return view;
+    }
+    /* 인증메일 */
+    @GetMapping("/check-email")
+    public String checkEmail(@CurrentUser Account account, Model model){
+        model.addAttribute("email",account.getEmail());
+        accountService.sentConfirmEmail(account);
+        return "account/account_checkEmail";
     }
 
 }
