@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_account}">
+
+<div layout:fragment="content">
+  <div class="container border" style="margin-top: 3%; border-radius: 30px; overflow: hidden;">
+    <div class="py-5 text-center" th:if="${error != null}">
+      <p class="lead">벌초박사 가입</p>
+      <div class="alert alert-danger" role="alert" th:text="${error}">
+        <p class="lead" th:text="${email}">your@email.com</p>
+      </div>
+    </div>
+
+    <div class="py-5 text-center" th:if="${error == null}">
+      <p class="lead">벌초박사 가입</p>
+      <h2>
+        벌초박사 서비스를 사용하려면 인증 이메일을 확인하세요.
+      </h2>
+      <div>
+        <p class="lead" th:text="${email +' 로 이메일을 전송하였습니다.'}">your@email.com</p>
+        <a class="btn btn-outline-info" th:href="@{/resend-confirm-email}">인증 이메일 다시보내기</a>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+</html>

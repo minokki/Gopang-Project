@@ -1,10 +1,13 @@
 package com.gopang.service;
 
 import com.gopang.account.UserAccount;
+import com.gopang.config.AppProperties;
 import com.gopang.constant.Role;
 import com.gopang.dto.MemberSearchDto;
 import com.gopang.dto.SignUpForm;
 import com.gopang.entity.Account;
+import com.gopang.mail.EmailMessage;
+import com.gopang.mail.EmailService;
 import com.gopang.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import javax.validation.Valid;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -31,6 +36,8 @@ public class AccountService implements UserDetailsService {
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
     private final TemplateEngine templateEngine;
+    private final EmailService emailService;
+    private final AppProperties appProperties;
 
 
     /* 회원가입 토큰생성 */
@@ -43,7 +50,7 @@ public class AccountService implements UserDetailsService {
     }
 
     /* 회원가입 */
-    public Account saveNewAccount(SignUpForm signUpForm) {
+    public Account saveNewAccount(@Valid SignUpForm signUpForm) {
         Account account = Account.builder()
                 .email(signUpForm.getEmail())
                 .nickname(signUpForm.getNickname())
@@ -64,8 +71,26 @@ public class AccountService implements UserDetailsService {
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(token);
     }
+    /* 인증 이메일 보내기 */
+    public void sentConfirmEmail(Account newAccount) {
+        Context context = new Context();
+        context.setVariable("link","/check-email-token?token=" + newAccount.getEmailCheckToken() +
+                "&email=" + newAccount.getEmail());
+        context.setVariable("nickname",newAccount.getNickname());
+        context.setVariable("linkName", "이메일 인증하기");
+        context.setVariable("message","벌초박사 서비스를 사용하려면 링크를 클릭하세요.");
+        context.setVariable("host",appProperties.getHost());
+        String message = templateEngine.process("mail/email_link", context);
 
-    /* ??? */
+        EmailMessage emailMessage = EmailMessage.builder()
+                .to(newAccount.getEmail())
+                .subject("벌초박사, 회원가입 인증")
+                .message(message)
+                .build();
+        emailService.sendEmail(emailMessage);
+    }
+
+    /* userDetails */
     @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String emailOrNickname) throws UsernameNotFoundException {
@@ -77,7 +102,6 @@ public class AccountService implements UserDetailsService {
         if(account == null){
             throw new UsernameNotFoundException(emailOrNickname);
         }
-
         return new UserAccount(account);
     }
 

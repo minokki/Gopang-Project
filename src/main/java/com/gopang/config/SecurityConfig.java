@@ -20,6 +20,13 @@ import javax.sql.DataSource;
 public class SecurityConfig {
 
     private final DataSource dataSource;
+
+    @Bean  //정적 리소스 파일 시큐리티가 무시할수 있게.
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+                .antMatchers("/node_modules/**", "/img/**", "/favicon.ico", "/resources/**", "/error")
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeRequests()
@@ -45,11 +52,5 @@ public class SecurityConfig {
         jdbcTokenRepository.setDataSource(dataSource);
         return jdbcTokenRepository;
     }
-    @Bean  //정적 리소스 파일 시큐리티가 무시할수 있게.
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring()
-                .mvcMatchers("/node_modules/**")
-                .mvcMatchers("/img/**")
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-    }
+
 }

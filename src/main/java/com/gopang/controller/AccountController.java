@@ -11,10 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -60,5 +58,75 @@ public class AccountController {
         accountService.login(account);
         return "redirect:/";
     }
+
+    /* 이메일 토큰 */
+    @GetMapping("/check-email-token")
+    public String CheckEmailToken(String token, String email, Model model){
+        Account account = accountRepository.findByEmail(email);
+        String view = "account/account_checkedEmail";
+        if(account == null){
+            model.addAttribute("error","wrong.email");
+            return view;
+        }
+        if(!account.getEmailCheckToken().equals(token)){
+            model.addAttribute("error","wrong.token");
+            return view;
+        }
+        accountService.completeSingUP(account);
+        model.addAttribute("numberOfUser",accountRepository.count());
+        model.addAttribute("nickname",account.getNickname());
+        return view;
+    }
+
+    /* 인증메일 */
+    @GetMapping("/check-email")
+    public String checkEmail(@CurrentUser Account account, Model model){
+        model.addAttribute("email",account.getEmail());
+        accountService.sentConfirmEmail(account);
+        return "account/account_checkEmail";
+    }
+    /* 인증메일 재전송 */
+    @GetMapping("resend-confirm-email")
+    public String resendConfirmEmail(@CurrentUser Account account, Model model){
+        if(!account.canSendConfirmEmail()){
+            model.addAttribute("error","인증 이메일은 5분에 한번만 전송할 수 있습니다.");
+            model.addAttribute("email", account.getEmail());
+            return "account/account_checkEmail";
+        }
+
+        accountService.sentConfirmEmail(account);
+        return "redirect:/";
+
+    }
+    /* 이메일 로그인(POST) */
+//    @PostMapping("/email-login")
+//    public String emailLoginLink(String email, Model model, RedirectAttributes attributes) {
+//        Account account = accountRepository.findByEmail(email);
+//        if (account == null) {
+//            model.addAttribute("error", "유효한 이메일이 아닙니다.");
+//            return "account/account_emailLogin";
+//        }
+//
+//        if (!account.canSendConfirmEmail()) {
+//            model.addAttribute("error", "이메일 로그인은 1시간 뒤에 사용할 수 있습니다.");
+//            return "account/email-login";
+//        }
+
+//        accountService.sendLoginLing(account);
+//        attributes.addFlashAttribute("message", "이메일 인증 메일을 발송했습니다");
+//        return "redirect:/email-login";
+//    }
+
+    /* 이메일 로그인 */
+//    @GetMapping("/login-by-email")
+//    public String loginByEmail(String token, String email, Model model) {
+//        Account account = accountRepository.findByEmail(email);
+//        if (account == null || !account.isValidToken(token)) {
+//            model.addAttribute("error", "로그인 할 수 없습니다.");
+//            return "account/account_loggedEamil";
+//        }
+//        accountService.login(account);
+//        return "account/account_loggedEamil";
+//    }
 
 }

@@ -20,10 +20,10 @@ public class Account extends BaseEntity {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "email",unique = true)
+    @Column(name = "email",unique = true, length = 255)
     private String email;
 
-    @Column(unique = true)
+    @Column(unique = true, length = 255)
     private String nickname;
 
     private String password;
