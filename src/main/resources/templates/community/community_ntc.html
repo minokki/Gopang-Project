@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_community}">
+
+<head>
+  <style>
+    /* 컨테이너 스타일링 */
+    .container {
+      padding: 20px;
+      font-size: 18px;
+    }
+
+    /* 링크 스타일링 */
+    a {
+      color: #333;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .table td {
+      padding: 18px 18px;
+    }
+
+    .write_info td {
+      text-align: center;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    /* 제목 컨테이너 스타일링 */
+    .title-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    /* 제목 양 옆에 구분선 스타일링 */
+    .title-container::before,
+    .title-container::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background-color: #ccc;
+      margin: 0 5%; /* 왼쪽 및 오른쪽 여백을 5%로 설정 */
+
+    }
+    .important_custom td{
+      background-color: #f2f2f2;
+      font-weight: bold;
+      /* 원하는 스타일 추가 */
+    }
+
+  </style>
+</head>
+<div layout:fragment="content">
+
+  <div class="container">
+    <div class="row">
+
+      <form th:action="@{'/ntcs/' + ${ntcs.number}}" role="form" method="get" th:object="${ntcs}">
+        <div class="title-container">
+          <h1 class="text-center">공지사항</h1>
+        </div>
+        <table class="table table-hover table_custom">
+          <thead class="table-dark">
+          <tr>
+            <td>게시글 번호</td>
+            <td>제목</td>
+            <td>작성자</td>
+            <td>작성일</td>
+            <td>조회수</td>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="ntc : ${ntcs.getContent()}" th:class="${ntc.isImportant eq 'Y'} ? 'important_custom' : ''">
+            <td th:text="${ntc.isImportant eq 'N' ? ntc.id : '공지'}"></td>
+            <td>
+              <a th:href="'/community/ntc/'+${ntc.id}">
+                <span th:if="${ntc.isImportant == 'Y'}">※&nbsp;</span>
+                <span th:text="${ntc.title}"></span>
+                <!--                                    <span th:if="${ntc.isImportant == 'Y'}"> ─</span>-->
+              </a>
+            </td>
+            <td th:text="${ntc.createBy}"></td>
+            <td th:text="${ntc.regTime != null ? #temporals.format(ntc.regTime, 'yyyy-MM-dd') : ''}"></td>
+            <td th:text="${ntc.views}">조회수</td>
+          </tr>
+          </tbody>
+        </table>
+        <div style="padding: 20px; background-color: #f7f7f7; margin-bottom: 50px; display: flex; justify-content: flex-end; gap: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+          <a th:if="${#request.isUserInRole('ADMIN')}" href="/admin/ntc/new" class="styled-link">게시글 작성</a>
+        </div>
+
+        <div class="form-inline justify-content-center" th:object="${ntcSearchDto}" style="display: flex; flex-wrap: wrap; margin-bottom: 30px">
+          <div style="display: flex; align-items: center; margin-right: 10px;">
+            <select th:field="*{searchDateType}" class="form-control" style="width:auto;">
+              <option value="all">전체기간</option>
+              <option value="1d">1일</option>
+              <option value="1w">1주</option>
+              <option value="1m">1개월</option>
+              <option value="6m">6개월</option>
+            </select>
+          </div>
+          <div style="display: flex; align-items: center; margin-right: 10px;">
+            <select th:field="*{searchBy}" class="form-control" style="width:auto;">
+              <option value="title">제목</option>
+              <option value="createdBy">등록자</option>
+            </select>
+          </div>
+          <div style="display: flex; align-items: center; margin-right: 10px;">
+            <input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력해주세요">
+          </div>
+          <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
+        </div>
+
+        <div class="paging_custom" th:with="start=${(ntcs.number/maxPage)*maxPage + 1}, end=(${(ntcs.totalPages == 0) ? 1 : (start + (maxPage - 1) < ntcs.totalPages ? start + (maxPage - 1) : ntcs.totalPages)})">
+          <ul class="pagination justify-content-center">
+
+            <!-- Previous 버튼 -->
+            <li class="page-item" th:classappend="${ntcs.first}?'disabled'">
+              <a th:onclick="'javascript:page(' + ${ntcs.number - 1} + ')'" aria-label='Previous' class="page-link" href="#">
+                <span aria-hidden='true'>&laquo;</span>
+              </a>
+            </li>
+
+            <!-- 페이지 번호 -->
+            <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${ntcs.number eq page-1}?'active':''">
+              <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link" href="#" th:text="${page}"></a>
+            </li>
+
+            <!-- Next 버튼 -->
+            <li class="page-item" th:classappend="${ntcs.last}?'disabled'">
+              <a th:onclick="'javascript:page(' + ${ntcs.number + 1} + ')'" aria-label='Next' class="page-link" href="#">
+                <span aria-hidden='true'>&raquo;</span>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+
+
+      </form>
+    </div>
+    <!--사용 스크립트 추가-->
+    <script>
+      $(document).ready(function(){
+        $("#searchBtn").on("click",function(e) {
+          e.preventDefault();
+          page(0);
+        });
+      });
+
+      function page(page){
+        const searchDateType = $("#searchDateType").val();
+        const searchBy = $("#searchBy").val();
+        const searchQuery = $("#searchQuery").val();
+
+        location.href="/community/ntcs/" + page + "?searchDateType=" + searchDateType
+                + "&searchBy=" + searchBy
+                + "&searchQuery=" + searchQuery;
+      }
+
+    </script>
+  </div>
+</div>
+
+</html>

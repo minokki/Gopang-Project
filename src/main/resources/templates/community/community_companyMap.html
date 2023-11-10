@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_community}">
+<head>
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=lzvv37zjh7"></script>
+    <style>
+        .iw_inner{
+            padding: 15px;
+            font-size: 12px;
+        }
+        .iw_inner h3{
+            border-bottom: 1px solid black;
+            padding: 5px;
+        }
+        .iw_inner img{
+            float:right;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<div layout:fragment="content">
+    <div class="container" style="margin-top: 3%">
+        <main>
+            <section id="Info" >
+                <div class="container">
+                    <h1 class="text-center">오시는 길</h1>
+                    <h2>About Our Company</h2>
+                    <p style="font-size: 1.3em; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);padding: 20px">
+                        저희는 예초 관련 분야에서 선도적인 솔루션을 제공하는 기업입니다. 예초 작업의 진행 상황을 드론으로 촬영하여 고객님께 신속하고 정확한 정보를 제공함으로써 고객님의 신뢰도를 크게 높이고자 노력하고 있습니다. 이를 통해 우리는 예초 전문기업으로서의 입지를 더욱 강화하고 성장해 나가고자 합니다.
+                    </p>
+
+                </div>
+            </section>
+
+            <!-- 회사 섹션 -->
+            <section id="drones" class="drones py-3" data-aos="fade-up" data-aos-duration="1000">
+                <div class="container">
+                    <h3 style="border-bottom: 1px solid black; padding: 10px; margin-bottom: 20px;">지도</h3>
+                    <div id="map" style="width:100%;height:700px;"></div>
+                    <small><a href="https://my.matterport.com/show/?m=P7A9fkJh3Ck" target="_blank"> 고팡(주) 사무실</a>클릭시 사무실 내부를 확인해보실수 있습니다</small>
+                </div>
+            </section>
+
+            <div class="b-example-divider" style="height: 70px;"></div>
+        </main>
+    </div>
+
+    <script>
+        var company_hall = new naver.maps.LatLng(33.45237925044694, 126.57261398461824),
+            map = new naver.maps.Map('map', {
+                center: company_hall,
+                zoom: 18,
+                zoomControl : true,
+                zoomControlOptions : { // 줌 컨트롤 옵션
+                    position : naver.maps.Position.TOP_RIGHT // 오른쪽 위로 위치 설정
+                },
+                mapTypeControl : true
+            }),
+            marker = new naver.maps.Marker({
+                map: map,
+                position: company_hall
+            });
+
+        var contentString = [
+            '<div class="iw_inner">',
+            '   <h3>고팡(주)</h3>',
+            '   <p>제주특별자치도 제주시 첨단로 213-65,405호<br />',
+            '       064-755-8011<br />',
+            '       <img src="/img/gopang.png" width="55" height="55" alt="고팡" class="thumb" />',
+            '       <a href="http://www.igopang.com" target="_blank">www.igopang.com<br/ ></a>',
+            '       <a href="https://my.matterport.com/show/?m=P7A9fkJh3Ck" target="_blank">고팡(주) 사무실</a>',
+            '   </p>',
+            '</div>'
+        ].join('');
+
+        var infowindow = new naver.maps.InfoWindow({
+            content: contentString
+        });
+
+        naver.maps.Event.addListener(marker, "click", function(e) {
+            if (infowindow.getMap()) {
+                infowindow.close();
+            } else {
+                infowindow.open(map, marker);
+            }
+        });
+
+        var btns = $(".buttons > input");
+        btns.on("click", function(e) {
+            e.preventDefault();
+
+            var mapTypeId = this.id;
+
+            if (map.getMapTypeId() !== naver.maps.MapTypeId[mapTypeId]) {
+                map.setMapTypeId(naver.maps.MapTypeId[mapTypeId]); // 지도 유형 변경하기
+
+                btns.removeClass("control-on");
+                $(this).addClass("control-on");
+            }
+        });
+
+        infowindow.open(map, marker);
+
+    </script>
+</div>
+
+</html>

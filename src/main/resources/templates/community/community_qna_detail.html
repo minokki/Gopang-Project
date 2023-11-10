@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_community}">
+<head>
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+  <style>
+    .table_custom{
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .write_info td {
+      text-align: center;
+      padding: 16px;
+      font-size: 18px;
+    }
+
+    .image-container {
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 50px;
+    }
+    .li_custom{
+      margin-top: 10px;
+    }
+
+    /* 수정 버튼 스타일 */
+    .edit-button {
+      color: #007bff;
+      font-size: 15px;
+    }
+    .edit-button:hover{
+      color: #0056b3;
+    }
+    /* 삭제 버튼 스타일 */
+    .delete-button {
+      color: #dc3545;
+      font-size: 15px;
+      margin-right: 10px;
+    }
+    .delete-button:hover{
+      color: #bb2929; /* 마우스 오버 시 색상 변경 */
+    }
+    .custom_comment{
+    }
+
+    .comment-list-unauthenticated {
+      text-align: center; /* 가운데 정렬 */
+      padding: 25px; /* 내부 여백 추가 */
+      background-color: #f0f0f0; /* 배경색 지정 */
+    }
+
+    /* 메시지 텍스트 스타일 */
+    .comment-list-unauthenticated p {
+      font-size: 18px;
+      color: #555;
+    }
+  </style>
+</head>
+<div layout:fragment="content">
+  <div class="container" id="container_community">
+    <h1 style="text-align: center; padding: 24px;"><b>Q&A</b></h1>
+    <table class="table table_custom">
+      <thead class="table-dark">
+      <tr class="write_title">
+        <td colspan="6">
+          <h4 th:text="${qna.title}"></h4>
+        </td>
+      </tr>
+      <tr class="write_info">
+        <td th:text="'작성자 ' + ${qna.writer}"></td>
+        <td th:text="'Date ' + ${#temporals.format(qna.createDate, 'yyyy-MM-dd')}"></td>
+        <td th:text="'조회수 ' + ${qnaViews.views}"></td> <!-- 조회수 값을 적절한 값으로 대체 -->
+      </tr>
+      </thead>
+      <tr>
+        <td colspan="6">
+          <div style="min-height: 600px; max-height: 600px;overflow-y: auto!important;">
+            <p th:utext="${#strings.replace(qna.content, '\n', '<br>')}"></p>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <input type="hidden" id="QnaId" th:value="${qna.id}">
+
+    <!-- Comments -->
+    <div class="card">
+      <div class="card-header">
+        <i class="fas fa-comment-dots"></i>
+        <span th:text="'댓글 '+ ${commentCount}" style="font-weight: bold"></span>
+      </div>
+      <!-- 댓글내용 부분 -->
+      <div class="custom_comment" th:if="${#authorization.expression('isAuthenticated()')}">
+        <ul class="list-group-flush" style="padding: 15px">
+          <li style="padding: 10px 10px; box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1); margin-bottom: 10px" th:each="comment : ${comments}" >
+            <img th:if="${!#strings.isEmpty(comment.accountProfileImg)}" th:src="${comment.accountProfileImg}"
+                 width="25" height="25"
+                 class="rounded border"
+                 style="border-radius: 4px; margin-right: 5px"
+            />
+            <img th:if="${#strings.isEmpty(comment.accountProfileImg)}" th:src="${comment.commentProfileImg}"
+                 width="25" height="25"
+                 class="rounded border"
+                 style="border-radius: 4px;object-fit: cover;"
+            />
+
+            <span style="font-size: medium;font-weight:500" th:text="${comment.nickname}"></span>
+            <span style="font-size: 12px; margin-left: 5px" th:text="${comment.createDate}"></span>
+            <a type="button" data-toggle="collapse" th:attr="data-target='#comment_form_' + ${comment.id}" class="fas fa-edit edit-button" th:if="${#authentication.name == comment.nickname}"></a>
+            <a type="button" class="fas fa-trash-alt custom-badge btn_comment_delete delete-button" th:data-qna-id="${comment.qnaId}" th:data-comment-id="${comment.id}" th:if="${#authentication.name == comment.nickname}"> </a> <br/>
+            <div>
+              <p style="white-space: pre-line; margin: 0 auto; " th:text="${#strings.replace(comment.comment, ' ', '&nbsp;')}"></p>
+            </div>
+            <form th:id="'comment_form_' + ${comment.id}" class="collapse modify_form">
+              <input type="hidden" id="CommentId" th:value="${comment.id}">
+              <input type="hidden" id="userNickname" th:value="${#authentication.name}">
+
+              <div class="form-group">
+                <textarea class="form-control" id="Comment_Content" rows="3" th:text="${comment.comment}"></textarea>
+              </div>
+              <button type="button" id="" class="btn btn-outline-primary bi bi-pencil-square btn-comment-update"> 수정</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+      <!-- 댓글 목록 - 비로그인 사용자용 -->
+      <div th:unless="${#authorization.expression('isAuthenticated()')}" class="comment-list-unauthenticated">
+        <div class="card-body" style="font-size: small;text-align: center"><a href="/login">로그인</a>을 하시면 댓글 조회 및 등록 할 수 있습니다.</div>
+      </div>
+
+    </div>
+    <br/>
+    <div class="card" th:if="${#request.isUserInRole('USER') or #request.isUserInRole('ADMIN')}">
+      <div class="card-header bi bi-chat-right-dots" style="font-weight: bold"> 댓글 작성</div>
+      <form>
+        <div class="card-body">
+          <textarea id="comment" class="form-control" rows="4" placeholder="댓글을 입력하세요" spellcheck="false"></textarea>
+        </div>
+        <div class="card-footer">
+          <button type="button" id="btn-comment-save"class="btn btn-outline-primary bi bi-pencil-square"> 등록</button>
+        </div>
+      </form>
+
+    </div>
+
+    <div style="padding: 20px; background-color: #f7f7f7; margin-bottom: 50px; display: flex; justify-content: flex-end; gap: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+
+      <a href="#"th:if="${isAuthor}" th:href="@{'/qna/' + ${qnaId}}" class="styled-link">
+        수정
+      </a>
+      <a href="#" th:href="@{/community/qnas}" class="styled-link">
+        리스트
+      </a>
+    </div>
+  </div>
+  <!--사용자 스크립트-->
+  <script>
+    /* 수정 아이콘 버튼 클릭시 폼 생성*/
+    $(".fas.fa-edit").click(function () {
+      // 클릭된 수정 버튼의 부모 <li> 요소를 찾습니다.
+      const listItem = $(this).closest('li');
+
+      // 해당 <li> 요소 내의 <p> 태그와 폼을 토글합니다.
+      listItem.find('p').toggle();
+      listItem.find('form').toggle();
+    });
+
+
+    $(document).ready(function () {
+
+      /* 클릭 이벤트 */
+      $('#btn-comment-save').on('click', function () {
+        commentSave();
+      });
+      $('.btn-comment-update').on('click', function () {
+        const form = $(this).closest('li').find('form'); // 현재 버튼의 부모 <li>에서 폼을 찾습니다.
+        commentUpdate(form);
+      });
+      $('.btn_comment_delete').on('click', function () {
+        const qnaId = $(this).data('qna-id');
+        const commentId = $(this).data('comment-id');
+        commentDelete(qnaId, commentId);
+      });
+
+      /* 댓글 수정 */
+      function commentUpdate(form) {
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+
+        const data = {
+          qnaId: $('#QnaId').val(),
+          commentId: form.find('#CommentId').val(),
+          comment: form.find('#Comment_Content').val(),
+        }
+        if (!data.comment || data.comment.trim() === "") {
+          alert("공백 또는 입력하지 않은 부분이 있습니다.");
+          return false;
+        }
+        const con_check = confirm("수정하시겠습니까?");
+        if (con_check === true) {
+          $.ajax({
+            type: 'PUT',
+            url: '/api/qna/' + data.qnaId + '/comments/' + data.commentId,
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            beforeSend: function(xhr) {
+              /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+              xhr.setRequestHeader(header, token);
+            },
+          }).done(function () {
+            window.location.reload();
+          }).fail(function (error) {
+            alert(JSON.stringify(error));
+          });
+        }
+      }
+
+      /* jdenticon을 사용하여 아바타 생성하는 함수 */
+      function generateAvatar(nickname) {
+        const width = 150;
+        const height = 150;
+        // jdenticon을 사용하여 이미지를 생성하고, Base64로 인코딩
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+
+        // jdenticon 이미지 그리기
+        jdenticon.drawIcon(ctx, String(nickname), Math.min(width, height));
+
+        const avatarBase64 = canvas.toDataURL("image/png");
+
+        return avatarBase64;
+      }
+      // 숫자로 된 닉네임을 문자열로 형변환하여 아바타 생성
+      const commentProfileImg = String($('#userNickname').val());
+      // jdenticon 아바타 생성
+      const avatar = generateAvatar(commentProfileImg);
+
+      /* 댓글 저장 */
+      function commentSave() {
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+        var currentUserNickname = /*[[${currentUserNickname}]]*/ 'defaultNickname';
+        const data = {
+          qnaId: $('#QnaId').val(),
+          comment: $('#comment').val(),
+          // jdenticon을 사용하여 아바타 생성
+          commentProfileImg: avatar, // 닉네임으로 아바타 생성
+        };
+        console.log(data.commentProfileImg)
+        // 공백 및 빈 문자열 체크
+        if (!data.comment || data.comment.trim() === "") {
+          alert("공백 또는 입력하지 않은 부분이 있습니다.");
+          return false;
+        } else {
+          $.ajax({
+            type: 'POST',
+            url: '/api/qna/' + data.qnaId + '/comments',
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            beforeSend: function(xhr) {
+              /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+              xhr.setRequestHeader(header, token);
+            },
+          }).done(function (response) {
+            console.log('성공적인 응답:', response);
+            alert('댓글이 등록되었습니다.');
+            window.location.reload();
+          }).fail(function (error) {
+            console.log('에러 응답:', error);
+            alert('에러 발생: ' + error.responseText); // 에러 메시지 출력
+          });
+        }
+      }
+
+      /* 댓글 삭제 */
+      function commentDelete(qnaId, commentId){
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+
+        const con_check = confirm("삭제하시겠습니까?");
+        if (con_check == true) {
+          console.log("확인용")
+          $.ajax({
+            type:'DELETE',
+            url:'/api/qna/'+qnaId+'/comments/'+commentId,
+            dataType:'JSON',
+            beforeSend: function(xhr) {
+              /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+              xhr.setRequestHeader(header, token);
+            },
+          }).done(function (){
+            alert('댓글이 삭제되었습니다.');
+            window.location.reload();
+          }).fail(function (error){
+            alert(JSON.stringify(error))
+          });
+        }
+      }
+
+
+    });
+  </script>
+
+</div>
+</html>
+
+
