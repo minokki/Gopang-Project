@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-
     /**
      * slick 불러오기
      */

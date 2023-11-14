@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-
     /**
      * 모바일 햄버거 x표시
      */
