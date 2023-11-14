@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_board}">
+<head>
+  <style>
+    /* 컨테이너 스타일링 */
+    .container {
+      padding: 20px;
+    }
+    section {
+      padding: 2rem;
+      background-color: #fff;
+      margin-bottom: 2rem;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .skills ul li::before {
+      content: "• ";
+    }
+    .skills ul li{
+      font-size: 1.1em;
+      padding: 10px;
+      margin-left: -40px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+    }
+
+    th, td,tr {
+      padding: 1rem;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    .project i {
+      font-size: 6em;
+    }
+
+    .projects {
+      display: flex;
+      flex-wrap: wrap; /* 필요한 경우 아이템을 여러 줄에 나열 */
+      gap: 20px; /* 프로젝트 간격 설정 */
+    }
+
+    .project {
+      text-align: center;
+      display: flex;
+      flex-direction: column; /* Arrange items in a column (vertically) */
+    }
+    .project-content i{
+      padding: 40px;
+      background-color: #f9f9f9;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .arrow-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .arrow-wrapper i {
+      font-size: 20px; /* 원하는 아이콘 크기로 조절 */
+      color: #999; /* 아이콘 색상 */
+    }
+    /* 제목 컨테이너 스타일링 */
+    .title-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 50px;
+    }
+
+    /* 제목 양 옆에 구분선 스타일링 */
+    .title-container::before,
+    .title-container::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background-color: #ccc;
+      margin: 0 5%; /* 왼쪽 및 오른쪽 여백을 5%로 설정 */
+
+    }
+  </style>
+</head>
+<div layout:fragment="content">
+
+  <div class="container">
+    <div class="title-container">
+      <h1 class="text-center">작업소개</h1>
+    </div>
+    <h2 style="margin-bottom: 20px;">예초진행</h2>
+    <section class="introduction">
+      <p style="font-size: 1.2em;">예초 관리 전문 업체로서 자연을 아름답게 가꾸고 관리합니다. 최상의 서비스로 고객의 만족을 추구합니다. 자연환경을 지키며 예쁜 녹지공간을 만들어드리고, 다양한 작업 유형을 통해 고객의 다양한 요구에 부응합니다. 전문적인 예초 작업과 함께 우리와 함께 하세요!</p>
+
+    </section>
+    <h2>예초 비용안내</h2>
+    <section class="skills">
+      <table>
+        <tr>
+          <th>작업 유형</th>
+          <th>가격</th>
+          <th>비고</th>
+        </tr>
+        <tr>
+          <td>정원 예초</td>
+          <td>100,000원</td>
+          <td rowspan="3">상태에 따라 금액 변경될 수 있음.</td>
+        </tr>
+        <tr>
+          <td>공원 예초</td>
+          <td>150,000원</td>
+        </tr>
+        <tr>
+          <td>상업지역 예초</td>
+          <td>200,000원</td>
+        </tr>
+        <!-- 추가 작업 유형 및 가격을 여기에 추가하세요 -->
+      </table>
+      <ul>
+        <li>예초장소 : 아파트, 공장, 도로변, 학교, 종교단체, 공원, 임야, 군부대 등</li>
+        <li>예초장소 : 아파트, 공장, 도로변, 학교, 종교단체, 공원, 임야, 군부대 등</li>
+        <li>예초장소 : 아파트, 공장, 도로변, 학교, 종교단체, 공원, 임야, 군부대 등</li>
+        <li>예초장소 : 아파트, 공장, 도로변, 학교, 종교단체, 공원, 임야, 군부대 등</li>
+        <li>예초장소 : 아파트, 공장, 도로변, 학교, 종교단체, 공원, 임야, 군부대 등</li>
+
+      </ul>
+
+    </section>
+    <h2>업무 프로세스</h2>
+    <section class="projects">
+      <div class="project">
+        <div class="project-content">
+          <i class="fas fa-phone"></i>
+        </div>
+        <p>고객과 상담하여 요구 사항을 파악합니다.</p>
+      </div>
+      <div class="arrow-wrapper">
+        <i class="fas fa-chevron-right"></i>
+      </div>
+      <div class="project">
+        <div class="project-content">
+          <i class="far fa-handshake"></i>
+          <p>작업 일정을 조율하고 예초 작업을 진행합니다.</p>
+        </div>
+      </div>
+      <div class="arrow-wrapper">
+        <i class="fas fa-chevron-right"></i>
+      </div>
+      <div class="project">
+        <div class="project-content">
+          <i class="fas fa-street-view"></i>
+          <p>작업을 거쳐 최상의 결과물을 확인합니다.</p>
+        </div>
+      </div>
+      <div class="arrow-wrapper">
+        <i class="fas fa-chevron-right"></i>
+      </div>
+      <div class="project">
+        <div class="project-content">
+          <i class="fa-solid fa-user-pen"></i>
+          <p>고객에게 만족도 조사를 실시하고 피드백을 수렴합니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <h2>예초를 해야하는 이유</h2>
+    <section class="skills" style="margin-bottom: 100px;">
+      <ul>
+        <li>생태계 복원과 생물 다양성 보호: 예초는 피해를 입은 지역의 생태계를 회복시키는데 도움을 줍니다. 나무와 식물을 다시 심음으로써 생태계의 구조와 기능을 회복시키고, 다양한 동물과 식물의 서식지를 제공하여 생물 다양성을 증진시킵니다.</li>
+        <li>토양 안정화: 나무와 식물의 뿌리는 토양을 고정시키고 토양침식을 줄여줍니다. 이로 인해 토양 안정성이 향상되어 지하수 흐름을 제어하고 토지 침식을 예방할 수 있습니다.</li>
+        <li>대기 중 이산화탄소 감소: 나무와 식물은 광합성과 호흡을 통해 대기 중의 이산화탄소를 흡수하고 산소를 방출합니다. 따라서 예초는 대기 중의 이산화탄소 농도를 줄여 기후 변화에 대응하는 데 기여합니다.</li>
+        <li>자연재해 예방과 완화: 숲을 복원하고 나무를 심는 것은 홍수와 땅 산사태와 같은 자연재해의 위험을 줄이는 데 도움이 됩니다. 나무들은 물을 흡수하고 지표면을 안정화시키는 역할을 합니다.</li>
+        <li>지역사회 발전과 경제 활성화: 예초 작업은 지역 사회에 일자리를 제공하고 지속 가능한 자원을 생산하므로 경제적으로도 긍정적인 영향을 미칩니다. 또한 숲을 관리하고 보존하는 활동은 지역 커뮤니티의 발전에 기여합니다.
+          이러한 이유들로 인해 예초는 환경 보전, 생태계 회복, 기후변화 대응, 지역 사회 발전 등 다양한 측면에서 중요한 활동으로 간주됩니다.
+        </li>
+
+      </ul>
+    </section>
+  </div>
+</div>
+
+</html>
