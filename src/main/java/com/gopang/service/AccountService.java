@@ -4,6 +4,7 @@ import com.gopang.account.UserAccount;
 import com.gopang.config.AppProperties;
 import com.gopang.constant.Role;
 import com.gopang.dto.MemberSearchDto;
+import com.gopang.dto.Profile;
 import com.gopang.dto.SignUpForm;
 import com.gopang.entity.Account;
 import com.gopang.mail.EmailMessage;
@@ -112,14 +113,14 @@ public class AccountService implements UserDetailsService {
     }
 
     /* 프로필 UPDATE */
-//    public void updateProfile(Account account, Profile profile) {
-//        account.setUrl(profile.getUrl());
-//        account.setOccupation(profile.getOccupation());
-//        account.setLocation(profile.getLocation());
-//        account.setBio(profile.getBio());
-//        account.setProfileImage(profile.getProfileImage());
-//        accountRepository.save(account);
-//    }
+    public void updateProfile(Account account, Profile profile) {
+        account.setUrl(profile.getUrl());
+        account.setOccupation(profile.getOccupation());
+        account.setLocation(profile.getLocation());
+        account.setBio(profile.getBio());
+        account.setProfileImage(profile.getProfileImage());
+        accountRepository.save(account);
+    }
 
     /* 프로필 PASSWORD */
     public void updatePassword(Account account, String newPassword) {
@@ -131,6 +132,25 @@ public class AccountService implements UserDetailsService {
         account.setNickname(nickname);
         accountRepository.save(account);
         login(account);
+    }
+    /* 이메일-로그인링크 */
+    public void sendLoginLing(Account account) {
+        Context context = new Context();
+        context.setVariable("link","/login-by-email?token=" + account.getEmailCheckToken() + "&email=" + account.getEmail());
+        context.setVariable("nickname",account.getNickname());
+        context.setVariable("linkName", "이메일로 로그인하기");
+        context.setVariable("message","로그인 하려면 아래 링크를 클릭하세요.");
+        context.setVariable("host",appProperties.getHost());
+        String message = templateEngine.process("mail/email_link", context);
+
+        EmailMessage emailMessage = EmailMessage.builder()
+                .to(account.getEmail())
+                .subject("벌초박사, 로그인 링크")
+                .message(message)
+                .build();
+
+        emailService.sendEmail(emailMessage);
+
     }
 
     public Page<Account> getAdminMemberPage(MemberSearchDto memberSearchDto, Pageable pageable) {

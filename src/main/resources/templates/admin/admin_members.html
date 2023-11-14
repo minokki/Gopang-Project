@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_profile}">
+
+<div layout:fragment="content">
+
+
+  <div class="container border" style="margin-top: 3%;margin-bottom: 6%;  border-radius: 30px; overflow: hidden;">
+    <div class="row mt-5 mb-5 justify-content-center">
+      <div class="col-2">
+        <div th:replace="fragments/profile-menu :: admin-menu(adminMenu='members')"></div>
+      </div>
+      <div class="col-8">
+        <form th:action="@{'/admin/members/' + ${members.number}}" role="form" method="get" th:object="${boardMains}">
+          <h1>회원정보 검색</h1>
+          <table class="table">
+            <thead>
+            <tr>
+              <td>회원번호</td>
+              <td>닉네임</td>
+              <td>이메일</td>
+              <td>생성일자</td>
+              <td>이메일 인증</td>
+              <td>유저 타입</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="member : ${members.getContent()}">
+              <td th:text="${member.id}"></td>
+              <td th:text="${member.nickname}"></td>
+              <td th:text="${member.email}"></td>
+              <td th:text="${member.regTime != null ? #temporals.format(member.regTime, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
+              <td th:text="${member.emailVerified ? 'Yes' : 'No'}"></td>
+              <td th:text="${member.userType}"></td>
+            </tr>
+            </tbody>
+          </table>
+
+          <div th:with="start=${(members.number/maxPage)*maxPage + 1}, end=(${(members.totalPages == 0) ? 1 : (start + (maxPage - 1) < members.totalPages ? start + (maxPage - 1) : members.totalPages)})" >
+            <ul class="pagination justify-content-center">
+
+              <li class="page-item" th:classappend="${members.first}?'disabled'">
+                <a th:onclick="'javascript:page(' + ${members.number - 1} + ')'" aria-label='Previous' class="page-link">
+                  <span aria-hidden='true'>Previous</span>
+                </a>
+              </li>
+
+              <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${members.number eq page-1}?'active':''">
+                <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+              </li>
+
+              <li class="page-item" th:classappend="${members.last}?'disabled'">
+                <a th:onclick="'javascript:page(' + ${members.number + 1} + ')'" aria-label='Next' class="page-link">
+                  <span aria-hidden='true'>Next</span>
+                </a>
+              </li>
+
+            </ul>
+
+          </div>
+
+          <div class="form-inline justify-content-center" th:object="${memberSearchDto}" style="display: flex; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; margin-right: 10px;">
+              <select th:field="*{searchDateType}" class="form-control" style="width:auto;">
+                <option value="all">전체기간</option>
+                <option value="1d">1일</option>
+                <option value="1w">1주</option>
+                <option value="1m">1개월</option>
+                <option value="6m">6개월</option>
+              </select>
+            </div>
+            <div style="display: flex; align-items: center; margin-right: 10px;">
+              <select th:field="*{searchBy}" class="form-control" style="width:auto;">
+                <option value="nickname">닉네임</option>
+                <option value="email">email</option>
+              </select>
+            </div>
+            <div style="display: flex; align-items: center; margin-right: 10px;">
+              <input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력해주세요">
+            </div>
+            <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--사용 스크립트 추가-->
+  <script>
+    $(document).ready(function(){
+      $("#searchBtn").on("click",function(e) {
+        e.preventDefault();
+        page(0);
+      });
+    });
+
+    function page(page){
+      var searchDateType = $("#searchDateType").val();
+      var searchBy = $("#searchBy").val();
+      var searchQuery = $("#searchQuery").val();
+
+      location.href="/admin/members/" + page + "?searchDateType=" + searchDateType
+              + "&searchBy=" + searchBy
+              + "&searchQuery=" + searchQuery;
+    }
+
+  </script>
+</div>
+
+</html>

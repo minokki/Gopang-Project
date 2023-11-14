@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_profile}">
+
+<div layout:fragment="content">
+
+
+  <div class="container border" style="margin-top: 3%;margin-bottom: 6%;  border-radius: 30px; overflow: hidden;">
+    <div class="row mt-5 mb-5 justify-content-center">
+      <div class="col-2">
+        <div th:replace="fragments/profile-menu :: settings-menu(currentMenu='nickname')"></div>
+      </div>
+      <div class="col-8">
+        <div th:if="${message}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+          <span th:text="${message}">메세지</span>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <div class="row">
+          <h2 class="col-sm-12">닉네임 변경</h2>
+        </div>
+        <div class="row mt-3">
+          <form class="needs-validation col-12" action="#" th:action="@{/settings/nickname}" th:object="${nicknameForm}" method="post" novalidate>
+            <div class="alert alert-warning" role="alert">
+              닉네임을 변경하면 프로필 페이지 링크도 바뀝니다.
+            </div>
+            <div class="form-group">
+              <label for="nickname">변경할 닉네임</label>
+              <input id="nickname" type="text" th:field="*{nickname}" class="form-control"
+                     aria-describedby="nicknameHelp" required min="8",max="20">
+              <small id="nicknameHelp" class="form-text text-muted">
+                공백없이 문자와 숫자로만 3자 이상 20자 이내로 입력하세요. 가입후에 변 경 할수 있습니다.
+              </small>
+              <small class="invalid-feedback">닉네임을 입력하세요.</small>
+              <small class="form-text text-danger" th:if="${#fields.hasErrors('nickname')}"
+                     th:errors="*{nickname}" style="display: block">nickname error</small>
+            </div>
+            <div class="form-group mt-2">
+              <button class="btn btn-primary btn-block" type="submit" aria-describedby="submitHelp">수정하기</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="row mt-5">
+          <div class="col-sm-12">
+            <h2 class="text-danger">계정 삭제</h2>
+            <div class="alert alert-danger" role="alert">
+              이 계정은 삭제 할 수 없습니다.
+            </div>
+            <button class="btn btn-outline-danger disabled">계정 삭제</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- validation js -->
+  <script src="js/validation.js"></script>
+</div>
+
+</html>
