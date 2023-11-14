@@ -60,6 +60,7 @@ public class Account extends BaseEntity {
         this.emailCheckTokenGeneratedAt = LocalDateTime.now();
     }
 
+
     public void completeSignUp() {
         this.emailVerified=true;
         this.joinedAt=LocalDateTime.now();

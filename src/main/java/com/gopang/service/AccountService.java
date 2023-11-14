@@ -109,6 +109,7 @@ public class AccountService implements UserDetailsService {
     /* 회원가입시 자동로그인 */
     public void completeSingUP(Account account) {
         account.completeSignUp();
+        accountRepository.save(account);
         login(account);
     }
 
