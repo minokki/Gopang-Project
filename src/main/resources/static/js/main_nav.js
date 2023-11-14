@@ -1,8 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    document.querySelector("#showAlert").addEventListener("click", function() {
-        alert("해당 페이지는 준비 중입니다.");
-    });
     /**
      * 모바일 햄버거 x표시
      */
