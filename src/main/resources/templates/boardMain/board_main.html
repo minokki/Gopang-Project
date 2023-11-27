@@ -1,10 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_board}">
+
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+  <style>
+    /* 컨테이너 스타일링 */
+    .container {
+      padding: 20px;
+      font-size: 18px;
+    }
+    .img-container {
+      position: relative;
+    }
+
+    .img-text {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 16px;
+      bottom: 0;
+      right: 0;
+      margin: 10px;
+    }
+    /* 제목 컨테이너 스타일링 */
+    .title-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    /* 제목 양 옆에 구분선 스타일링 */
+    .title-container::before,
+    .title-container::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background-color: #ccc;
+      margin: 0 5%; /* 왼쪽 및 오른쪽 여백을 5%로 설정 */
+
+    }
+
+  </style>
 </head>
-<body>
-$END$
-</body>
+<div layout:fragment="content">
+
+  <div class="container">
+    <div class="title-container">
+      <h1 class="text-center">시공사례</h1>
+    </div>
+    <div style="display: flex; justify-content: end; align-items: center;">
+
+      <form class="form-inline my-2 my-lg-0" th:action="@{/boardMain/boardMains}" method="get" style="width: 300px;">
+        <div class="input-group input-group-sm"  style="margin-bottom: 30px">
+          <input name="searchQuery" class="form-control" type="search" placeholder="검색하세요" aria-label="Search" style="border-top: none; border-left: none; border-right: none;">
+          <div class="input-group-append">
+            <button class="btn" type="submit">
+              <i class="fa fa-search" aria-hidden="true" style="font-size: 24px;"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="row">
+      <th:block th:each="boardMain : ${boardMains.getContent()}" th:remove="tag">
+        <div class="col-md-6">
+          <div class="card" style="margin-bottom: 35px; padding: 15px; border-radius: 0;">
+            <a th:href="'/boardMain/' + ${boardMain.id}" class="text-dark">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="img-container" style="position: relative;">
+                    <!-- imgUrlBefore 이미지를 왼쪽에 표시 -->
+                    <img th:src="${boardMain.imgUrlBefore}" class="card-img-top" th:alt="${boardMain.title}" height="250">
+                    <div class="img-text img-text-before">BEFORE</div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="img-container" style="position: relative;">
+                    <!-- imgUrlAfter 이미지를 오른쪽에 표시 -->
+                    <img th:src="${boardMain.imgUrlAfter}" class="card-img-top" th:alt="${boardMain.title}" height="250">
+                    <div class="img-text img-text-after">AFTER</div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body" style="text-align: center;text-decoration-line: none;">
+                <h4 th:text="${boardMain.title}"></h4>
+              </div>
+            </a>
+          </div>
+        </div>
+      </th:block>
+    </div>
+    <div style="padding: 20px; background-color: #f7f7f7; margin-bottom: 50px; display: flex; justify-content: flex-end; gap: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+      <a sec:authorize="hasRole('ROLE_ADMIN')" href="#" th:href="@{/boardMain/new}" class="styled-link">게시글 작성</a>
+    </div>
+
+
+    <div class="paging" th:with="start=${(boardMains.number/maxPage)*maxPage + 1}, end=(${(boardMains.totalPages == 0) ? 1 : (start + (maxPage - 1) < boardMains.totalPages ? start + (maxPage - 1) : boardMains.totalPages)})" >
+      <ul class="pagination justify-content-center">
+
+        <li class="page-item" th:classappend="${boardMains.number eq 0} ? 'disabled' : ''">
+          <a th:href="@{'/boardMain/boardMains' + '?searchQuery=' + (${boardSearchDto.searchQuery} ?: '') + '&page=' + ${boardMains.number-1}}"
+             aria-label="Previous"
+             class="page-link">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+
+        <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}"
+            th:classappend="${boardMains.number eq page-1} ? 'active' : ''">
+          <a th:href="@{'/boardMain/boardMains' + '?searchQuery=' + (${boardSearchDto.searchQuery} ?: '') + '&page=' + ${page-1}}"
+             th:inline="text"
+             class="page-link">[[${page}]]</a>
+        </li>
+
+        <li class="page-item" th:classappend="${boardMains.number+1 ge boardMains.totalPages} ? 'disabled' : ''">
+          <a th:href="@{'/boardMain/boardMains' + '?searchQuery=' + (${boardSearchDto.searchQuery} ?: '') + '&page=' + ${boardMains.number+1}}"
+             aria-label="Next"
+             class="page-link">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+
+</div>
+
 </html>

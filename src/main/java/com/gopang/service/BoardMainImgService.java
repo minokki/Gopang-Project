@@ -1,46 +1,59 @@
 package com.gopang.service;
 
+import com.gopang.entity.BoardMainImg;
+import com.gopang.file.S3Uploader;
+import com.gopang.repository.BoardMainImgRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
 
-@Transactional
-@RequiredArgsConstructor
 @Service
-public class CommentService {
-    private final CommentRepository commentRepository;
-    private final AccountRepository accountRepository;
-    private final QnaRepository qnaRepository;
+@RequiredArgsConstructor
+@Transactional
+public class BoardMainImgService {
 
-    /* 댓글 작성 */
-    public Long commentSave(String nickname, Long id, CommentRequestDto dto) {
-        Account account = accountRepository.findByNickname(nickname);
+    private final BoardMainImgRepository boardMainImgRepository;
+    private final S3Uploader s3Uploader;
 
-        Qna qna = qnaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("댓글 쓰기 실패: 해당 게시글이 존재하지 않습니다." + id));
-        dto.setAccount(account);
-        dto.setQna(qna);
+    /* 이미지 저장 */
+    public void saveBoardMainImg(BoardMainImg boardMainImg, MultipartFile multipartFile) throws IOException {
+        String oriImgName = multipartFile.getOriginalFilename();
+        String imgName = "";
+        String imgUrl = "";
 
-        Comment comment = dto.toEntity();
-        commentRepository.save(comment);
+        if (!StringUtils.isEmpty(oriImgName)) {
+            // S3에 이미지 업로드
+            imgName = s3Uploader.uploadFiles(multipartFile, "board");
+            imgUrl = "/board/" + imgName;
+        }
 
-        return dto.getId();
+        // 상품 이미지 정보 저장
+        boardMainImg.updateBoardMainImg(oriImgName, imgName, imgUrl);
+        boardMainImgRepository.save(boardMainImg);
     }
 
-    /* 댓글 UPDATE */
-    public void commentUpdate(Long qnaId, Long commentId, CommentRequestDto dto) {
+    /* 이미지 UPDATE */
+    public void updateBoardMainImg(Long boardMainImgId, MultipartFile multipartFile) throws IOException {
+        if (!multipartFile.isEmpty()) {
+            BoardMainImg savedBoardMainImg = boardMainImgRepository.findById(boardMainImgId).orElseThrow(EntityNotFoundException::new);
 
-        Comment comment = commentRepository.findByQnaIdAndId(qnaId, commentId)
-                .orElseThrow(() -> new EntityNotFoundException("댓글을 찾을 수 없습니다."));
-        // CommentRequestDto에서 업데이트할 내용을 가져와서 엔티티에 반영
-        comment.update(dto.getComment());
-    }
+            // 기존 이미지 삭제
+            if (savedBoardMainImg.getImgUrl() != null) {
+                s3Uploader.deleteFile(savedBoardMainImg.getImgUrl());
+            }
 
-    /* 댓글 DELETE */
-    public void commentDelete(Long qnaId, Long commentId) {
-        Comment comment = commentRepository.findByQnaIdAndId(qnaId, commentId).orElseThrow(() ->
-                new IllegalArgumentException("해당 댓글이 존재하지 않습니다. id=" + commentId));
-        commentRepository.delete(comment);
+            // S3에 새 이미지 업로드
+            String newImgName = s3Uploader.uploadFiles(multipartFile, "board");
+            String newImgUrl = "/images/board/" + newImgName;
+
+            // 이미지 정보 업데이트
+            savedBoardMainImg.updateBoardMainImg(multipartFile.getOriginalFilename(), newImgName, newImgUrl);
+        }
     }
 }

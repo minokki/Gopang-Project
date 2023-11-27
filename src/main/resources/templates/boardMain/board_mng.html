@@ -1,10 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_profile}">
+
+<div layout:fragment="content">
+  <div class="container border" style="margin-top: 3%; margin-bottom: 6%; border-radius: 30px; overflow: hidden;">
+    <div class="row mt-5 mb-5 justify-content-center">
+      <div class="col-2">
+        <div th:replace="fragments/profile-menu :: admin-menu(adminMenu='board')"></div>
+      </div>
+
+      <div class="col-8">
+        <form th:action="@{'/admin/boardMain/' + ${boardMains.number}}" role="form" method="get" th:object="${boardMains}">
+          <h1>시공사례 검색</h1>
+          <table class="table">
+            <thead>
+            <tr>
+              <td>시공사례번호</td>
+              <td>장소</td>
+              <td>등록자</td>
+              <td>등록일</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="boardMain : ${boardMains.getContent()}">
+              <td th:text="${boardMain.id}"></td>
+              <td>
+                <a th:href="'/admin/boardMain/'+${boardMain.id}" th:text="${boardMain.title}"></a>
+              </td>
+              <td th:text="${boardMain.createBy}"></td>
+              <td th:text="${boardMain.regTime != null ? #temporals.format(boardMain.regTime, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
+            </tr>
+            </tbody>
+          </table>
+
+          <div th:with="start=${(boardMains.number/maxPage)*maxPage + 1}, end=(${(boardMains.totalPages == 0) ? 1 : (start + (maxPage - 1) < boardMains.totalPages ? start + (maxPage - 1) : boardMains.totalPages)})" >
+            <ul class="pagination justify-content-center">
+
+              <li class="page-item" th:classappend="${boardMains.first}?'disabled'">
+                <a th:onclick="'javascript:page(' + ${boardMains.number - 1} + ')'" aria-label='Previous' class="page-link">
+                  <span aria-hidden='true'>Previous</span>
+                </a>
+              </li>
+
+              <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${boardMains.number eq page-1}?'active':''">
+                <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+              </li>
+
+              <li class="page-item" th:classappend="${boardMains.last}?'disabled'">
+                <a th:onclick="'javascript:page(' + ${boardMains.number + 1} + ')'" aria-label='Next' class="page-link">
+                  <span aria-hidden='true'>Next</span>
+                </a>
+              </li>
+
+            </ul>
+
+          </div>
+
+          <div class="form-inline justify-content-center" th:object="${boardSearchDto}" style="display: flex; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; margin-right: 10px;">
+              <select th:field="*{searchDateType}" class="form-control" style="width:auto;">
+                <option value="all">전체기간</option>
+                <option value="1d">1일</option>
+                <option value="1w">1주</option>
+                <option value="1m">1개월</option>
+                <option value="6m">6개월</option>
+              </select>
+            </div>
+            <div style="display: flex; align-items: center; margin-right: 10px;">
+              <select th:field="*{searchBy}" class="form-control" style="width:auto;">
+                <option value="title">제목</option>
+                <option value="createdBy">등록자</option>
+              </select>
+            </div>
+            <div style="display: flex; align-items: center; margin-right: 10px;">
+              <input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력해주세요">
+            </div>
+            <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--사용 스크립트 추가-->
+  <script>
+    $(document).ready(function(){
+      $("#searchBtn").on("click",function(e) {
+        e.preventDefault();
+        page(0);
+      });
+    });
+
+    function page(page){
+      var searchDateType = $("#searchDateType").val();
+      var searchBy = $("#searchBy").val();
+      var searchQuery = $("#searchQuery").val();
+
+      location.href="/admin/boardMains/" + page + "?searchDateType=" + searchDateType
+              + "&searchBy=" + searchBy
+              + "&searchQuery=" + searchQuery;
+    }
+
+  </script>
+</div>
+
 </html>

@@ -1,10 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_board}">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+  <style>
+    .table_custom{
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .write_info td {
+      text-align: center;
+      padding: 16px;
+      font-size: 18px;
+    }
+
+    .image-container {
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 50px;
+    }
+  </style>
 </head>
-<body>
-$END$
-</body>
+<div layout:fragment="content">
+  <div class="container" id="container_community">
+    <h1 style="text-align: center; padding: 24px;"><b>시공사례</b></h1>
+    <input type="hidden" id="Id" th:value="${boardMain.id}">
+
+    <table class="table table_custom">
+      <thead class="table-dark">
+      <tr class="write_title">
+        <td colspan="6">
+          <h4 th:text="${boardMain.title}"></h4>
+        </td>
+      </tr>
+      <tr class="write_info">
+        <td th:text="'작성자 ' + ${boardMain.createBy}"></td>
+        <td th:text="'Date ' + ${#temporals.format(boardMain.createDate, 'yyyy-MM-dd')}"></td>
+        <td th:text="'조회수 ' + ${boardMainViews.views}">조회수 : 조회수 값</td> <!-- 조회수 값을 적절한 값으로 대체 -->
+      </tr>
+      </thead>
+      <tr>
+        <td colspan="6">
+          <div style="padding:20px; min-height: 600px; max-height: 600px;overflow-y: auto!important;">
+            <div class="image-container" style="display: flex; justify-content:center; padding-bottom: 10px;">
+              <img th:src="${boardMain.beforeImgUrl}" alt="Before Image" height="400" width="600" style="padding: 10px">
+              <img th:src="${boardMain.afterImgUrl}" alt="After Image" height="400" width="600" style="padding: 10px">
+            </div>
+
+            <p th:utext="${#strings.replace(boardMain.content, '\n', '<br>')}"></p>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div style="padding: 20px; background-color: #f7f7f7; margin-bottom: 50px; display: flex; justify-content: flex-end; gap: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+
+      <a href="#" th:if="${#request.isUserInRole('ADMIN')}" th:href="@{'/admin/boardMain/' + ${boardMainId}}" class="styled-link">
+        수정
+      </a>
+      <a href="#" th:href="@{/boardMain/boardMains}" class="styled-link">
+        리스트
+      </a>
+    </div>
+
+  </div>
+</div>
 </html>
+
+

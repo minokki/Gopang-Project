@@ -1,2 +1,14 @@
-package com.gopang.dto;public class BoardSearchDto {
+package com.gopang.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class BoardSearchDto {
+    private String searchDateType;
+
+    private String searchBy;
+
+    private String searchQuery = "";
 }
