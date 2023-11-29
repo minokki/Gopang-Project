@@ -1,9 +1,5 @@
 /* 풋터 */
 .footer {
-    background-color: #2a2d32;
-    background-image: url("/img/main-footer-back.png");
-    background-repeat: no-repeat;
-    background-position: center center; /* 이미지를 가운데 정렬합니다. */
     padding:80px 0 80px 0;
     bottom: 0;
     left: 0;
