@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_company}">
+<head>
+  <link rel="stylesheet" type="text/css" href="/css/company/company_greeting.css">
+</head>
+<div layout:fragment="content">
+    <div class="container">
+        <h6 style="text-align: right">회사소개 > <strong>인사말</strong></h6>
+    </div>
+    <!-- 인사말 start -->
+    <div class="container">
+        <h1><strong>인사말</strong></h1>
+        <div class="point"></div>
+        <div class="row align-items-center py-5">
+            <div class="col-md-6">
+                <h4 class="greeting_custom_h4">"신뢰를 기반으로 고객과 함께 성장하겠습니다."</h4>
+                <p class="greeting_custom_p1">여러분의 공간은 우리의 열망과 노력의 대상입니다.<br/>
+                    우리는 예초 관리 분야에서 선도적인 서비스를 제공하는 회사로,<br/>
+                    아름다운 환경을 창조하고 유지하는 것을 사명으로 삼고 있습니다.<br/>
+                    우리의 예초 서비스는 어떻게 여러분의 공간을 더 아름답게 만들어 줄 수<br/> 있는지에 대한
+                    열정과 전문성을 갖추고 있습니다. <br/><br/>"우리는 최신 기술과 노하우를 적극적으로 활용하여 예초 관리를<br/> 더 효과적으로 수행합니다."
+                </p>
+                <p class="greeting_custom_p2">
+                    <strong>고팡(주)</strong><br/>
+                    직원일동
+                </p>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <img src="/img/company.jpg" class="img-fluid rounded mb-3 greeting_custom_img" alt="드론 이미지">
+            </div>
+        </div>
+    </div>
+  <!-- 인사말 end -->
+
+</div>
+
+
+</html>

@@ -4,33 +4,60 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout_company}">
 <head>
-  <link rel="stylesheet" type="text/css" href="/css/company/company_greeting.css">
+    <link rel="stylesheet" type="text/css" href="/css/company/company_info.css">
 </head>
 <div layout:fragment="content">
-
-    <!-- 인사말 start -->
-    <div class="container py-5" data-aos="fade-up" data-aos-duration="1500">
-        <h1><strong>인사말</strong></h1>
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <h4 class="greeting_custom_h4">"신뢰를 기반으로 고객과 함께 성장하겠습니다."</h4>
-                <p class="greeting_custom_p1">여러분의 공간은 우리의 열망과 노력의 대상입니다.<br/>
-                    우리는 예초 관리 분야에서 선도적인 서비스를 제공하는 회사로,<br/>
-                    아름다운 환경을 창조하고 유지하는 것을 사명으로 삼고 있습니다.<br/>
-                    우리의 예초 서비스는 어떻게 여러분의 공간을 더 아름답게 만들어 줄 수<br/> 있는지에 대한
-                    열정과 전문성을 갖추고 있습니다. <br/><br/>우리는 최신 기술과 노하우를 활용하여 식물들이 건강하게 자랄 수 있는 <br/>최상의 조건을 제공합니다.
-                </p>
-                <p class="greeting_custom_p2">
-                    고팡(주)<br/>
-                    직원일동
-                </p>
-            </div>
-            <div class="col-md-6 d-flex justify-content-center align-items-center">
-                <img src="/img/company.jpg" class="img-fluid rounded mb-3 greeting_custom_img" alt="드론 이미지">
-            </div>
+    <div class="container">
+        <h6 style="text-align: right">회사소개 > <strong>회사개요</strong></h6>
+    </div>
+    <!-- 회사개요 start -->
+    <div class="container">
+        <h1><strong>회사개요</strong></h1>
+        <div class="point"></div>
+        <div class="py-5">
+            <table class="table">
+                <tbody>
+                <tr style="border-top: solid 4px black">
+                    <th>회사명</th>
+                    <td>고팡(주)</td>
+                </tr>
+                <tr>
+                    <th>대표자</th>
+                    <td>현홍준</td>
+                </tr>
+                <tr>
+                    <th>설립연도</th>
+                    <td>2020년 8월 11일</td>
+                </tr>
+                <tr>
+                    <th>주소</th>
+                    <td>제주특별자치도 제주시 첨단로 213-65, 405호</td>
+                </tr>
+                <tr>
+                    <th>홈페이지</th>
+                    <td><a href="https://www.igopang.com/" target="_blank">https://www.igopang.com/</a> </td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td>gopang811@naver.com</td>
+                </tr>
+                <tr>
+                    <th>연락처</th>
+                    <td>대표번호 064)755-0811, fax 070)8147-0726</td>
+                </tr>
+                <tr>
+                    <th>사업분야</th>
+                    <td>
+                        IT BT: 혁신적이고 창의적인 솔루션 개발 <br/>
+                        화장품 판매업: 화장품 판매 <br/>
+                        예초: 아파트 단지, 묘지, 기관등 예초 서비스
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-  <!-- 인사말 end -->
+    <!-- 회사개요 end -->
 
 </div>
 

@@ -22,7 +22,9 @@
       <ul>
         <li class="dropdown"><a href="#"><span>회사소개</span></a>
           <ul>
-            <li><a th:href="@{/company/company_info}">회사소개</a></li>
+            <li><a th:href="@{/company/greeting}">인사말</a></li>
+            <li><a th:href="@{/company/info}">회사개요</a></li>
+            <li><a href="#" th:href="@{/company/map}">오시는길</a></li>
           </ul>
         </li>
         <li class="dropdown"><a href="#"><span>예초·벌초</span></a>
@@ -37,11 +39,10 @@
 <!--            <li><a id="showAlert" href="#" >물품판매</a></li>-->
           </ul>
         </li>
-        <li class="dropdown"><a href="#"><span>고객센터</span></a>
+        <li class="dropdown"><a href="#"><span>고객지원</span></a>
           <ul>
             <li><a href="#" th:href="@{/community/ntcs}">공지사항</a></li>
             <li><a href="#" th:href="@{/community/qnas}">Q&A</a></li>
-            <li><a href="#" th:href="@{/community/companyMap}">오시는 길</a></li>
           </ul>
         </li>
 

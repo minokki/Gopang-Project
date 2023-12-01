@@ -15,4 +15,10 @@
     height: 420px;
     width: 640px;
 }
-
+.point {
+    width: 100px;
+    height: 3px;
+    background-color: #1d7151;
+    display: block;
+    margin-left: 4px;
+}

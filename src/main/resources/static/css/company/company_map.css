@@ -1,0 +1,55 @@
+.point {
+    width: 135px;
+    height: 3px;
+    background-color: #1d7151;
+    display: block;
+    margin-left: 4px;
+}
+.iw_inner {
+    padding: 15px;
+    font-size: 12px;
+}
+
+.iw_inner h3 {
+    border-bottom: 1px solid black;
+    padding: 5px;
+}
+
+.iw_inner img {
+    float: right;
+    margin-bottom: 10px;
+}
+
+/* Contact */
+.btn-square {
+    width: 100px;
+    height: 100px;
+    border: 20px solid #1d7151;
+    border-radius: 50px;
+}
+
+.btn-square {
+    width: 50px;
+    height: 50px;
+}
+
+.btn-sm-square {
+    width: 32px;
+    height: 32px;
+}
+
+.btn-lg-square {
+    width: 48px;
+    height: 48px;
+}
+
+.btn-square,
+.btn-sm-square,
+.btn-lg-square {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: normal;
+}
+

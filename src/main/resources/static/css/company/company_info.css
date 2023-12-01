@@ -1,0 +1,19 @@
+td{
+    margin-left: 100px;
+    padding: 20px!important;
+}
+th{
+    text-align: center;
+    padding: 20px!important;
+}
+tr{
+    font-size: 20px;
+    opacity: 0.7;
+}
+.point {
+    width: 135px;
+    height: 3px;
+    background-color: #1d7151;
+    display: block;
+    margin-left: 4px;
+}
