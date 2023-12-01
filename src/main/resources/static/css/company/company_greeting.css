@@ -1,0 +1,18 @@
+.greeting_custom_h4{
+    color: #1d7151;
+    padding-bottom: 20px;
+}
+.greeting_custom_p1{
+    font-size: 20px;
+    opacity: 0.7;
+}
+.greeting_custom_p2{
+    text-align: right;
+    margin-right: 20px;
+    font-size: 20px;
+}
+.greeting_custom_img{
+    height: 420px;
+    width: 640px;
+}
+
