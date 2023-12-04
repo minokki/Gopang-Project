@@ -102,6 +102,14 @@ a {
         padding-bottom:40px;
     }
 }
+@media (max-width:1024px) {
+    .main > .main-container {
+        margin-left:30px;
+        margin-right:30px;
+        padding-top:40px;
+        padding-bottom:40px;
+    }
+}
 
 @media (max-width:767px) {
     .main-3 > .main-container {
