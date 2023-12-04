@@ -4,8 +4,26 @@ table {
     margin-bottom: 1rem;
 }
 
-th, td,tr {
+th, td, tr {
     padding: 1rem;
     text-align: left;
     border: 1px solid #ddd;
 }
+
+/* 제목 컨테이너 스타일링 */
+.title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+/* 제목 양 옆에 구분선 스타일링 */
+.title-container::before,
+.title-container::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #ccc;
+    margin: 0 5%; /* 왼쪽 및 오른쪽 여백을 5%로 설정 */
+}
+
