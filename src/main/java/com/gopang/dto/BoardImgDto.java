@@ -1,13 +1,13 @@
 package com.gopang.dto;
 
-import com.gopang.entity.BoardMainImg;
+import com.gopang.entity.BoardImg;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 @Getter
 @Setter
-public class BoardMainImgDto {
+public class BoardImgDto {
     private Long id;
 
     private String imgName;
@@ -20,7 +20,7 @@ public class BoardMainImgDto {
 
     private static ModelMapper modelMapper = new ModelMapper();
 
-    public static BoardMainImgDto ofv(BoardMainImg boardMainImg) {
-        return modelMapper.map(boardMainImg, BoardMainImgDto.class);
+    public static BoardImgDto ofv(BoardImg boardImg) {
+        return modelMapper.map(boardImg, BoardImgDto.class);
     }
 }

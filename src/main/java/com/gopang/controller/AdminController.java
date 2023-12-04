@@ -1,9 +1,12 @@
 package com.gopang.controller;
 
 import com.gopang.account.CurrentUser;
+import com.gopang.dto.BoardSearchDto;
 import com.gopang.dto.MemberSearchDto;
 import com.gopang.entity.Account;
+import com.gopang.entity.Board;
 import com.gopang.service.AccountService;
+import com.gopang.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +24,7 @@ public class AdminController {
 
     private final AccountService accountService;
 
-//    private final BoardMainService boardMainService;
+    private final BoardService boardService;
 
 
     /* 회원목록 */
@@ -54,17 +57,17 @@ public class AdminController {
 //    }
 
     /* 시공사례 목록(ADMIN) */
-//    @GetMapping(value = {"/admin/boardMains", "/admin/boardMains/{page}"})
-//    public String boardMainManage(@CurrentUser Account account, BoardSearchDto boardSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
-//        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
-//
-//        Page<BoardMain> boardMains = boardMainService.getAdminBoardMainPage(boardSearchDto, pageable);
-//        model.addAttribute(account);
-//        model.addAttribute("boardMains", boardMains);
-//        model.addAttribute("boardSearchDto", boardSearchDto);
-//        model.addAttribute("maxPage", 5);
-//        return "boardMain/board_mng";
-//    }
+    @GetMapping(value = {"/admin/board/main", "/admin/board/main/{page}"})
+    public String boardMainManage(@CurrentUser Account account, BoardSearchDto boardSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
+
+        Page<Board> board = boardService.getAdminBoardPage(boardSearchDto, pageable);
+        model.addAttribute(account);
+        model.addAttribute("board", board);
+        model.addAttribute("boardSearchDto", boardSearchDto);
+        model.addAttribute("maxPage", 5);
+        return "board/board_mng";
+    }
 
 
 

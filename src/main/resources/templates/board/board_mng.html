@@ -12,7 +12,7 @@
       </div>
 
       <div class="col-8">
-        <form th:action="@{'/admin/boardMain/' + ${boardMains.number}}" role="form" method="get" th:object="${boardMains}">
+        <form th:action="@{'/admin/board/' + ${board.number}}" role="form" method="get" th:object="${board}">
           <h1>시공사례 검색</h1>
           <table class="table">
             <thead>
@@ -24,32 +24,32 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="boardMain : ${boardMains.getContent()}">
-              <td th:text="${boardMain.id}"></td>
+            <tr th:each="board : ${board.getContent()}">
+              <td th:text="${board.id}"></td>
               <td>
-                <a th:href="'/admin/boardMain/'+${boardMain.id}" th:text="${boardMain.title}"></a>
+                <a th:href="'/admin/board/'+${board.id}" th:text="${board.title}"></a>
               </td>
-              <td th:text="${boardMain.createBy}"></td>
-              <td th:text="${boardMain.regTime != null ? #temporals.format(boardMain.regTime, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
+              <td th:text="${board.createBy}"></td>
+              <td th:text="${board.regTime != null ? #temporals.format(board.regTime, 'yyyy-MM-dd HH:mm:ss') : ''}"></td>
             </tr>
             </tbody>
           </table>
 
-          <div th:with="start=${(boardMains.number/maxPage)*maxPage + 1}, end=(${(boardMains.totalPages == 0) ? 1 : (start + (maxPage - 1) < boardMains.totalPages ? start + (maxPage - 1) : boardMains.totalPages)})" >
+          <div th:with="start=${(board.number/maxPage)*maxPage + 1}, end=(${(board.totalPages == 0) ? 1 : (start + (maxPage - 1) < board.totalPages ? start + (maxPage - 1) : board.totalPages)})" >
             <ul class="pagination justify-content-center">
 
-              <li class="page-item" th:classappend="${boardMains.first}?'disabled'">
-                <a th:onclick="'javascript:page(' + ${boardMains.number - 1} + ')'" aria-label='Previous' class="page-link">
+              <li class="page-item" th:classappend="${board.first}?'disabled'">
+                <a th:onclick="'javascript:page(' + ${board.number - 1} + ')'" aria-label='Previous' class="page-link">
                   <span aria-hidden='true'>Previous</span>
                 </a>
               </li>
 
-              <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${boardMains.number eq page-1}?'active':''">
+              <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${board.number eq page-1}?'active':''">
                 <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
               </li>
 
-              <li class="page-item" th:classappend="${boardMains.last}?'disabled'">
-                <a th:onclick="'javascript:page(' + ${boardMains.number + 1} + ')'" aria-label='Next' class="page-link">
+              <li class="page-item" th:classappend="${board.last}?'disabled'">
+                <a th:onclick="'javascript:page(' + ${board.number + 1} + ')'" aria-label='Next' class="page-link">
                   <span aria-hidden='true'>Next</span>
                 </a>
               </li>
@@ -97,7 +97,7 @@
       var searchBy = $("#searchBy").val();
       var searchQuery = $("#searchQuery").val();
 
-      location.href="/admin/boardMains/" + page + "?searchDateType=" + searchDateType
+      location.href="/admin/board/" + page + "?searchDateType=" + searchDateType
               + "&searchBy=" + searchBy
               + "&searchQuery=" + searchQuery;
     }

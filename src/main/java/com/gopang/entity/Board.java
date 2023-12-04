@@ -1,6 +1,6 @@
 package com.gopang.entity;
 
-import com.gopang.dto.BoardMainFormDto;
+import com.gopang.dto.BoardFormDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,15 +8,15 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "board_main")
+@Table(name = "board")
 @Getter
 @Setter
 @ToString
-public class BoardMain extends BaseEntity {
+public class Board extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "board_main_id")
+    @Column(name = "board_id")
     private Long id;
 
     @Column(nullable = false,length = 50)
@@ -29,7 +29,7 @@ public class BoardMain extends BaseEntity {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private Long views = 0L;
 
-    public void updateBoardMain(BoardMainFormDto boardMainFormDto) {
+    public void updateBoard(BoardFormDto boardMainFormDto) {
         this.title = boardMainFormDto.getTitle();
         this.content = boardMainFormDto.getContent();
     }

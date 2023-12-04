@@ -5,60 +5,15 @@
       layout:decorate="~{layouts/layout_community}">
 
 <head>
-  <style>
-    /* 컨테이너 스타일링 */
-    .container {
-      padding: 20px;
-      font-size: 18px;
-    }
-
-    /* 링크 스타일링 */
-    a {
-      color: #333;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .table td {
-      padding: 18px 18px;
-    }
-
-    .write_info td {
-      text-align: center;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-    }
-
-    /* 제목 컨테이너 스타일링 */
-    .title-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 30px;
-    }
-
-    /* 제목 양 옆에 구분선 스타일링 */
-    .title-container::before,
-    .title-container::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background-color: #ccc;
-      margin: 0 5%; /* 왼쪽 및 오른쪽 여백을 5%로 설정 */
-
-    }
-    .important_custom td{
-      background-color: #f2f2f2;
-      font-weight: bold;
-      /* 원하는 스타일 추가 */
-    }
-
-  </style>
+  <link rel="stylesheet" type="text/css" href="/css/community/community_ntc.css">
 </head>
 <div layout:fragment="content">
 
   <div class="container">
+    <h6 style="text-align: right">고객지원 > <strong>공지사항</strong></h6>
+  </div>
+  <div class="container" style="min-height: 600px">
     <div class="row">
-
       <form th:action="@{'/ntcs/' + ${ntcs.number}}" role="form" method="get" th:object="${ntcs}">
         <div class="title-container">
           <h1 class="text-center">공지사항</h1>

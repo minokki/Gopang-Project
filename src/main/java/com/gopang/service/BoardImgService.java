@@ -1,10 +1,9 @@
 package com.gopang.service;
 
-import com.gopang.entity.BoardMainImg;
+import com.gopang.entity.BoardImg;
 import com.gopang.file.S3Uploader;
-import com.gopang.repository.BoardMainImgRepository;
+import com.gopang.repository.BoardImgRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,13 +15,13 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class BoardMainImgService {
+public class BoardImgService {
 
-    private final BoardMainImgRepository boardMainImgRepository;
+    private final BoardImgRepository boardImgRepository;
     private final S3Uploader s3Uploader;
 
     /* 이미지 저장 */
-    public void saveBoardMainImg(BoardMainImg boardMainImg, MultipartFile multipartFile) throws IOException {
+    public void saveBoardImg(BoardImg boardImg, MultipartFile multipartFile) throws IOException {
         String oriImgName = multipartFile.getOriginalFilename();
         String imgName = "";
         String imgUrl = "";
@@ -34,18 +33,18 @@ public class BoardMainImgService {
         }
 
         // 상품 이미지 정보 저장
-        boardMainImg.updateBoardMainImg(oriImgName, imgName, imgUrl);
-        boardMainImgRepository.save(boardMainImg);
+        boardImg.updateBoardImg(oriImgName, imgName, imgUrl);
+        boardImgRepository.save(boardImg);
     }
 
     /* 이미지 UPDATE */
-    public void updateBoardMainImg(Long boardMainImgId, MultipartFile multipartFile) throws IOException {
+    public void updateBoardImg(Long boardImgId, MultipartFile multipartFile) throws IOException {
         if (!multipartFile.isEmpty()) {
-            BoardMainImg savedBoardMainImg = boardMainImgRepository.findById(boardMainImgId).orElseThrow(EntityNotFoundException::new);
+            BoardImg savedBoardImg = boardImgRepository.findById(boardImgId).orElseThrow(EntityNotFoundException::new);
 
             // 기존 이미지 삭제
-            if (savedBoardMainImg.getImgUrl() != null) {
-                s3Uploader.deleteFile(savedBoardMainImg.getImgUrl());
+            if (savedBoardImg.getImgUrl() != null) {
+                s3Uploader.deleteFile(savedBoardImg.getImgUrl());
             }
 
             // S3에 새 이미지 업로드
@@ -53,7 +52,7 @@ public class BoardMainImgService {
             String newImgUrl = "/images/board/" + newImgName;
 
             // 이미지 정보 업데이트
-            savedBoardMainImg.updateBoardMainImg(multipartFile.getOriginalFilename(), newImgName, newImgUrl);
+            savedBoardImg.updateBoardImg(multipartFile.getOriginalFilename(), newImgName, newImgUrl);
         }
     }
 }

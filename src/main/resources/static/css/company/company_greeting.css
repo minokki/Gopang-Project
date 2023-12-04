@@ -1,5 +1,5 @@
 .greeting_custom_h4{
-    color: #1d7151;
+    color: #6199e3;
     padding-bottom: 20px;
 }
 .greeting_custom_p1{
@@ -18,7 +18,7 @@
 .point {
     width: 100px;
     height: 3px;
-    background-color: #1d7151;
+    background-color: #6199e3;
     display: block;
     margin-left: 4px;
 }

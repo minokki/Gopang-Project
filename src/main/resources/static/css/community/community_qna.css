@@ -1,0 +1,26 @@
+/* 링크 스타일링 */
+a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.table td {
+    padding: 12px 12px;
+}
+/* 제목 컨테이너 스타일링 */
+.title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+/* 제목 양 옆에 구분선 스타일링 */
+.title-container::before,
+.title-container::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #ccc;
+    margin: 0 5%; /* 왼쪽 및 오른쪽 여백을 5%로 설정 */
+
+}

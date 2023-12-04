@@ -15,8 +15,8 @@
 <div th:fragment="account-menu (accountMenu)" class="list-group">
   <a class="list-group-item list-group-item-action" th:classappend="${accountMenu == 'profile'}? active" href="#"
      th:href="@{'/profile/' + ${#authentication.name}}">소개</a>
-  <a class="list-group-item list-group-item-action" th:classappend="${accountMenu == 'order'}? active" href="#"
-     th:href="@{/orders}">장바구니</a>
+<!--  <a class="list-group-item list-group-item-action" th:classappend="${accountMenu == 'order'}? active" href="#"-->
+<!--     th:href="@{/orders}">장바구니</a>-->
 </div>
 
 <!-- admin-menu -->

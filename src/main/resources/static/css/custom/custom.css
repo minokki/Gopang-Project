@@ -3,15 +3,8 @@ a {
     text-decoration-line: none;
 }
 .container{
-    margin-top: 2%; overflow: hidden; position: relative;
+    margin-top: 2%; margin-bottom: 2%; overflow: hidden; position: relative;
 }
-#container_community{
-    margin-top: 2%; overflow: hidden; position: relative;
-    /*max-width:1520px;*/
-    min-height: 700px;
-    margin-bottom: 50px; padding: 24px 24px;
-}
-
 .new_button {
     position: relative;
     right: 0;
@@ -27,12 +20,6 @@ a {
 .paging{
     padding-bottom: 100px;
 }
-
-/*@media (min-width: 1400px) {*/
-/*    container{*/
-/*        max-width:1520px !important;*/
-/*    }*/
-/*}*/
 
 /* 링크에 대한 공통 스타일 */
 .styled-link {

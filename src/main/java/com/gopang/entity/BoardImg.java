@@ -8,14 +8,14 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "board_main_img")
+@Table(name = "board_img")
 @Getter
 @Setter
 @NoArgsConstructor
-public class BoardMainImg extends BaseEntity {
+public class BoardImg extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "board_main_img_id")
+    @Column(name = "board_img_id")
     private Long id;
 
     private String imgName; //이미지파일명
@@ -28,10 +28,10 @@ public class BoardMainImg extends BaseEntity {
     private Example example;  // before,after 이미지
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_main_id")
-    private BoardMain boardMain;
+    @JoinColumn(name = "board_id")
+    private Board board;
 
-    public void updateBoardMainImg(String imgName, String oriImgName, String imgUrl) {
+    public void updateBoardImg(String imgName, String oriImgName, String imgUrl) {
         this.imgName = imgName;
         this.oriImgName = oriImgName;
         this.imgUrl = imgUrl;
