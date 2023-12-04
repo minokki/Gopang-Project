@@ -36,7 +36,7 @@ public class SecurityConfig {
         return http.authorizeRequests()
                 .mvcMatchers("/", "/login", "/sign-up", "/check-email-token","/login-by-email",
                         "/email-login", "/check-email-login","terms","/company/*", "login-link", "/profile/*").permitAll()
-                .mvcMatchers("/boardMain/*","/item/*","/community/*","/community/qna/*","/community/ntc/*")
+                .mvcMatchers("/board/*","/item/*","/community/*","/community/qna/*","/community/ntc/*")
                 .permitAll()
                 .mvcMatchers(HttpMethod.GET, "/profile/*").permitAll()
                 .mvcMatchers("/images/**").permitAll()
