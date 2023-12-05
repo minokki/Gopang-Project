@@ -126,8 +126,8 @@ public class QnaController {
         model.addAttribute("qna", dto);
 
         // 작성자와 현재 사용자를 비교하여 수정 버튼을 표시할지 여부를 결정 (닉네임으로 판단)
-        boolean isAuthor = account.getNickname().equals(dto.getWriter());
-        model.addAttribute("isAuthor", isAuthor);
+//        boolean isAuthor = account.getNickname().equals(dto.getWriter());
+//        model.addAttribute("isAuthor", isAuthor);
 
         return "community/community_qna_detail";
     }

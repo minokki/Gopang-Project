@@ -27,3 +27,14 @@ th, td, tr {
     margin: 0 5%; /* 왼쪽 및 오른쪽 여백을 5%로 설정 */
 }
 
+.bullet::before {
+    content: "\2022"; /* Unicode character for bullet point */
+    margin-right: 8px; /* 조절 가능한 여백을 추가합니다. */
+}
+.point {
+    width: 60px;
+    height: 3px;
+    background-color: #45639d;
+    display: block;
+    margin-left: 2px;
+}

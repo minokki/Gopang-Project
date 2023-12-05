@@ -21,53 +21,31 @@
         <table class="table table-hover table_custom">
           <thead class="table-dark">
           <tr>
-            <td>게시글 번호</td>
-            <td>제목</td>
-            <td>작성자</td>
-            <td>작성일</td>
-            <td>조회수</td>
+            <td class="text-center">번호</td>
+            <td class="text-center">제목</td>
+            <td class="text-center">작성자</td>
+            <td class="text-center">작성일</td>
+            <td class="text-center">조회수</td>
           </tr>
           </thead>
           <tbody>
           <tr th:each="ntc : ${ntcs.getContent()}" th:class="${ntc.isImportant eq 'Y'} ? 'important_custom' : ''">
-            <td th:text="${ntc.isImportant eq 'N' ? ntc.id : '공지'}"></td>
-            <td>
+            <td class="text-center" th:text="${ntc.isImportant eq 'N' ? ntc.id : '공지'}"></td>
+            <td class="text-center" >
               <a th:href="'/community/ntc/'+${ntc.id}">
                 <span th:if="${ntc.isImportant == 'Y'}">※&nbsp;</span>
                 <span th:text="${ntc.title}"></span>
                 <!--                                    <span th:if="${ntc.isImportant == 'Y'}"> ─</span>-->
               </a>
             </td>
-            <td th:text="${ntc.createBy}"></td>
-            <td th:text="${ntc.regTime != null ? #temporals.format(ntc.regTime, 'yyyy-MM-dd') : ''}"></td>
-            <td th:text="${ntc.views}">조회수</td>
+            <td class="text-center" th:text="${ntc.createBy}"></td>
+            <td class="text-center" th:text="${ntc.regTime != null ? #temporals.format(ntc.regTime, 'yyyy-MM-dd') : ''}"></td>
+            <td class="text-center" th:text="${ntc.views}">조회수</td>
           </tr>
           </tbody>
         </table>
         <div style="padding: 20px; background-color: #f7f7f7; margin-bottom: 50px; display: flex; justify-content: flex-end; gap: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
           <a th:if="${#request.isUserInRole('ADMIN')}" href="/admin/ntc/new" class="styled-link">게시글 작성</a>
-        </div>
-
-        <div class="form-inline justify-content-center" th:object="${ntcSearchDto}" style="display: flex; flex-wrap: wrap; margin-bottom: 30px">
-          <div style="display: flex; align-items: center; margin-right: 10px;">
-            <select th:field="*{searchDateType}" class="form-control" style="width:auto;">
-              <option value="all">전체기간</option>
-              <option value="1d">1일</option>
-              <option value="1w">1주</option>
-              <option value="1m">1개월</option>
-              <option value="6m">6개월</option>
-            </select>
-          </div>
-          <div style="display: flex; align-items: center; margin-right: 10px;">
-            <select th:field="*{searchBy}" class="form-control" style="width:auto;">
-              <option value="title">제목</option>
-              <option value="createdBy">등록자</option>
-            </select>
-          </div>
-          <div style="display: flex; align-items: center; margin-right: 10px;">
-            <input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력해주세요">
-          </div>
-          <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
         </div>
 
         <div class="paging_custom" th:with="start=${(ntcs.number/maxPage)*maxPage + 1}, end=(${(ntcs.totalPages == 0) ? 1 : (start + (maxPage - 1) < ntcs.totalPages ? start + (maxPage - 1) : ntcs.totalPages)})">
@@ -93,6 +71,28 @@
             </li>
 
           </ul>
+        </div>
+
+        <div class="form-inline justify-content-center" th:object="${ntcSearchDto}" style="display: flex; flex-wrap: wrap; margin-bottom: 30px">
+          <div style="display: flex; align-items: center; margin-right: 10px;">
+            <select th:field="*{searchDateType}" class="form-control" style="width:auto;">
+              <option value="all">전체기간</option>
+              <option value="1d">1일</option>
+              <option value="1w">1주</option>
+              <option value="1m">1개월</option>
+              <option value="6m">6개월</option>
+            </select>
+          </div>
+          <div style="display: flex; align-items: center; margin-right: 10px;">
+            <select th:field="*{searchBy}" class="form-control" style="width:auto;">
+              <option value="title">제목</option>
+              <option value="createdBy">등록자</option>
+            </select>
+          </div>
+          <div style="display: flex; align-items: center; margin-right: 10px;">
+            <input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력해주세요">
+          </div>
+          <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
         </div>
 
 

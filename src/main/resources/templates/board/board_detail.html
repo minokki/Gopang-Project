@@ -59,7 +59,7 @@
       <a href="#" th:if="${#request.isUserInRole('ADMIN')}" th:href="@{'/admin/board/' + ${boardId}}" class="styled-link">
         수정
       </a>
-      <a href="#" th:href="@{/templates/board/mains}" class="styled-link">
+      <a href="#" th:href="@{/board/main}" class="styled-link">
         리스트
       </a>
     </div>
