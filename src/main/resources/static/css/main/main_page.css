@@ -5,6 +5,10 @@ a {
     color:inherit;
     text-decoration:none;
 }
+ul,li{
+    list-style-type: none;
+}
+
 
 ::marker {
     content: none;
