@@ -748,7 +748,9 @@ ul,li{
         top:2%;
         left:2%;
     }
+
 }
+
 
 /* top-link - 시작 */
 .top-link {
@@ -764,6 +766,13 @@ ul,li{
 .top-link > i {
     color:#719430;
     font-weight:800;
+}
+@media screen and (max-width:768px){
+    /* top-link - 시작 */
+    .top-link {
+        right:10px;
+    }
+
 }
 
 /* 메인 - 3 시작 */
@@ -804,7 +813,7 @@ ul,li{
     right:0;
 }
 
-@media (max-width:989px) {
+@media screen and (max-width:989px) {
     .main-3.active-on-visible::before {
         display:none;
     }
@@ -847,26 +856,26 @@ ul,li{
     font-weight: 300;
 }
 
-@media (max-width:1679px) {
+@media screen and (max-width:1679px) {
     .main-3 .title-box {
         font-size:1em;
     }
 
 }
 
-@media (max-width:1365px) {
+@media screen and (max-width:1365px) {
     .main-3 .title-box {
         font-size:.7em;
     }
 }
 
-@media (max-width:989px) {
+@media screen and (max-width:989px) {
     .main-3 .title-box {
         font-size:.5em;
     }
 }
 
-@media (max-width:767px) {
+@media screen and (max-width:767px) {
     .main-3 .title-box {
         margin-top: 50px;
         font-size:.5em;
@@ -877,7 +886,7 @@ ul,li{
 }
 
 
-@media (max-width:767px) {
+@media screen and (max-width:767px) {
     .main-3 .main-3-bg .web-bg {
         display:none;
     }
@@ -898,7 +907,7 @@ ul,li{
     }
 }
 
-@media (min-width:768px) {
+@media screen and (min-width:768px) {
     .main-3 .main-3-bg .mobile-bg {
         display:none;
     }
@@ -915,14 +924,14 @@ ul,li{
     background-size:100%;
 }
 
-@media (max-width:1679px) {
+@media screen and (max-width:1679px) {
     .middle-img {
         height: 500px;
     }
 
 }
 
-@media (max-width:1365px) {
+@media screen and (max-width:1365px) {
     .middle-img {
         height: 400px;
     }
@@ -931,7 +940,7 @@ ul,li{
     }
 }
 
-@media (max-width:989px) {
+@media screen and (max-width:989px) {
     .middle-img {
         height: 300px;
         background-size: cover;
@@ -940,7 +949,7 @@ ul,li{
     }
 }
 
-@media (max-width:767px) {
+@media screen and (max-width:767px) {
     .middle-img {
         height: 200px;
         background-size: cover;
@@ -949,7 +958,7 @@ ul,li{
     }
 }
 
-@media (max-width:489px) {
+@media screen and (max-width:489px) {
     .middle-img {
         height: 100px;
         background-size: cover;
