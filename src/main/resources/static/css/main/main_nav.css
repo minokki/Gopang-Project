@@ -410,14 +410,14 @@ ul,li{
 
 }
 
-@media screen and (max-width:768px){
-    .toggle-nav .logo img {
-        width: 80%;
-        height: 70px;
-    }
-    .menu-trigger{
-        margin-right: 0px;
-        margin-bottom: 0px;
-    }
+/*@media screen and (max-width:768px){*/
+/*    .toggle-nav .logo img {*/
+/*        width: 80%;*/
+/*        height: 70px;*/
+/*    }*/
+/*    .menu-trigger{*/
+/*        margin-right: 0px;*/
+/*        margin-bottom: 0px;*/
+/*    }*/
 
-}
+/*}*/
