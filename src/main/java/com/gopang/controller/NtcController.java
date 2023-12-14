@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -112,6 +113,11 @@ public class NtcController {
         return "community/community_ntc_detail";
     }
 
+    @GetMapping(value = "/admin/ntc/delete/{ntcId}")
+    public String ntcDelete(@PathVariable("ntcId") Long ntcId){
+        ntcService.deleteNtc(ntcId);
+        return "redirect:/community/ntcs";
+    }
 
 
 }

@@ -20,6 +20,8 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -124,4 +126,5 @@ public class BoardService {
             throw new EntityNotFoundException("게시물을 찾을 수 없습니다."); // 예외 처리
         }
     }
+
 }

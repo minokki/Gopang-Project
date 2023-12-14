@@ -10,13 +10,13 @@ a {
     right: 0;
     bottom: 5%;
 }
-.needs-validation{
-    display: flex;
-    justify-content: flex-end;
-}
-.needs-validation button{
-    font-size: 20px;
-}
+/*.needs-validation{*/
+/*    display: flex;*/
+/*    justify-content: flex-end;*/
+/*}*/
+/*.needs-validation button{*/
+/*    font-size: 20px;*/
+/*}*/
 .paging{
     padding-bottom: 100px;
 }

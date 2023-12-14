@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>벌초박사</title>
+  <!-- meta -->
+  <meta property="og:url" content="Gopang-web-env.eba-p8kmipch.ap-northeast-2.elasticbeanstalk.com" />
+  <meta property="og:title" content="벌초박사" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="http://gopang-web-env.eba-p8kmipch.ap-northeast-2.elasticbeanstalk.com/img/kakao_img.png"/>
+  <meta property="og:image:width" content="800"/>
+  <meta property="og:image:height" content="400"/>
+  <meta property="og:description" content="벌초박사" />
+  <!-- 네이버 서치어드바이저 페이지설명  -->
+  <meta name="description" content=""/>
+  <!-- 파비콘 -->
+  <link rel="shortcut icon" href="/assets/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+  <link rel="manifest" href="/assets/site.webmanifest">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <!-- 부트스트랩 -->
+  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+  <!-- 폰트 어썸 6 버전 아이콘 스타일시트 -->
+  <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+  <!-- 부트스트랩 js -->
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- 제이쿼리 -->
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <!--  css -->
+  <link rel="stylesheet" type="text/css" href="/css/main/main_nav.css">
+  <!--  css -->
+  <link rel="stylesheet" type="text/css" href="/css/main/main_footer.css">
+  <!--  css -->
+  <link rel="stylesheet" type="text/css" href="/css/carousel/carousel.css">
+  <!-- navbar js -->
+  <script src="/js/main_nav.js"></script>
+  <!-- carousel js -->
+  <script src="/js/carousel.js"></script>
+  <!-- jdenticon(프로필사진) DOMContentLoaded 후에 배치해야 작동 -->
+  <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js" async
+          integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M" crossorigin="anonymous">
+  </script>
+
+</head>
+<body>
+<div th:replace="~{fragments/header::header}"></div>
+<div th:replace="~{fragments/carousel :: board_carousel}" class="carousel"></div>
+<div layout:fragment="content">
+  컨텐츠 영역
+
+</div>
+
+<div th:replace="~{fragments/footer::main-footer}"></div>
+
+</body>
+</html>

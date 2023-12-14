@@ -35,7 +35,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeRequests()
                 .mvcMatchers("/", "/login", "/sign-up", "/check-email-token","/login-by-email",
-                        "/email-login", "/check-email-login","terms","/company/*", "login-link", "/profile/*").permitAll()
+                        "/email-login", "/check-email-login","terms","/company/*", "login-link", "/profile/*","/offer/*").permitAll()
                 .mvcMatchers("/board/*","/item/*","/community/*","/community/qna/*","/community/ntc/*")
                 .permitAll()
                 .mvcMatchers(HttpMethod.GET, "/profile/*").permitAll()

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!--offer 배너-->
+<div th:fragment="offer-banner" th:if="${offer.userBanner}" class="row" id="offer-logo">
+  <img th:src="${offer.image}">
+</div>
+
+<!--offer 정보-->
+<div th:fragment="offer-info" class="row text-left justify-content-center">
+  <div class="col-6">
+    <a href="#" class="text-decoration-none" th:href="@{'/offer/' + ${offer.path}}">
+      <span class="h2" th:text="${offer.title}">작업이름</span>
+    </a>
+    <p class="read" th:text="${offer.shortDescription}"></p>
+  </div>
+  <div class="col-6" style="text-align: right">
+                <span th:if="${!offer.published}" class="d-inline-block" tabindex="0"
+                      data-toggle="tooltip" data-placement="bottom" title="작업 공개준비중">
+                    <button class="btn btn-primary btn-sm" style="pointer-events: none" type="button" disabled>DRAFT</button>
+                </span>
+    <span th:if="${offer.closed}" class="d-inline-block" tabindex="0"
+          data-toggle="tooltip" data-placement="bottom" title="작업 종료함">
+                    <button class="btn btn-primary btn-sm" style="pointer-events: none" type="button" disabled>ClOSED</button>
+                </span>
+    <span th:if="${!offer.recruiting}" class="d-inline-block ml-l" tabindex="0"
+          data-toggle="tooltip" data-placement="bottom" title="팀원모집중 아님">
+                    <button class="btn btn-primary btn-sm" style="pointer-events: none" type="button" disabled>OFF</button>
+                </span>
+    <span sec:authorize="isAuthenticated()" th:if="${offer.isJoinable(#authentication.principal)}"
+          class="btn-group" role="group" aria-label="Basic example">
+                    <a class="btn btn-primary" th:href="@{'/offer/'+${offer.path} + '/join'}">작업신청</a>
+                    <a class="btn btn-outline-primary" th:href="@{'/offer/' + ${offer.path} + '/members'}"
+                       th:text="${offer.members.size()}"></a>
+                </span>
+    <span sec:authorize="isAuthenticated()" th:if="${!offer.closed && offer.isMember(#authentication.principal)}"
+          class="btn-group" role="group">
+                    <a class="btn btn-outline-warning" th:href="@{'/offer/'+${offer.path} + '/leave'}">신청취소</a>
+                    <a class="btn btn-outline-primary" th:href="@{'/offer/' + ${offer.path} + '/members'}"
+                       th:text="${offer.members.size()}"></a>
+                </span>
+    <span sec:authorize="isAuthenticated()" th:if="${offer.published && !offer.closed && offer.isManager(#authentication.principal)}">
+                    <a class="btn btn-outline-primary" th:href="@{'/offer/' + ${offer.path} + '/new-event'}">
+                        <i class="fa fa-plus"></i>모임 만들기
+                    </a>
+                </span>
+  </div>
+</div>
+
+<!--offer 탭-->
+<div th:fragment="offer-menu (offerMenu)" class="row">
+  <div class="col-12 nav nav-tabs">
+    <a class="nav-item nav-link" th:classappend="${offerMenu == 'info'}? active" th:href="@{'/offer/' + ${offer.path}}">
+      <i class="fa fa-info-circle"></i>소개
+    </a>
+    <a class="nav-item nav-link" th:classappend="${offerMenu == 'members'}? active" th:href="@{'/offer/' + ${offer.path} + 'members'}">
+      <i class="fa fa-user"></i>신청자
+    </a>
+    <a class="nav-item nav-link" th:classappend="${offerMenu == 'events'}? active" th:href="@{'/offer/' + ${offer.path} + 'events'}">
+      <i class="fa fa-calendar"></i>모임
+    </a>
+    <a sec:authorize="isAuthenticated()" th:classappend="${offerMenu == 'settings'}? active" th:if="${offer.isManager(#authentication.principal)}"
+       class="nav-item nav-link" th:href="@{'/offer/' + ${offer.path} + 'events'}">
+      <i class="fa fa-cog"></i>설정
+    </a>
+  </div>
+</div>
+
+<!--offer 툴팁 스크립트-->
+<script th:fragment="tooltip-script">
+    $(function (){
+        console.log("Script is running!");
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+
+</html>
