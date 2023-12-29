@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_board}">
+<head>
+</head>
+<div layout:fragment="content">
+  <div class="container">
+    <h6 style="text-align: right">예초·벌초 > <strong>신청페이지</strong></h6>
+  </div>
+  <div th:replace="~{fragments/offer::offer-banner}"></div>
+
+  <div class="container" style="min-height: 600px">
+    <div th:replace="~{fragments/offer::offer-info}"></div>
+    <div th:replace="~{fragments/offer::offer-menu (offerMenu='setting')}"></div>
+    <div class="row justify-content-center">
+      <div class="col-2 pt-3">
+        <div th:replace="~{fragments/offer::offer-setting-menu(currentMenu= 'work')}"></div>
+      </div>
+      <div class="col-10">
+        <div th:replace="~{fragments/offer::message}"></div>
+        <div class="row">
+          <h5 class="col-sm-12">작업모집 공개 및 종료</h5>
+          <form th:if="${!offer.published && !offer.closed}" class="col-sm-12" action="#" th:action="@{'/offer/' + ${offer.getPath()} + '/setting/offer/publish'}" method="post" novalidate>
+            <div class="alert alert-info" role="alert">
+              게시글을 다른 사용자에게 공개할 준비가 되었다면 버튼을 클릭하세요.<br/>
+              소개, 배너 이미지를 등록했는지 확인하세요.<br/>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-outline-primary" type="submit" aria-describedby="submitHelp">게시글 공개</button>
+            </div>
+          </form>
+          <form th:if="${offer.published && !offer.closed}" class="col-sm-12" action="#" th:action="@{'/offer/' + ${offer.getPath()} + '/setting/offer/close'}" method="post" novalidate>
+            <div class="alert alert-warning" role="alert">
+              모집 활동을 마쳤다면 게시글을 종료하세요.<br/>
+              게시글을 종료하면 더이상 인원을 모집 할 수 없으며, 게시글 경로와 제목을 수정할 수 없습니다.<br/>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-outline-warning" type="submit" aria-describedby="submitHelp">작업모집 종료</button>
+            </div>
+          </form>
+          <div th:if="${offer.closed}" class="col-sm-12 alert alert-info">
+            이 작업모집은 <span class="date-time" th:text="${offer.closedDateTime}"></span>에 종료됐습니다.<br/>
+            다시 모집 진행하고 싶다면 새로운 게시글을 작성하세요<br/>
+          </div>
+        </div>
+
+        <hr th:if="${!offer.closed}"/>
+        <div class="row" th:if="${!offer.closed}">
+          <h5 class="col-sm-12">게시글 경로</h5>
+          <form class="col-sm-12 needs-validation" th:object="${offerPathForm}"  th:action="@{'/offer/' + ${offer.path} + '/setting/offer/path'}"
+                method="post" novalidate>
+            <div class="alert alert-warning" role="alert">
+              게시글 경로를 수정하면 이전에 사용하던 경로로 게시글에 접근할 수 없으니 주의하세요. <br/>
+            </div>
+            <div class="form-group">
+              <input id="path" type="text" name="newPath" th:value="${offer.path}" class="form-control"
+                     placeholder="예) study-path" aria-describedby="pathHelp" required>
+              <small id="pathHelp" class="form-text text-muted">
+                공백없이 문자, 숫자, 대시(-)와 언더바(_)만 3자 이상 20자 이내로 입력하세요. 게시글 홈 주소에 사용합니다. 예) /offer/<b>offer-path</b>
+              </small>
+              <small class="invalid-feedback">게시글 경로를 입력하세요.</small>
+              <small class="form-text text-danger" th:if="${offerPathError}" th:text="${offerPathError}" style="display: block">Path Error</small>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-outline-warning" type="submit" aria-describedby="submitHelp">경로 수정</button>
+            </div>
+          </form>
+        </div>
+
+        <hr th:if="${!offer.closed}"/>
+        <div class="row" th:if="${!offer.closed}">
+          <h5 class="col-12">게시글제목</h5>
+          <form class="needs-validation col-12" action="#" th:object="${offerTitleForm}"  th:action="@{'/offer/' + ${offer.path} + '/setting/offer/title'}" method="post" novalidate>
+            <div class="alert alert-warning" role="alert">
+              게시글제목을 수정합니다.<br/>
+            </div>
+            <div class="form-group">
+              <label for="title">작업 제목</label>
+              <input id="title" type="text" name="newTitle" th:value="${offer.title}" class="form-control"
+                     placeholder="게시글 제목" aria-describedby="titleHelp" required maxlength="50">
+              <small id="titleHelp" class="form-text text-muted">
+                게시글제목을 50자 이내로 입력하세요.
+              </small>
+              <small class="invalid-feedback">게시글 제목을 입력하세요.</small>
+              <small class="form-text text-danger" th:if="${offerTitleError}" th:text="${offerTitleError}">Title Error</small>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-outline-warning" type="submit" aria-describedby="submitHelp">게시글 제목 수정</button>
+            </div>
+          </form>
+        </div>
+
+        <hr/>
+        <div class="row" th:if="${offer.isRemovable()}">
+          <h5 class="col-sm-12 text-danger">게시글 삭제</h5>
+          <form class="col-sm-12" action="#" th:action="@{'/offer/' + ${offer.getPath()} + '/setting/offer/remove'}" method="post" novalidate>
+            <div class="alert alert-danger" role="alert">
+              게시글을 삭제하면 게시글 관련 모든 기록을 삭제하며 복구할 수 없습니다. <br/>
+              <b>다음에 해당하는 게시글은 자동으로 삭제 됩니다.</b>
+              <ul>
+                <li>만든지 1주일이 지난 비공개 게시글</li>
+              </ul>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-outline-danger" type="submit" aria-describedby="submitHelp">스터디 삭제</button>
+            </div>
+          </form>
+        </div>
+        <div class="row" th:if="${!offer.isRemovable()}">
+          <h5 class="col-sm-12 text-danger">게시글 삭제</h5>
+          <form class="col-sm-12" action="#" th:action="@{'/offer/' + ${offer.getPath()} + '/setting/offer/remove'}" method="post" novalidate>
+            <div class="alert alert-danger" role="alert">
+              공개 중이였던 게시글은 삭제할 수 없습니다.
+            </div>
+            <div class="form-group">
+              <button class="btn btn-outline-danger" type="submit" aria-describedby="submitHelp" disabled>게시글 삭제</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <!--  validation js  -->
+  <script src="/js/validation.js"></script>
+</div>
+
+</html>

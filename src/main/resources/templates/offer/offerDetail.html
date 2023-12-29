@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_board}">
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/board/board_info.css">
+</head>
+<div layout:fragment="content">
+    <div class="container">
+        <h6 style="text-align: right">예초·벌초 > <strong>신청페이지</strong></h6>
+    </div>
+    <div th:replace="~{fragments/offer::offer-banner}"></div>
+
+    <div class="container" style="min-height: 600px">
+        <div th:replace="~{fragments/offer::offer-info}"></div>
+        <div th:replace="~{fragments/offer::offer-menu (offerMenu='info')}"></div>
+        <div class="row justify-content-center">
+            <div class="col-12 pt-3" th:utext="${offer.fullDescription}"></div>
+        </div>
+        </div>
+
+    <script th:replace="~{fragments/offer::tooltip-script}"></script>
+</div>
+
+</html>

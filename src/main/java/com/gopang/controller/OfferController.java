@@ -32,33 +32,57 @@ public class OfferController {
     private final OfferRepository offerRepository;
 
     @InitBinder("offerForm")
-    public void offerFormInitBinder(WebDataBinder webDataBinder){
+    public void offerFormInitBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(offerFormValidator);
     }
 
     @GetMapping("/offer/new")
-    public String newOfferForm(@CurrentUser Account account, Model model){
+    public String newOfferForm(@CurrentUser Account account, Model model) {
         model.addAttribute(account);
         model.addAttribute(new OfferForm());
         return "offer/offerForm";
     }
 
     @PostMapping("/offer/new")
-    public String newOfferSubmit(@CurrentUser Account account, @Valid OfferForm offerForm, Errors errors){
-        if (errors.hasErrors()){
+    public String newOfferSubmit(@CurrentUser Account account, @Valid OfferForm offerForm, Errors errors) {
+        if (errors.hasErrors()) {
             return "/offer/offerForm";
         }
 
-        Offer offer = offerService.createNewOffer(modelMapper.map(offerForm,Offer.class),account);
-        return "redirect:/offer/"+ URLEncoder.encode(offer.getPath(), StandardCharsets.UTF_8) ;
+        Offer offer = offerService.createNewOffer(modelMapper.map(offerForm, Offer.class), account);
+        return "redirect:/offer/" + offer.getPath();
     }
 
     @GetMapping("/offer/{path}")
-    public String offerDetail(@CurrentUser Account account, @PathVariable String path,Model model){
+    public String offerDetail(@CurrentUser Account account, @PathVariable String path, Model model) {
+        if( account != null) {
+            model.addAttribute(account);
+        }
         Offer offer = offerRepository.findByPath(path);
         model.addAttribute("account", account);
         model.addAttribute("offer", offer);
         return "offer/offerDetail";
     }
 
+    @GetMapping("/offer/{path}/members")
+    public String offerMembers(@CurrentUser Account account, @PathVariable String path, Model model) {
+        Offer offer = offerRepository.findByPath(path);
+        model.addAttribute("account", account);
+        model.addAttribute("offer", offer);
+        return "offer/members";
+    }
+
+    @GetMapping("/offer/{path}/join")
+    public String joinOffer(@CurrentUser Account account, @PathVariable String path) {
+        Offer offer = offerRepository.findOfferWithMembersByPath(path);
+        offerService.addMember(offer, account);
+        return "redirect:/offer/" + offer.getPath();
+    }
+
+    @GetMapping("/offer/{path}/leave")
+    public String leaveOffer(@CurrentUser Account account, @PathVariable String path) {
+        Offer offer = offerRepository.findOfferWithMembersByPath(path);
+        offerService.removeMember(offer, account);
+        return "redirect:/offer/" + offer.getPath();
+    }
 }

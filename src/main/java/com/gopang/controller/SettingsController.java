@@ -28,8 +28,6 @@ public class SettingsController {
 
     private final AccountService accountService;
 
-    private final AccountRepository accountRepository;
-
     private final NicknameFormValidator nicknameValidator;
 
     @InitBinder("passwordForm")

@@ -106,8 +106,8 @@ public class BoardController {
 
 
     /*시공사레 목록 */
-    @GetMapping(value = "/board/main")
-    public String getBoard(@CurrentUser Account account, BoardSearchDto boardSearchDto, Optional<Integer> page, Model model) {
+    @GetMapping(value ={ "/board/main", "/board/main/{page}"})
+    public String getBoard(@CurrentUser Account account, BoardSearchDto boardSearchDto,@PathVariable("page") Optional<Integer> page, Model model) {
         if( account != null) {
             model.addAttribute(account);
         }

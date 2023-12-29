@@ -40,7 +40,7 @@ a {
 }
 
 .paging_custom{
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 }
 /* 페이지네이션 컴포넌트의 활성화된 페이지 번호 스타일 변경 */
 .pagination .page-item.active .page-link {

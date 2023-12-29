@@ -46,7 +46,7 @@ public class AccountService implements UserDetailsService {
         Account newAccount = saveNewAccount(signUpForm); //아래 메서드는 영속성 컨텍스트 상태임. 그 정보를 가지고 토큰 생성후 저장하려면, 트랜젝션 어노테이션 작성해줘야함
         //이메일 체크토큰 생성
         newAccount.generateEmailCheckToken();
-//        sentConfirmEmail(newAccount);
+        sentConfirmEmail(newAccount);
         return newAccount;
     }
 

@@ -128,29 +128,7 @@
     <script src="/js/validation.js"></script>
     <!-- 섬머노트 -->
     <script src="/node_modules/summernote/dist/summernote-lite.min.js"></script>
-    <script>
-      $(function () {
-        $('#summernote').summernote({
-          lang: 'ko-KR',
-          placeholder: '내용을 작성해주세요',
-          tabSize:5,
-          toolbar: [
-            ['style', ['style']],
-            ['fontsize', ['fontsize']],
-            ['font', ['bold', 'underline', 'clear']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['table', ['table']],
-            ['insert', ['picture']], // 이미지 삽입 버튼 추가
-          ],
-          fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
-          width: '100%', // 섬머노트의 가로 폭을 100%로 설정
-          height: 600,   // 섬머노트의 높이를 원하는 크기로 설정 (예: 300px)
-          disableResizeEditor: true, // 크기 조절 비활성화
-        });
-      });
-    </script>
+    <script th:replace="~{fragments/offer::summernote-script}"></script>
   </div>
-</div>
 
 </html>

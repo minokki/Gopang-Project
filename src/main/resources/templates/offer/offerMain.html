@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_board}">
+<head>
+  <link rel="stylesheet" type="text/css" href="/css/board/board_main.css">
+  <style>
+    /* 희미한 효과를 주기 위한 CSS */
+    .disabled-card {
+      opacity: 0.5; /* 투명도 조절 */
+      pointer-events: none; /* 클릭 차단 */
+    }
+  </style>
+</head>
+<div layout:fragment="content">
+  <div class="container">
+    <h6 style="text-align: right">예초·벌초 > <strong>작업신청</strong></h6>
+  </div>
+  <div class="container" style="min-height: 600px">
+    <div class="title-container">
+      <h1 class="text-center">작업신청</h1>
+    </div>
+      <div class="row">
+        <form th:action="@{'/offerMain/' + ${offer.number}}" role="form" method="get" th:object="${offer}">
+        <div class="row justify-content-center pt-3">
+          <div class="col-md-6" th:each="singleOffer: ${offer.getContent()}">
+            <div class="card mb-4 shadow-sm" th:classappend="${singleOffer.published and singleOffer.closed} ? 'disabled-card' : ''">
+              <img th:src="${singleOffer.image}" class="card-img-top" th:alt="${singleOffer.title}">
+              <div class="card-body">
+                <a th:href="@{'/offer/' + ${singleOffer.path}}" class="text-decoration-none">
+                  <h5 class="card-title context" th:text="${singleOffer.title}"></h5>
+                </a>
+                <p class="card-text" th:text="${singleOffer.shortDescription}">Short description</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    <i class="fa fa-user-circle"></i> <span th:text="${singleOffer.memberCount}+'명'"></span>
+                  </small>
+                  <span th:if="${!singleOffer.published and !singleOffer.closed}">준비중</span>
+                  <span th:if="${singleOffer.published and !singleOffer.closed}"
+                        th:text="'모집시간 : ' + ${#temporals.format(singleOffer.publishedDateTime, 'yyyy년 MM월 dd일 HH:mm')}"></span>
+                  <span th:if="${singleOffer.published and singleOffer.closed}"
+                        th:text="'마감시간 : ' + ${#temporals.format(singleOffer.closedDateTime, 'yyyy년 MM월 dd일 HH:mm')}"
+                        class="text-danger"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div style="padding: 20px; background-color: #f7f7f7; margin-bottom: 50px; display: flex; justify-content: flex-end; gap: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <a sec:authorize="hasRole('ROLE_ADMIN')" href="#" th:href="@{/offer/new}" class="styled-link">게시글 작성</a>
+          </div>
+
+        <div class="paging_custom" th:with="start=${(offer.number/maxPage)*maxPage + 1}, end=(${(offer.totalPages == 0) ? 1 : (start + (maxPage - 1) < offer.totalPages ? start + (maxPage - 1) : offer.totalPages)})">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${offer.first}?'disabled'">
+              <a th:onclick="'javascript:page(' + ${offer.number - 1} + ')'" aria-label='Previous' class="page-link" href="#">
+                <span aria-hidden='true'>&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${offer.number eq page-1}?'active':''">
+              <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link" href="#" th:text="${page}"></a>
+            </li>
+            <li class="page-item" th:classappend="${offer.last}?'disabled'">
+              <a th:onclick="'javascript:page(' + ${offer.number + 1} + ')'" aria-label='Next' class="page-link" href="#">
+                <span aria-hidden='true'>&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="form-inline justify-content-center" th:object="${offerSearchDto}" style="display: flex; flex-wrap: wrap; margin-bottom: 30px">
+          <div style="display: flex; align-items: center; margin-right: 10px;">
+            <select th:field="*{searchDateType}" class="form-control" style="width:auto;">
+              <option value="all">전체기간</option>
+              <option value="1d">1일</option>
+              <option value="1w">1주</option>
+              <option value="1m">1개월</option>
+              <option value="6m">6개월</option>
+            </select>
+          </div>
+          <div style="display: flex; align-items: center; margin-right: 10px;">
+            <select th:field="*{searchBy}" class="form-control" style="width:auto;">
+              <option value="title">제목</option>
+              <option value="createdBy">등록자</option>
+            </select>
+          </div>
+          <div style="display: flex; align-items: center; margin-right: 10px;">
+            <input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력해주세요">
+          </div>
+          <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
+      </div>
+
+    </form>
+      </div>
+    <!--사용 스크립트 추가-->
+    <script>
+      $(document).ready(function(){
+        $("#searchBtn").on("click",function(e) {
+          e.preventDefault();
+          page(0);
+        });
+      });
+
+      function page(page){
+        const searchDateType = $("#searchDateType").val();
+        const searchBy = $("#searchBy").val();
+        const searchQuery = $("#searchQuery").val();
+
+        location.href="/offerMain/" + page + "?searchDateType=" + searchDateType
+                + "&searchBy=" + searchBy
+                + "&searchQuery=" + searchQuery;
+      }
+
+    </script>
+    </div>
+  </div>
+</html>

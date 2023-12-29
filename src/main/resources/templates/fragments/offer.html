@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <!--offer 배너-->
-<div th:fragment="offer-banner" th:if="${offer.userBanner}" class="row" id="offer-logo">
-  <img th:src="${offer.image}">
+<div th:fragment="offer-banner" th:if="${offer.userBanner}" class="container " id="offer-logo">
+   <img style="width: 100%;  height: 100%;  object-fit: cover; " th:src="${offer.image}">
+
 </div>
 
 <!--offer 정보-->
@@ -17,32 +18,25 @@
   <div class="col-6" style="text-align: right">
                 <span th:if="${!offer.published}" class="d-inline-block" tabindex="0"
                       data-toggle="tooltip" data-placement="bottom" title="작업 공개준비중">
-                    <button class="btn btn-primary btn-sm" style="pointer-events: none" type="button" disabled>DRAFT</button>
+                    <button class="btn btn-primary btn-sm" style="pointer-events: none" type="button" disabled>준비중</button>
                 </span>
     <span th:if="${offer.closed}" class="d-inline-block" tabindex="0"
           data-toggle="tooltip" data-placement="bottom" title="작업 종료함">
                     <button class="btn btn-primary btn-sm" style="pointer-events: none" type="button" disabled>ClOSED</button>
                 </span>
-    <span th:if="${!offer.recruiting}" class="d-inline-block ml-l" tabindex="0"
-          data-toggle="tooltip" data-placement="bottom" title="팀원모집중 아님">
-                    <button class="btn btn-primary btn-sm" style="pointer-events: none" type="button" disabled>OFF</button>
+      <span sec:authorize="!isAuthenticated()" th:if="${offer.published}" class="btn-group" role="group" aria-label="Basic example">
+                    <a class="btn btn-outline-primary" th:href="@{/login}">로그인을 하셔야 지원 하실 수 있습니다.</a>
                 </span>
+
     <span sec:authorize="isAuthenticated()" th:if="${offer.isJoinable(#authentication.principal)}"
           class="btn-group" role="group" aria-label="Basic example">
-                    <a class="btn btn-primary" th:href="@{'/offer/'+${offer.path} + '/join'}">작업신청</a>
-                    <a class="btn btn-outline-primary" th:href="@{'/offer/' + ${offer.path} + '/members'}"
-                       th:text="${offer.members.size()}"></a>
+                    <a class="btn btn-outline-primary"  th:href="@{'/offer/'+${offer.path} + '/join'}">작업신청</a>
+                    <a class="btn btn-primary" th:text="'지원('+${offer.members.size()}+')'"></a>
                 </span>
     <span sec:authorize="isAuthenticated()" th:if="${!offer.closed && offer.isMember(#authentication.principal)}"
           class="btn-group" role="group">
-                    <a class="btn btn-outline-warning" th:href="@{'/offer/'+${offer.path} + '/leave'}">신청취소</a>
-                    <a class="btn btn-outline-primary" th:href="@{'/offer/' + ${offer.path} + '/members'}"
-                       th:text="${offer.members.size()}"></a>
-                </span>
-    <span sec:authorize="isAuthenticated()" th:if="${offer.published && !offer.closed && offer.isManager(#authentication.principal)}">
-                    <a class="btn btn-outline-primary" th:href="@{'/offer/' + ${offer.path} + '/new-event'}">
-                        <i class="fa fa-plus"></i>모임 만들기
-                    </a>
+                    <a class="btn btn-outline-danger" th:href="@{'/offer/'+${offer.path} + '/leave'}">신청취소</a>
+                    <a class="btn btn-danger" th:text="'지원('+${offer.members.size()}+')'"></a>
                 </span>
   </div>
 </div>
@@ -53,17 +47,30 @@
     <a class="nav-item nav-link" th:classappend="${offerMenu == 'info'}? active" th:href="@{'/offer/' + ${offer.path}}">
       <i class="fa fa-info-circle"></i>소개
     </a>
-    <a class="nav-item nav-link" th:classappend="${offerMenu == 'members'}? active" th:href="@{'/offer/' + ${offer.path} + 'members'}">
-      <i class="fa fa-user"></i>신청자
-    </a>
-    <a class="nav-item nav-link" th:classappend="${offerMenu == 'events'}? active" th:href="@{'/offer/' + ${offer.path} + 'events'}">
-      <i class="fa fa-calendar"></i>모임
-    </a>
-    <a sec:authorize="isAuthenticated()" th:classappend="${offerMenu == 'settings'}? active" th:if="${offer.isManager(#authentication.principal)}"
-       class="nav-item nav-link" th:href="@{'/offer/' + ${offer.path} + 'events'}">
-      <i class="fa fa-cog"></i>설정
-    </a>
+      <a class="nav-item nav-link" th:if="${#authorization.expression('isAuthenticated()') && offer.isManager(#authentication.principal)}"
+         th:classappend="${offerMenu == 'members'}? active" th:href="@{'/offer/' + ${offer.path} + '/members'}">
+          <i class="fa fa-user"></i>신청자 <span th:text="'('+${offer.members.size()}+')'"></span>
+      </a>
+      <a th:if="${#authorization.expression('isAuthenticated()') && offer.isManager(#authentication.principal)}"
+         th:classappend="${offerMenu == 'setting'}? active" class="nav-item nav-link"
+         th:href="@{'/offer/' + ${offer.path} + '/setting/description'}">
+          <i class="fa fa-cog"></i>설정
   </div>
+</div>
+
+<!--offer 맴버-->
+<div th:fragment="member-list(members,isManager)" class="row justify-cotent-center">
+<ul class="list-unstyled col-12">
+    <li class="media mt-3" th:each="member: ${members}">
+        <svg th:if="${#strings.isEmpty(member?.profileImage)}" th:data-jdenticon-value="${member.nickname}" width="64"
+             height="64"></svg>
+        <img th:if="${!#strings.isEmpty(member?.profileImage)}" th:src="${member?.profileImage}" width="64" height="64" class="rounded border mr-3">
+        <div class="media-body">
+            <h5 class="mt-0 mb-1"><span th:text="${member.nickname}"></span> <span th:if="${isManager}" class="badge" style="background-color: #007bff; margin-left: 10px">관리자</span> </h5>
+            <p><strong>한줄소개 : </strong><span th:text="${member.bio}"></span> <span th:text="'/ 연락처 : ' +${member.email}"></span></p>
+        </div>
+    </li>
+</ul>
 </div>
 
 <!--offer 툴팁 스크립트-->
@@ -73,5 +80,49 @@
         $('[data-toggle="tooltip"]').tooltip()
     })
 </script>
+
+<!--섬머노트 스크립트-->
+<script th:fragment="summernote-script">
+    $(function () {
+        $('#summernote').summernote({
+            lang: 'ko-KR',
+            placeholder: '내용을 작성해주세요',
+            tabSize:5,
+            toolbar: [
+                ['style', ['style']],
+                ['fontsize', ['fontsize']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['picture']], // 이미지 삽입 버튼 추가
+            ],
+            fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+            width: '100%', // 섬머노트의 가로 폭을 100%로 설정
+            height: 600,   // 섬머노트의 높이를 원하는 크기로 설정 (예: 300px)
+            disableResizeEditor: true, // 크기 조절 비활성화
+        });
+    });
+</script>
+
+<!--작업 설정 탭-->
+<div th:fragment="offer-setting-menu(currentMenu)" class="list-group">
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu=='description'}? active"
+       href="#" th:href="@{'/offer/'+ ${offer.path} + '/setting/description'}">소개</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu=='banner'}? active"
+       href="#" th:href="@{'/offer/'+ ${offer.path} + '/setting/banner'}">배너 이미지</a>
+    <a class="list-group-item list-group-item-action list-group-item-danger" th:classappend="${currentMenu=='offer'}? active"
+       href="#" th:href="@{'/offer/'+ ${offer.path} + '/setting/offer'}">작업</a>
+</div>
+
+<!--변경 메세지 -->
+<div th:fragment="message" th:if="${message}" class="alert alert-info alert-dismissible fade show mt-3"
+     role="alert">
+    <span th:text="${message}">완료</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close">
+        <span aria-hidden="true"></span>
+    </button>
+</div>
+
 
 </html>

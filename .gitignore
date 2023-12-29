@@ -38,11 +38,3 @@ src/main/resources/static/node
 
 ### local ###
 src/main/resources/application-local.properties
-
-### offer 개발중 ###
-src/main/java/com/gopang/controller/OfferController.java
-src/main/java/com/gopang/dto/OfferForm.java
-src/main/java/com/gopang/entity/Offer.java
-src/main/java/com/gopang/repository/OfferRepository.java
-src/main/java/com/gopang/service/OfferService.java
-src/main/resources/templates/offer
