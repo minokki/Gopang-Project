@@ -72,4 +72,7 @@ public class NtcService {
         }
     }
 
+    public void deleteNtc(Long ntcId) {
+        ntcRepository.deleteById(ntcId);
+    }
 }

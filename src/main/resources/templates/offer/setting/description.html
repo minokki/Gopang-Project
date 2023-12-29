@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_board}">
+<head>
+<!--  <link rel="stylesheet" type="text/css" href="/css/board/board_info.css">-->
+  <!-- 섬머노트 css -->
+  <link rel="stylesheet" href="/node_modules/summernote/dist/summernote-lite.min.css">
+  <style>
+    .dropdown-toggle::after {
+      display:none;
+    }
+
+    /* 섬머노트 에디터 컨테이너 스타일링 */
+    .note-editor.note-frame {
+      max-width: 100%; /* 최대 폭에 맞게 조정 */
+      border: 1px solid #ccc; /* 테두리 추가 */
+      border-radius: 10px !important; /* 부트스트랩 스타일 무시 */
+      background-color: #fff;
+    }
+
+    /* 섬머노트 에디터 내용 스타일링 */
+    .note-editable {
+      max-width: 100%; /* 내용 최대 폭에 맞게 조정 */
+      border: none; /* 기본 테두리 제거 */
+      padding: 10px; /* 내용과 테두리 사이의 여백 추가 */
+    }
+
+    /* 섬머노트 에디터 툴바 스타일링 (옵션) */
+    .note-toolbar {
+      border-top-left-radius: 10px; /* 툴바의 왼쪽 상단 둥글게 설정 */
+      border-top-right-radius: 10px; /* 툴바의 오른쪽 상단 둥글게 설정 */
+    }
+    .input-group{
+      margin-bottom: 10px;
+    }
+    .form-control{
+      border-radius: 5px !important; /* 부트스트랩 스타일 무시 */
+    }
+
+    /* 입력 그룹 스타일 */
+    .input-group {
+      margin: 20px 0;
+    }
+
+    .input-group-text {
+      background-color: transparent;
+      border: none;
+      font-size: 22px;
+    }
+
+    /* 입력 필드 스타일 */
+    input[type="text"], textarea {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 10px;
+      width: 100%;
+      background-color: #fff;
+    }
+
+    /* 오류 메시지 스타일 */
+    .fieldError {
+      color: red;
+    }
+
+
+  </style>
+
+</head>
+<div layout:fragment="content">
+  <div class="container">
+    <h6 style="text-align: right">예초·벌초 > <strong>신청페이지</strong></h6>
+  </div>
+  <div th:replace="~{fragments/offer::offer-banner}"></div>
+
+  <div class="container" style="min-height: 600px">
+    <div th:replace="~{fragments/offer::offer-info}"></div>
+    <div th:replace="~{fragments/offer::offer-menu (offerMenu='setting')}"></div>
+    <div class="row justify-content-center">
+      <div class="col-2 pt-3">
+        <div th:replace="~{fragments/offer::offer-setting-menu(currentMenu= 'description')}"></div>
+      </div>
+      <div class="col-10">
+        <div th:replace="~{fragments/offer::message}"></div>
+        <form class="needs-validation" th:action="@{'/offer/' + ${offer.getPath()} + '/setting/description'}"
+              th:object="${offerDescriptionForm}" method="post" novalidate>
+          <div class="form-group">
+            <label for="shortDescription">짧은 소개</label>
+            <textarea id="shortDescription" type="textarea" th:field="*{shortDescription}" class="form-control"
+                      placeholder="짧게 소개해 주세요." aria-describedby="shortDescriptionHelp" required maxlength="100">
+                        </textarea>
+            <small id="shortDescriptionHelp" class="form-text text-muted">
+              100자 이내로 스터디를 짧은 소개해 주세요.
+            </small>
+            <small class="invalid-feedback">짧은 소개를 입력하세요.</small>
+            <small class="form-text text-danger" th:if="${#fields.hasErrors('shortDescription')}" th:errors="*{shortDescription}">ShortDescription Error</small>
+          </div>
+
+          <div class="form-group">
+            <label for="summernote">상세 소개</label>
+            <textarea id="summernote" type="textarea" th:field="*{fullDescription}" class="editor form-control"
+                      placeholder="스터디를 자세히 설명해 주세요." aria-describedby="fullDescriptionHelp" required></textarea>
+            <small id="fullDescriptionHelp" class="form-text text-muted">
+              스터디의 목표, 일정, 진행 방식, 사용할 교재 또는 인터넷 강좌 그리고 모집중인 스터디원 등 스터디에 대해 자세히 적어 주세요.
+            </small>
+            <small class="invalid-feedback">상세 소개를 입력하세요.</small>
+            <small class="form-text text-danger" th:if="${#fields.hasErrors('fullDescription')}" th:errors="*{fullDescription}">FullDescription Error</small>
+          </div>
+
+          <div class="form-group">
+            <button class="btn btn-primary btn-block" type="submit"
+                    aria-describedby="submitHelp">수정하기</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script th:replace="~{fragments/offer::tooltip-script}"></script>
+  <!--  validation js  -->
+  <script src="/js/validation.js"></script>
+  <!-- 섬머노트 -->
+  <script src="/node_modules/summernote/dist/summernote-lite.min.js"></script>
+  <script th:replace="~{fragments/offer::summernote-script}"></script>
+</div>
+
+</html>

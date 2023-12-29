@@ -17,7 +17,7 @@
     </div>
     <div style="display: flex; justify-content: end; align-items: center;">
 
-      <form class="form-inline my-2 my-lg-0" th:action="@{board/main}" method="get" style="width: 300px;">
+      <form class="form-inline my-2 my-lg-0" th:action="@{/board/main}" method="get" style="width: 300px;">
         <div class="input-group input-group-sm"  style="margin-bottom: 30px">
           <input name="searchQuery" class="form-control" type="search" placeholder="검색하세요" aria-label="Search" style="border-top: none; border-left: none; border-right: none;">
           <div class="input-group-append">
@@ -63,34 +63,39 @@
     </div>
 
 
-    <div class="paging" th:with="start=${(board.number/maxPage)*maxPage + 1}, end=(${(board.totalPages == 0) ? 1 : (start + (maxPage - 1) < board.totalPages ? start + (maxPage - 1) : board.totalPages)})" >
+    <div class="paging_custom" th:with="start=${(board.number/maxPage)*maxPage + 1}, end=(${(board.totalPages == 0) ? 1 : (start + (maxPage - 1) < board.totalPages ? start + (maxPage - 1) : board.totalPages)})">
       <ul class="pagination justify-content-center">
-
-        <li class="page-item" th:classappend="${board.number eq 0} ? 'disabled' : ''">
-          <a th:href="@{'/board/board' + '?searchQuery=' + (${boardSearchDto.searchQuery} ?: '') + '&page=' + ${board.number-1}}"
-             aria-label="Previous"
-             class="page-link">
-            <span aria-hidden="true">&laquo;</span>
+        <li class="page-item" th:classappend="${board.first}?'disabled'">
+          <a th:onclick="'javascript:page(' + ${board.number - 1} + ')'" aria-label='Previous' class="page-link" href="#">
+            <span aria-hidden='true'>&laquo;</span>
           </a>
         </li>
-
-        <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}"
-            th:classappend="${board.number eq page-1} ? 'active' : ''">
-          <a th:href="@{'/board/board' + '?searchQuery=' + (${boardSearchDto.searchQuery} ?: '') + '&page=' + ${page-1}}"
-             th:inline="text"
-             class="page-link">[[${page}]]</a>
+        <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${board.number eq page-1}?'active':''">
+          <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link" href="#" th:text="${page}"></a>
         </li>
-
-        <li class="page-item" th:classappend="${board.number+1 ge board.totalPages} ? 'disabled' : ''">
-          <a th:href="@{'/board/board' + '?searchQuery=' + (${boardSearchDto.searchQuery} ?: '') + '&page=' + ${board.number+1}}"
-             aria-label="Next"
-             class="page-link">
-            <span aria-hidden="true">&raquo;</span>
+        <li class="page-item" th:classappend="${board.last}?'disabled'">
+          <a th:onclick="'javascript:page(' + ${board.number + 1} + ')'" aria-label='Next' class="page-link" href="#">
+            <span aria-hidden='true'>&raquo;</span>
           </a>
         </li>
-
       </ul>
     </div>
+
+    <!--사용 스크립트 추가-->
+    <script>
+      $(document).ready(function(){
+        $("#searchBtn").on("click",function(e) {
+          e.preventDefault();
+          page(0);
+        });
+      });
+
+      function page(page){
+
+        location.href="/board/main/" + page ;
+      }
+
+    </script>
   </div>
 
 </div>

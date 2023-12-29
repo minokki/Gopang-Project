@@ -72,4 +72,8 @@ public class Account extends BaseEntity {
     public boolean isValidToken(String token) {
         return this.emailCheckToken.equals(token);
     }
+
+    public boolean isManageOf(Offer offer) {
+        return offer.getManagers().contains(this);
+    }
 }

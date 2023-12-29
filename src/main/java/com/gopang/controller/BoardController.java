@@ -14,10 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
@@ -109,8 +106,8 @@ public class BoardController {
 
 
     /*시공사레 목록 */
-    @GetMapping(value = "/board/main")
-    public String getBoard(@CurrentUser Account account, BoardSearchDto boardSearchDto, Optional<Integer> page, Model model) {
+    @GetMapping(value ={ "/board/main", "/board/main/{page}"})
+    public String getBoard(@CurrentUser Account account, BoardSearchDto boardSearchDto,@PathVariable("page") Optional<Integer> page, Model model) {
         if( account != null) {
             model.addAttribute(account);
         }
@@ -135,4 +132,6 @@ public class BoardController {
         model.addAttribute("boardViews", board);
         return "board/board_detail";
     }
+
+
 }
