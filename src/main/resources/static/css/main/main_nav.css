@@ -42,6 +42,7 @@ ul,li{
     left: 0;
     width: 100%;
     animation: slideDown 1s ease-in-out;
+    height: 75px;
 }
 
 .custom_navbar a {
@@ -88,7 +89,7 @@ ul,li{
     }
 
     .logo img {
-        width: 100%;
+        width: 200px;
         height: 80px;
         margin-top: -10px;
         margin-bottom: -10px;
@@ -205,6 +206,7 @@ ul,li{
 /*--------------------------------------------------------------
 # Mobile Navigation
 --------------------------------------------------------------*/
+
 @media screen and (max-width: 1279px) {
     .toggle-nav{
         height:90px;
@@ -215,7 +217,7 @@ ul,li{
     }
 
     .toggle-nav .logo img {
-        width: 80%;
+        width: 150px;
         height: 70px;
         margin-top: -10px;
     }
@@ -312,7 +314,7 @@ ul,li{
     /* 햄버거 버튼 */
     .menu-trigger {
         margin-right: 10px;
-        margin-bottom: 10px;
+        /*margin-bottom: 10px;*/
         z-index: 99999;
     }
     .menu-trigger,
