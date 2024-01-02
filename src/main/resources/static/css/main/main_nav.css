@@ -43,6 +43,17 @@ ul,li{
     width: 100%;
     animation: slideDown 1s ease-in-out;
 }
+@media screen and (min-width: 1280px) {
+    .header.sticked{
+        height: 100px;
+    }
+}
+
+@media screen and (max-width: 1279px) {
+    .header.sticked{
+        height: 90px;
+    }
+}
 
 .custom_navbar a {
     text-decoration: none;
