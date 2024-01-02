@@ -11,8 +11,8 @@ public class Profile {
 
     @Length(max = 35)
     private String bio;
-    @Length(max = 50)
-    private String url;
+
+    private Long phone;
     @Length(max = 50)
     private String occupation;
     @Length(max = 50)
@@ -22,7 +22,7 @@ public class Profile {
 
     public Profile(Account account) {
         this.bio= account.getBio();
-        this.url = account.getUrl();
+        this.phone = account.getPhone();
         this.occupation = account.getOccupation();
         this.location = account.getLocation();
         this.profileImage = account.getProfileImage();

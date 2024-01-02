@@ -57,6 +57,7 @@ public class AccountService implements UserDetailsService {
                 .nickname(signUpForm.getNickname())
                 .password(passwordEncoder.encode(signUpForm.getPassword())) //패스워드 인코드
                 .role(Role.USER)
+                .phone(signUpForm.getPhone())
                 .userType(signUpForm.getUserType())
                 .build();
         Account newAccount = accountRepository.save(account);  //회원저장
@@ -115,7 +116,7 @@ public class AccountService implements UserDetailsService {
 
     /* 프로필 UPDATE */
     public void updateProfile(Account account, Profile profile) {
-        account.setUrl(profile.getUrl());
+        account.setPhone(profile.getPhone());
         account.setOccupation(profile.getOccupation());
         account.setLocation(profile.getLocation());
         account.setBio(profile.getBio());

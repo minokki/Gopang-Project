@@ -25,11 +25,11 @@
               <p class="lead" th:if="${#strings.isEmpty(account.bio) && isOwner}"  style="margin-left: -9%;">한 줄 소개를 추가하세요.</p>
             </div>
             <div class="form-group">
-              <p th:if="${!#strings.isEmpty(account.url)}">
+              <p th:if="${!#strings.isEmpty(account.phone)}">
                             <span style="font-size: 20px;">
                                 <i class="fa fa-link col-1"></i>
                             </span>
-                <span th:text="${account.url}" class="col-11"></span>
+                <span th:text="${account.phone}" class="col-11"></span>
               </p>
               <p th:if="${!#strings.isEmpty(account.occupation)}">
                     <span style="font-size: 20px;">

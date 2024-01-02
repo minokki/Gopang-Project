@@ -36,7 +36,7 @@ public class Account extends BaseEntity {
 
     private String bio;
 
-    private String url;
+    private Long phone;
 
     private String occupation;
 
