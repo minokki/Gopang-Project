@@ -22,3 +22,16 @@
     display: block;
     margin-left: 2px;
 }
+
+@media screen and (max-width: 767px) {
+    .greeting_custom_p1{
+        font-size: 16px;
+    }
+    .greeting_custom_p2{
+        font-size: 16px;
+    }
+    .greeting_custom_img{
+        height: 280px;
+        width: 400px;
+    }
+}

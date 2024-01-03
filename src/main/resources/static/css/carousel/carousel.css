@@ -57,3 +57,12 @@
     background-color: rgba(255, 255, 255, 1) !important;
 }
 
+@media screen and (max-width: 767px) {
+    .carousel-item{
+        height: 180px;
+    }
+    /*!* 텍스트 스타일 *!*/
+    .carousel-inner .carousel-item .carousel-caption .carousel-text {
+        font-size: 20px;
+    }
+}

@@ -17,3 +17,16 @@ tr{
     display: block;
     margin-left: 2px;
 }
+
+@media screen and (max-width: 767px) {
+    tr{
+        font-size: 16px;
+        opacity: 0.7;
+    }
+    th{
+        padding: 10px!important;
+    }
+    td{
+        padding: 10px!important;
+    }
+}
