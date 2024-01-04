@@ -16,7 +16,15 @@
         <div th:replace="~{fragments/offer::offer-info}"></div>
         <div th:replace="~{fragments/offer::offer-menu (offerMenu='info')}"></div>
         <div class="row justify-content-center">
-            <div class="col-12 pt-3" th:utext="${offer.fullDescription}"></div>
+            <div class="col-md-12 pt-3" style="overflow-x: auto;">
+                <div th:utext="${offer.fullDescription}" class="img-fluid"></div>
+            </div>
+        </div>
+        <div style="padding: 20px; background-color: #f7f7f7; margin-bottom: 50px; display: flex; justify-content: flex-end; gap: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+
+            <a href="#" th:href="@{/offerMain}" class="styled-link">
+                List
+            </a>
         </div>
         </div>
 

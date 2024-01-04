@@ -4,32 +4,18 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout_community}">
 <head>
-    <style>
-        .table_custom{
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .write_info td {
-            text-align: center;
-            padding: 16px;
-            font-size: 18px;
-        }
-
-        .image-container {
-            display: flex;
-            justify-content: space-between;
-            padding-bottom: 50px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/css/community/community_ntc_detail.css">
 </head>
 <div layout:fragment="content">
-    <div class="container" id="container_community">
-        <h1 style="text-align: center; padding: 24px;"><b>공지사항</b></h1>
+    <div class="container">
+        <div class="title-container">
+            <h1 class="text-center">공지사항</h1>
+        </div>
         <input type="hidden" id="Id" th:value="${ntc.id}">
         <table class="table table_custom">
             <thead class="table-dark">
             <tr class="write_title">
-                <td colspan="6">
+                <td colspan="3">
                     <h4 th:text="${ntc.title}"></h4>
                 </td>
             </tr>
@@ -39,13 +25,15 @@
                 <td th:text="'조회수 : ' + ${ntcViews.views}">조회수 : 조회수 값</td> <!-- 조회수 값을 적절한 값으로 대체 -->
             </tr>
             </thead>
+            <tbody>
             <tr>
-                <td colspan="6">
-                    <div style="min-height: 600px; max-height: 600px;overflow-y: auto!important;">
+                <td colspan="3">
+                    <div class="ntc_content">
                         <p th:utext="${#strings.replace(ntc.content, '\n', '<br>')}"></p>
                     </div>
                 </td>
             </tr>
+            </tbody>
         </table>
 
         <div style="padding: 20px; background-color: #f7f7f7; margin-bottom: 50px; display: flex; justify-content: flex-end; gap: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
@@ -57,7 +45,7 @@
                 삭제
             </a>
             <a href="#" th:href="@{/community/ntcs}" class="styled-link">
-                리스트
+                List
             </a>
         </div>
 

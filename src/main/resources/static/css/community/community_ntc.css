@@ -29,3 +29,43 @@ a {
     font-weight: bold;
     /* 원하는 스타일 추가 */
 }
+
+@media screen and (max-width: 767px) {
+    /* 제목 컨테이너 스타일링 */
+    .title-container {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .img-container{
+        padding: 8px;
+    }
+    .img-text{
+        margin: 14px;
+    }
+    .table td {
+        padding: 10px 3px;
+    }
+    tbody{
+        font-size: 12px;
+    }
+    thead{
+        font-size: 14px;
+    }
+
+    .search_btn{
+        padding: 8px;
+        font-size: 12px;
+        width: 100px;
+    }
+    .write_info td {
+        text-align: center;
+        padding: 5px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 482px) {
+    .search_btn{
+        width: 70px;
+    }
+}

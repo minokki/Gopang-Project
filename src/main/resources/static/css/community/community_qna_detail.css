@@ -24,6 +24,62 @@ a {
     margin: 0 5%; /* 왼쪽 및 오른쪽 여백을 5%로 설정 */
 
 }
+.write_info td {
+    text-align: center;
+    padding: 16px;
+    font-size: 18px;
+}
+
+tbody{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.image-container {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 50px;
+}
+.li_custom{
+    margin-top: 10px;
+}
+
+/* 수정 버튼 스타일 */
+.edit-button {
+    color: #007bff;
+    font-size: 15px;
+}
+.edit-button:hover{
+    color: #0056b3;
+}
+/* 삭제 버튼 스타일 */
+.delete-button {
+    color: #dc3545;
+    font-size: 15px;
+    margin-right: 10px;
+}
+.delete-button:hover{
+    color: #bb2929; /* 마우스 오버 시 색상 변경 */
+}
+
+.comment-list-unauthenticated {
+    text-align: center; /* 가운데 정렬 */
+    padding: 25px; /* 내부 여백 추가 */
+    background-color: #f0f0f0; /* 배경색 지정 */
+}
+
+/* 메시지 텍스트 스타일 */
+.comment-list-unauthenticated p {
+    font-size: 18px;
+    color: #555;
+}
+
+.qna_content{
+    min-height: 500px;
+    max-height: 500px;
+    overflow-y: auto!important;
+}
 
 @media screen and (max-width: 767px) {
     /* 제목 컨테이너 스타일링 */
@@ -54,8 +110,9 @@ a {
         padding: 5px;
         font-size: 14px;
     }
-    thead{
-        font-size: 14px;
+    .qna_content{
+        min-height: 300px;
+        max-height: 300px;
     }
 }
 
@@ -64,3 +121,4 @@ a {
         width: 70px;
     }
 }
+
