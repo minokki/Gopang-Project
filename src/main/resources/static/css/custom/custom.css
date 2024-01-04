@@ -67,3 +67,9 @@ a {
     background-color: #ccc; /* 비활성화된 페이지 번호의 배경 색상 변경 (회색) */
     color: #000; /* 비활성화된 페이지 번호의 텍스트 색상 변경 (검은색) */
 }
+
+@media screen and (max-width: 767px) {
+    .styled-link {
+        padding: 20px 50px;
+    }
+}

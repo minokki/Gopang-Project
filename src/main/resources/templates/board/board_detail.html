@@ -4,33 +4,21 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout_board}">
 <head>
-  <style>
-    .table_custom{
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .write_info td {
-      text-align: center;
-      padding: 16px;
-      font-size: 18px;
-    }
-
-    .image-container {
-      display: flex;
-      justify-content: space-between;
-      padding-bottom: 50px;
-    }
-  </style>
+    <link rel="stylesheet" type="text/css" href="/css/board/board_detail.css">
 </head>
+
 <div layout:fragment="content">
   <div class="container" id="container_community">
-    <h1 style="text-align: center; padding: 24px;"><b>시공사례</b></h1>
+    <div class="title-container">
+      <h1 class="text-center">작업안내</h1>
+    </div>
     <input type="hidden" id="Id" th:value="${board.id}">
 
-    <table class="table table_custom">
+    <div>
+    <table class="table ">
       <thead class="table-dark">
-      <tr class="write_title">
-        <td colspan="6">
+      <tr>
+        <td colspan="3">
           <h4 th:text="${board.title}"></h4>
         </td>
       </tr>
@@ -40,19 +28,18 @@
         <td th:text="'조회수 ' + ${boardViews.views}">조회수 : 조회수 값</td> <!-- 조회수 값을 적절한 값으로 대체 -->
       </tr>
       </thead>
-      <tr>
-        <td colspan="6">
-          <div style="padding:20px; min-height: 600px; max-height: 600px;overflow-y: auto!important;">
-            <div class="image-container" style="display: flex; justify-content:center; padding-bottom: 10px;">
-              <img th:src="${board.beforeImgUrl}" alt="Before Image" height="400" width="600" style="padding: 10px">
-              <img th:src="${board.afterImgUrl}" alt="After Image" height="400" width="600" style="padding: 10px">
-            </div>
+  <tr>
+    <td colspan="3">
+      <div class="text-center">
+        <img th:src="${board.beforeImgUrl}" class="before_image " style="padding: 10px;">
+        <img th:src="${board.afterImgUrl}" class="after_image" style="padding: 10px;">
+      </div>
+        <p th:utext="${#strings.replace(board.content, '\n', '<br>')}"></p>
+    </td>
 
-            <p th:utext="${#strings.replace(board.content, '\n', '<br>')}"></p>
-          </div>
-        </td>
       </tr>
     </table>
+    </div>
 
     <div style="padding: 20px; background-color: #f7f7f7; margin-bottom: 50px; display: flex; justify-content: flex-end; gap: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
 
@@ -60,7 +47,7 @@
         수정
       </a>
       <a href="#" th:href="@{/board/main}" class="styled-link">
-        리스트
+        List
       </a>
     </div>
 

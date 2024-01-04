@@ -38,3 +38,25 @@ th, td, tr {
     display: block;
     margin-left: 2px;
 }
+.board_info_text{
+    font-size: 18px;
+}
+
+@media screen and (max-width: 767px) {
+    .board_info_text{
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+    .point{
+        width: 40px;
+    }
+    .section-title{
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+    /* 제목 컨테이너 스타일링 */
+    .title-container {
+        margin-top: 20px;
+        margin-bottom: 0px;
+    }
+}
