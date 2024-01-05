@@ -81,6 +81,11 @@ ul,li{
         margin-top: 90px;
     }
 }
+@media screen and (max-width: 767px){
+    .alert_custom{
+        margin-top: 80px;
+    }
+}
 @media screen and (min-width: 1280px) {
     .toggle-nav{
         display: none;
