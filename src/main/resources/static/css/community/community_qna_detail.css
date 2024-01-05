@@ -28,12 +28,16 @@ a {
     padding: 16px;
     font-size: 18px;
 }
+.write_title{
+    text-align: center;
+}
+.write_title td h4{
+    margin: 0;
+}
 
 tbody{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
-
 
 .image-container {
     display: flex;

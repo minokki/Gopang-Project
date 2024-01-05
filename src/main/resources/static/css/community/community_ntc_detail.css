@@ -15,6 +15,12 @@ a {
     margin-bottom: 30px;
 }
 
+.write_title{
+    text-align: center;
+}
+.write_title td h4{
+    margin: 0;
+}
 /* 제목 양 옆에 구분선 스타일링 */
 .title-container::before,
 .title-container::after {
