@@ -14,7 +14,7 @@
   </style>
 </head>
 <div layout:fragment="content">
-  <div class="container">
+  <div class="container top_menu">
     <h6 style="text-align: right">예초·벌초 > <strong>작업신청</strong></h6>
   </div>
   <div class="container" style="min-height: 600px">
@@ -26,7 +26,7 @@
         <div class="row justify-content-center pt-3">
           <div class="col-md-6" th:each="singleOffer: ${offer.getContent()}">
             <div class="card mb-4 shadow-sm" th:classappend="${singleOffer.published and singleOffer.closed} ? 'disabled-card' : ''">
-              <img th:src="${singleOffer.image}" class="card-img-top" th:alt="${singleOffer.title}">
+              <img  th:src="${singleOffer.image}" class="card-img-top" th:alt="${singleOffer.title}">
               <div class="card-body">
                 <a th:href="@{'/offer/' + ${singleOffer.path}}" class="text-decoration-none">
                   <h5 class="card-title context" th:text="${singleOffer.title}"></h5>
@@ -85,7 +85,7 @@
               <option value="createdBy">등록자</option>
             </select>
           </div>
-          <div style="display: flex; align-items: center;">
+          <div style="display: flex; align-items: center; margin-right: 10px">
             <input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력해주세요">
           </div>
           <button id="searchBtn" type="submit" class="btn btn-dark search_btn">검색</button>

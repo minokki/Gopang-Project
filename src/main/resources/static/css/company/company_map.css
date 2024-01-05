@@ -59,6 +59,19 @@
 
 @media screen and (max-width: 767px) {
     #map{
-        height: 400px;
+        height: 350px;
+    }
+    .point {
+        width: 40px;
+    }
+    .py-5{
+        padding-top: 1rem !important;
+    }
+    .col-md-4 i, p{
+        font-size: 14px;
+    }
+    .contact .btn-square{
+        width: 80px;
+        height: 80px;
     }
 }

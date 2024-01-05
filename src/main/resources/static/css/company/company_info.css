@@ -29,4 +29,10 @@ tr{
     td{
         padding: 10px!important;
     }
+    .point {
+        width: 40px;
+    }
+    .py-5{
+        padding-top: 1rem !important;
+    }
 }

@@ -52,11 +52,6 @@ a {
         font-size: 14px;
     }
 
-    .search_btn{
-        padding: 8px;
-        font-size: 12px;
-        width: 100px;
-    }
     .write_info td {
         text-align: center;
         padding: 5px;
@@ -66,6 +61,8 @@ a {
 
 @media screen and (max-width: 482px) {
     .search_btn{
-        width: 70px;
+        width: 100px;
+        padding: 8px;
+        font-size: 12px;
     }
 }

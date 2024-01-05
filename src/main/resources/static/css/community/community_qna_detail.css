@@ -1,6 +1,5 @@
 /* 링크 스타일링 */
 a {
-    color: #333;
     text-decoration: none;
     transition: color 0.2s;
 }
@@ -94,11 +93,6 @@ tbody{
         margin: 14px;
     }
 
-    .search_btn{
-        padding: 8px;
-        font-size: 12px;
-        width: 100px;
-    }
     .table td {
         padding: 10px 3px;
     }
@@ -118,7 +112,9 @@ tbody{
 
 @media screen and (max-width: 482px) {
     .search_btn{
-        width: 70px;
+        width: 100px;
+        padding: 8px;
+        font-size: 12px;
     }
 }
 

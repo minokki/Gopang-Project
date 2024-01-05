@@ -21,9 +21,9 @@
         </td>
       </tr>
       <tr class="write_info">
-        <td th:text="'작성자 ' + ${qna.writer}"></td>
-        <td th:text="'Date ' + ${#temporals.format(qna.createDate, 'yyyy-MM-dd')}"></td>
-        <td th:text="'조회수 ' + ${qnaViews.views}"></td> <!-- 조회수 값을 적절한 값으로 대체 -->
+        <td th:text="'작성자 : ' + ${qna.writer}"></td>
+        <td th:text="'Date : ' + ${#temporals.format(qna.createDate, 'yyyy-MM-dd')}"></td>
+        <td th:text="'조회수 : ' + ${qnaViews.views}"></td> <!-- 조회수 값을 적절한 값으로 대체 -->
       </tr>
       </thead>
       <tbody>

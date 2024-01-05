@@ -34,4 +34,10 @@
         height: 280px;
         width: 400px;
     }
+    .point {
+        width: 40px;
+    }
+    .py-5{
+        padding-top: 1rem !important;
+    }
 }

@@ -72,4 +72,9 @@ a {
     .styled-link {
         padding: 20px 50px;
     }
+
+    .top_menu h6{
+        padding: 5px 0;
+        font-size: 0.8em;
+    }
 }
