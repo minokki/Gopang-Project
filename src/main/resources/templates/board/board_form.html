@@ -155,8 +155,9 @@
           return;
         }
 
-        // 파일 크기 제한 (예: 5MB)
-        var maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+        // 파일 크기 제한 (예: 10MB)
+        var maxSizeInBytes = 10 * 1024 * 1024; // 5MB
+
         var fileSize = this.files[0].size;
 
         if (fileSize > maxSizeInBytes) {
