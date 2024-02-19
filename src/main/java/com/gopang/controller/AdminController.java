@@ -28,16 +28,15 @@ public class AdminController {
 
 
     /* 회원목록 */
-    @GetMapping({"/admin/members","/admin/members/{page}"})
+    @GetMapping({"/admin/members", "/admin/members/{page}"})
     public String adminMainPage(@CurrentUser Account account, MemberSearchDto memberSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
         model.addAttribute(account);
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
         Page<Account> members = accountService.getAdminMemberPage(memberSearchDto, pageable);
-        model.addAttribute("members",members);
+        model.addAttribute("members", members);
         model.addAttribute("memberSearchDto", memberSearchDto);
         model.addAttribute("maxPage", 5);
-
 
         return "admin/admin_members";
     }
@@ -68,7 +67,6 @@ public class AdminController {
         model.addAttribute("maxPage", 5);
         return "board/board_mng";
     }
-
 
 
 }

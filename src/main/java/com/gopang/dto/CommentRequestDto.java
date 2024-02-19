@@ -24,8 +24,7 @@ public class CommentRequestDto {
     private Qna qna;
     private String commentProfileImg;
 
-    public Comment
-    toEntity(){
+    public Comment toEntity(){
         Comment comments = Comment.builder()
                 .id(id)
                 .comment(comment)

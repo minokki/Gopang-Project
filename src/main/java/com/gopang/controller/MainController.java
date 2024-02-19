@@ -24,24 +24,26 @@ import java.util.Optional;
 public class MainController {
     private final OfferRepository offerRepository;
     private final OfferService offerService;
+
     /* 메인페이지 이동 */
     @GetMapping("/")
     public String home(@CurrentUser Account account, Model model) {
-        if( account != null) {
+        if (account != null) {
             model.addAttribute(account);
         }
         return "index";
     }
-    @GetMapping(value = {"/offerMain","/offerMain/{page}"})
+
+    @GetMapping(value = {"/offerMain", "/offerMain/{page}"})
     public String offerMainView(@CurrentUser Account account, OfferSearchDto offerSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
-        if( account != null) {
+        if (account != null) {
             model.addAttribute(account);
         }
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 6);
         Page<Offer> offer = offerService.getOfferPage(offerSearchDto, pageable);
         model.addAttribute("offer", offer);
         model.addAttribute("offerSearchDto", offerSearchDto);
-        model.addAttribute("maxPage",5);
+        model.addAttribute("maxPage", 5);
         return "offer/offerMain";
     }
 

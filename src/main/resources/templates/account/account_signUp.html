@@ -59,7 +59,7 @@
         </div>
         <div class="form-group" style="margin-top: 15px;">
           <input id="phone" type="text" th:field="*{phone}" class="form-control"
-                 aria-describedby="passwordHelp" required minlength="8" maxlength="50" placeholder="핸드폰번호"
+                 aria-describedby="passwordHelp" required minlength="11" maxlength="11" placeholder="핸드폰번호"
                  th:classappend="${#fields.hasErrors('phone')} ? 'is-invalid' : ''">
           <small id="phoneHelp" class="form-text text-muted">
             -없이 입력해주세요.
@@ -72,11 +72,13 @@
         <div class="form-group" style="margin-top: 15px;">
           <div class="custom-control custom-radio custom-control-inline">
             <input type="radio" class="custom-control-input" id="buyer" name="userType" value="수요자" required th:checked="${signUpForm.userType == '수요자'}">
-            <label class="custom-control-label" for="buyer">수요자</label>
+            <label class="custom-control-label" for="buyer">서비스이용</label>
             <input type="radio" class="custom-control-input" id="seller" name="userType" value="공급자" required th:checked="${signUpForm.userType == '공급자'}">
-            <label class="custom-control-label" for="seller">공급자</label>
+            <label class="custom-control-label" for="seller">아르바이트 신청</label>
             <small class="form-text text-muted" style="display: block">
-              공급자와 수요자를 확인하고 있습니다. 버튼 하나를 선택해주세요.
+              -홈페이지 가입하는 목적에 대해 선택해주세요.
+            </small>
+            <small class="form-text text-muted" style="display: block">
             </small>
             <small class="invalid-feedback">선택해 주세요.</small>
           </div>

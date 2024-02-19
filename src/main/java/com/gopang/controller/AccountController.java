@@ -26,48 +26,59 @@ public class AccountController {
 
     /* 유효성 검증 */
     @InitBinder("signUpForm") //해당 모델에 초기화 바인더 설정
-    public void initBinder(WebDataBinder webDataBinder){
+    public void initBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(signUpFormValidator);
         // addValidators() 메소드를 사용하여 유효성 검증기를 등록하면, 해당 폼 데이터의 유효성 검증을 수행할 수 있음
     }
+
     /* 이용약관 이동 */
     @GetMapping("/terms")
-    public String terms(){
+    public String terms() {
         return "account/account_terms";
     }
 
+    /* 회원약관 page 이동*/
+    @GetMapping("/membership")
+    public String membership(){ return "account/account_membership";}
+
+    /* 개인정보 처리방침 page 이동*/
+    @GetMapping("/policy")
+    public String policy(){ return "account/account_policy";}
+
     /* 로그인페이지 이동  */
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "account/account_login";
     }
 
     /* 회원가입 FORM(GET) */
     @GetMapping("/sign-up")
-    public String signUpForm(Model model){
-        model.addAttribute("signUpForm",new SignUpForm());
+    public String signUpForm(Model model) {
+        model.addAttribute("signUpForm", new SignUpForm());
         return "account/account_signUp";
     }
+
     /* 회원가입 FORM(POST) */
     @PostMapping("/sign-up")
-    public String signUpSubmit(@Valid @ModelAttribute SignUpForm signUpForm, Errors errors){
-        if(errors.hasErrors()){
+    public String signUpSubmit(@Valid @ModelAttribute SignUpForm signUpForm, Errors errors) {
+        if (errors.hasErrors()) {
             return "account/account_signUp";
         }
         Account account = accountService.processNewAccount(signUpForm);
         accountService.login(account);
         return "redirect:/";
     }
+
     /* 프로필 이동 */
     @GetMapping("/profile/{nickname}")
-    public String viewProfile(@PathVariable String nickname, Model model, @CurrentUser Account account){
+    public String viewProfile(@PathVariable String nickname, Model model, @CurrentUser Account account) {
         Account byNickname = accountRepository.findByNickname(nickname);
 
-        if (byNickname == null){
+        if (byNickname == null) {
             throw new IllegalArgumentException(nickname + "에 해당하는 사용자가 없습니다.");
         }
 
-        model.addAttribute("account",byNickname);
+        model.addAttribute("account", byNickname);
         model.addAttribute("isOwner", byNickname.equals(account));
         return "account/account_profile";
 
@@ -75,35 +86,36 @@ public class AccountController {
 
     /* 이메일 토큰 */
     @GetMapping("/check-email-token")
-    public String CheckEmailToken(String token, String email, Model model){
+    public String CheckEmailToken(String token, String email, Model model) {
         Account account = accountRepository.findByEmail(email);
         String view = "account/account_checkedEmail";
-        if(account == null){
-            model.addAttribute("error","wrong.email");
+        if (account == null) {
+            model.addAttribute("error", "wrong.email");
             return view;
         }
-        if(!account.getEmailCheckToken().equals(token)){
-            model.addAttribute("error","wrong.token");
+        if (!account.getEmailCheckToken().equals(token)) {
+            model.addAttribute("error", "wrong.token");
             return view;
         }
         accountService.completeSingUP(account);
-        model.addAttribute("numberOfUser",accountRepository.count());
-        model.addAttribute("nickname",account.getNickname());
+        model.addAttribute("numberOfUser", accountRepository.count());
+        model.addAttribute("nickname", account.getNickname());
         return view;
     }
 
     /* 인증메일 */
     @GetMapping("/check-email")
-    public String checkEmail(@CurrentUser Account account, Model model){
-        model.addAttribute("email",account.getEmail());
+    public String checkEmail(@CurrentUser Account account, Model model) {
+        model.addAttribute("email", account.getEmail());
         accountService.sentConfirmEmail(account);
         return "account/account_checkEmail";
     }
+
     /* 인증메일 재전송 */
     @GetMapping("resend-confirm-email")
-    public String resendConfirmEmail(@CurrentUser Account account, Model model){
-        if(!account.canSendConfirmEmail()){
-            model.addAttribute("error","인증 이메일은 5분에 한번만 전송할 수 있습니다.");
+    public String resendConfirmEmail(@CurrentUser Account account, Model model) {
+        if (!account.canSendConfirmEmail()) {
+            model.addAttribute("error", "인증 이메일은 5분에 한번만 전송할 수 있습니다.");
             model.addAttribute("email", account.getEmail());
             return "account/account_checkEmail";
         }
@@ -112,6 +124,11 @@ public class AccountController {
         return "redirect:/";
 
     }
+    /* 이메일 로그인(GET)*/
+    @GetMapping("/email-login")
+    public String emailLoginForm()
+    { return "account/account_emailLogin";}
+
     /* 이메일 로그인(POST) */
     @PostMapping("/email-login")
     public String emailLoginLink(String email, Model model, RedirectAttributes attributes) {

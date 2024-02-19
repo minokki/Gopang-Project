@@ -24,15 +24,15 @@
   <a class="list-group-item list-group-item-action" th:classappend="${adminMenu == 'members'}? active" href="#"
      th:if="${#request.isUserInRole('ADMIN')}"
      th:href="@{/admin/members}">회원정보</a>
-  <a class="list-group-item list-group-item-action" th:classappend="${adminMenu == 'orderAdmin'}? active" href="#"
-     th:if="${#request.isUserInRole('ADMIN')}"
-     th:href="@{/admin/orders}">주문목록</a>
-  <a class="list-group-item list-group-item-action" th:classappend="${adminMenu == 'board'}? active" href="#"
-     th:if="${#request.isUserInRole('ADMIN')}"
-     th:href="@{/admin/boardMains}">시공사례</a>
-  <a class="list-group-item list-group-item-action" th:classappend="${adminMenu == 'item'}? active" href="#"
-     th:if="${#request.isUserInRole('ADMIN')}"
-     th:href="@{/admin/items}">물품보기</a>
+<!--  <a class="list-group-item list-group-item-action" th:classappend="${adminMenu == 'orderAdmin'}? active" href="#"-->
+<!--     th:if="${#request.isUserInRole('ADMIN')}"-->
+<!--     th:href="@{/admin/orders}">주문목록</a>-->
+<!--  <a class="list-group-item list-group-item-action" th:classappend="${adminMenu == 'board'}? active" href="#"-->
+<!--     th:if="${#request.isUserInRole('ADMIN')}"-->
+<!--     th:href="@{/admin/boardMains}">시공사례</a>-->
+<!--  <a class="list-group-item list-group-item-action" th:classappend="${adminMenu == 'item'}? active" href="#"-->
+<!--     th:if="${#request.isUserInRole('ADMIN')}"-->
+<!--     th:href="@{/admin/items}">물품보기</a>-->
 </div>
 
 </html>

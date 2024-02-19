@@ -43,10 +43,9 @@ public class AccountService implements UserDetailsService {
 
     /* 회원가입 토큰생성 */
     public Account processNewAccount(SignUpForm signUpForm) {
-        Account newAccount = saveNewAccount(signUpForm); //아래 메서드는 영속성 컨텍스트 상태임. 그 정보를 가지고 토큰 생성후 저장하려면, 트랜젝션 어노테이션 작성해줘야함
-        //이메일 체크토큰 생성
-        newAccount.generateEmailCheckToken();
-        sentConfirmEmail(newAccount);
+        Account newAccount = saveNewAccount(signUpForm);
+//        newAccount.generateEmailCheckToken(); todo 이메일 체크토큰 생성
+//        sentConfirmEmail(newAccount); todo 회원가입시 이메일 전송, 사용시 주석해제
         return newAccount;
     }
 
@@ -55,20 +54,20 @@ public class AccountService implements UserDetailsService {
         Account account = Account.builder()
                 .email(signUpForm.getEmail())
                 .nickname(signUpForm.getNickname())
-                .password(passwordEncoder.encode(signUpForm.getPassword())) //패스워드 인코드
+                .password(passwordEncoder.encode(signUpForm.getPassword()))
                 .role(Role.USER)
                 .phone(signUpForm.getPhone())
                 .userType(signUpForm.getUserType())
                 .build();
-        Account newAccount = accountRepository.save(account);  //회원저장
+        Account newAccount = accountRepository.save(account);
         return newAccount;
     }
 
     /* 로그인 */
     public void login(Account account) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                new UserAccount(account), //사용자 정보
-                account.getPassword(), //사용자 패스워드
+                new UserAccount(account),
+                account.getPassword(),
                 new UserAccount(account).getAuthorities()); // 여기서 authorities 메서드를 이용하여 권한 추가
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(token);

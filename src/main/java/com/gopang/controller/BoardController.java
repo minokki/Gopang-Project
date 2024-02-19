@@ -103,8 +103,6 @@ public class BoardController {
         return "redirect:/board/{boardId}";
     }
 
-
-
     /*시공사레 목록 */
     @GetMapping(value ={ "/board/main", "/board/main/{page}"})
     public String getBoard(@CurrentUser Account account, BoardSearchDto boardSearchDto,@PathVariable("page") Optional<Integer> page, Model model) {
@@ -132,6 +130,4 @@ public class BoardController {
         model.addAttribute("boardViews", board);
         return "board/board_detail";
     }
-
-
 }

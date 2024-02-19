@@ -31,7 +31,7 @@ public class NtcController {
     /* 공지사항 목록 */
     @GetMapping(value = {"/community/ntcs", "/community/ntcs/{page}"})
     public String ntcManage(@CurrentUser Account account, NtcSearchDto ntcSearchDto, @PathVariable("page") Optional<Integer> page, Model model) {
-        if(account != null){
+        if (account != null) {
             model.addAttribute(account);
         }
 
@@ -39,14 +39,14 @@ public class NtcController {
         Page<Ntc> ntcs = ntcService.getNtcPage(ntcSearchDto, pageable);
         model.addAttribute("ntcs", ntcs);
         model.addAttribute("ntcSearchDto", ntcSearchDto);
-        model.addAttribute("maxPage",5);
+        model.addAttribute("maxPage", 5);
         return "community/community_ntc";
 
     }
 
     /* 공지사항 작성(GET) */
     @GetMapping(value = "/admin/ntc/new")
-    public String adminNtcForm(@CurrentUser Account account,Model model) {
+    public String adminNtcForm(@CurrentUser Account account, Model model) {
         model.addAttribute("ntcFormDto", new NtcFormDto());
         model.addAttribute(account);
         return "community/community_ntc_form";
@@ -54,14 +54,14 @@ public class NtcController {
 
     /* 공지사항 작성(POST) */
     @PostMapping(value = "/admin/ntc/write")
-    public String ntcWrite(@Valid NtcFormDto ntcFormDto, BindingResult bindingResult, Model model){
-        if (bindingResult.hasErrors()){
+    public String ntcWrite(@Valid NtcFormDto ntcFormDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
             return "community/community_ntc_form";
         }
         try {
             ntcService.saveCommunityNtc(ntcFormDto);
-        }catch (Exception e){
-            model.addAttribute("errorMessage","공지사항 작성중 에러발생");
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "공지사항 작성중 에러발생");
             return "community/community_ntc_form";
         }
         return "redirect:/community/ntcs";
@@ -69,15 +69,15 @@ public class NtcController {
 
     /* 공지사항 수정(GET) */
     @GetMapping(value = "/admin/ntc/{ntcId}")
-    public String getNtcForm(@CurrentUser Account account,@PathVariable("ntcId") Long ntcId, Model model){
-        if(account != null){
+    public String getNtcForm(@CurrentUser Account account, @PathVariable("ntcId") Long ntcId, Model model) {
+        if (account != null) {
             model.addAttribute(account);
         }
         try {
             NtcFormDto communityNtc = ntcService.getCommunityNtc(ntcId);
             model.addAttribute("ntcFormDto", communityNtc);
-        }catch (EntityNotFoundException e){
-            model.addAttribute("errorMessage","존재하지 않는 게시글입니다.");
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("errorMessage", "존재하지 않는 게시글입니다.");
             model.addAttribute("ntcFormDto", new NtcFormDto());
             return "community/community_ntc_form";
         }
@@ -86,7 +86,7 @@ public class NtcController {
 
     /* 공지사항 수정(POST) */
     @PostMapping(value = "/admin/ntc/{ntcId}")
-    public String ntcUpdate(@Valid NtcFormDto ntcFormDto, BindingResult bindingResult,Model model) {
+    public String ntcUpdate(@Valid NtcFormDto ntcFormDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "community/community_ntc_form";
         }
@@ -101,8 +101,8 @@ public class NtcController {
 
     /* 공지사항 DETAIL */
     @GetMapping(value = "/community/ntc/{ntcId}")
-    public String getNtcDtl(@CurrentUser Account account,Model model, @PathVariable("ntcId") Long ntcId) {
-        if(account != null){
+    public String getNtcDtl(@CurrentUser Account account, Model model, @PathVariable("ntcId") Long ntcId) {
+        if (account != null) {
             model.addAttribute(account);
         }
         Ntc ntc = ntcService.viewNtc(ntcId);
@@ -114,7 +114,7 @@ public class NtcController {
     }
 
     @GetMapping(value = "/admin/ntc/delete/{ntcId}")
-    public String ntcDelete(@PathVariable("ntcId") Long ntcId){
+    public String ntcDelete(@PathVariable("ntcId") Long ntcId) {
         ntcService.deleteNtc(ntcId);
         return "redirect:/community/ntcs";
     }
